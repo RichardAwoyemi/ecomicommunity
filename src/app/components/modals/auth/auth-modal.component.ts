@@ -11,7 +11,10 @@ import { AppAuthModalStates } from '../../../state/app.enums';
   templateUrl: './auth-modal.component.html',
 })
 export class AuthModalComponent {
-  @Input() state: string = AppAuthModalStates.Closed;
+  @Input() state!: string | null;
+
+  LOGIN_MODAL = AppAuthModalStates.Login
+  REGISTRATION_MODAL = AppAuthModalStates.Registration
 
   email = '';
   password = '';

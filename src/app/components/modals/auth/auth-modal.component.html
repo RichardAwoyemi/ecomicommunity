@@ -47,7 +47,11 @@
           </svg> -->
         </div>
 
-        <ec-register-modal></ec-register-modal>
+        <ng-container [ngSwitch]="state">
+          <ec-register-modal *ngSwitchCase="REGISTRATION_MODAL"></ec-register-modal>
+          <ec-login-modal *ngSwitchCase="LOGIN_MODAL"></ec-login-modal>
+        </ng-container>
+
 
       </div>
       <div class="mt-5 sm:mt-6">
