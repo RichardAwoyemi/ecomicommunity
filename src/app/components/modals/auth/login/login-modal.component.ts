@@ -25,12 +25,12 @@ export class LoginModalComponent {
     this.rememberMe$ = this.store.select(getRememberMe);
   }
 
-  signIn() {
+  signIn(): void {
     this.store.dispatch(
       AppActions.credentialsLogin({
         email: this.email,
         password: this.password,
-        remember: this.rememberMe
+        remember: this.rememberMe,
       })
     );
   }
@@ -38,5 +38,9 @@ export class LoginModalComponent {
   toggleRememberMe(toggle: boolean) {
     this.rememberMe = toggle;
     this.store.dispatch(AppActions.ToggleRememberMe());
+  }
+
+  showRegistrationModal(): void {
+    this.store.dispatch(AppActions.ShowRegstrationModal());
   }
 }

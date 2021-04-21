@@ -37,4 +37,8 @@ export class RegisterModalComponent {
   toggleEmailConsent(toggle: boolean | null) {
     this.store.dispatch(AppActions.ToggleEmailConsent());
   }
+
+  showLoginModal(): void {
+    this.store.dispatch(AppActions.ShowLoginModal());
+  }
 }
