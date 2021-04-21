@@ -6,6 +6,7 @@ import { IUser } from './app.model';
 export enum AppActionTypes {
   ShowLoginModal = '[App] [Login] Show App Login',
   ShowRegstrationModal = '[App] [Registration] Show App Registration Form',
+  ShowEmailVerificationModal = '[App] [Registration] Show App Email Verification Form',
   HideAuthModal = '[App] Hide App Modal',
   CredentialsLogin = '[App] [Login] Credentials Login Attempt',
   CredentialsLoginFailure = '[App] [Login] Credentials Login Error',
@@ -23,6 +24,7 @@ export enum AppActionTypes {
 
 export const ShowLoginModal = createAction(AppActionTypes.ShowLoginModal);
 export const ShowRegstrationModal = createAction(AppActionTypes.ShowRegstrationModal);
+export const ShowEmailVerificationModal = createAction(AppActionTypes.ShowEmailVerificationModal);
 export const HideAuthModal = createAction(AppActionTypes.HideAuthModal);
 export const ToggleNavbar = createAction(AppActionTypes.ToggleNavbar);
 export const ToggleEmailConsent = createAction(AppActionTypes.ToggleEmailConsent);

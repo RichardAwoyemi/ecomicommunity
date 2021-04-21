@@ -8,13 +8,13 @@ import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class AppEffects {
-  constructor(private actions$: Actions, private appService: AuthService) {}
+  constructor(private actions$: Actions, private authService: AuthService) {}
 
   credentialsRegistation$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AppActions.credentialsRegistration),
       exhaustMap((action) =>
-        from(this.appService.signup(action.email, action.password)).pipe(
+        from(this.authService.signup(action.email, action.password)).pipe(
           map((user) => AppActions.credentialsRegistrationSuccess()),
           catchError((error) =>
             of(AppActions.credentialsRegistrationFailure({ error }))
@@ -28,11 +28,9 @@ export class AppEffects {
     this.actions$.pipe(
       ofType(AppActions.credentialsRegistrationSuccess),
       exhaustMap(() =>
-        from(this.appService.sendRegistrationVerificationEmail()).pipe(
+        from(this.authService.sendRegistrationVerificationEmail()).pipe(
           map(() =>
-            RouterActions.Go({
-              payload: { path: ['app/signup/confirmation'] },
-            })
+            AppActions.ShowEmailVerificationModal()
           )
         )
       )
@@ -43,7 +41,7 @@ export class AppEffects {
     return this.actions$.pipe(
       ofType(AppActions.credentialsLogin),
       exhaustMap((action) =>
-        from(this.appService.login(action.email, action.password)).pipe(
+        from(this.authService.login(action.email, action.password)).pipe(
           switchMap((user) => [
             AppActions.credentialsLoginSuccess({
               user: {
@@ -55,7 +53,7 @@ export class AppEffects {
             }),
           ]),
           tap((user) =>
-            this.appService.storeUser(user.user, !!action.remember)
+            this.authService.storeUser(user.user, !!action.remember)
           ),
           catchError((error) =>
             of(AppActions.credentialsLoginFailure({ error }))
@@ -64,10 +62,10 @@ export class AppEffects {
       )
     );
   });
-  credentialsLoginSuccees$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AppActions.credentialsLoginSuccess),
-      map(() => RouterActions.Go({ payload: { path: ['dashboard/home'] } }))
-    )
-  );
+  // credentialsLoginSuccees$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(AppActions.credentialsLoginSuccess),
+  //     map(() => RouterActions.Go({ payload: { path: ['dashboard/home'] } }))
+  //   )
+  // );
 }

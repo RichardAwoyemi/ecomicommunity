@@ -99,6 +99,15 @@ export const appReducer = createReducer<AppState>(
     }
   ),
   on(
+    AppActions.ShowEmailVerificationModal,
+    (state): AppState => {
+      return {
+        ...state,
+        authModalState: AppAuthModalStates.EmailVerification,
+      };
+    }
+  ),
+  on(
     AppActions.ToggleNavbar,
     (state): AppState => {
       return {

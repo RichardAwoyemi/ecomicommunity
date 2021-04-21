@@ -2,14 +2,10 @@
   <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full text-lg">
     👋
   </div>
-
-
-
   <div class="mt-3 text-center sm:mt-5">
     <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
       Sign In
     </h3>
-
     <form>
       <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
         <div class="sm:grid sm:grid-cols-2 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
@@ -20,7 +16,7 @@
                 class="inline-flex items-center p-2 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm min-w-sm">
                 Email
               </span>
-              <input type="text" name="email" id="email" autocomplete="email"
+              <input type="text" name="email" id="email" autocomplete="email" [(ngModel)]="email"
                 class="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300 border px-3">
             </div>
           </div>
@@ -32,7 +28,7 @@
                 class="inline-flex items-center p-2 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm min-w-sm">
                 Password
               </span>
-              <input type="password" name="password" id="password" autocomplete="new-password"
+              <input type="password" name="password" id="password" autocomplete="new-password" [(ngModel)]="password"
                 class="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300 border px-3">
             </div>
           </div>
@@ -40,19 +36,16 @@
         </div>
       </div>
 
-      <ec-form-toggle-and-text [toggle]="rememberMe$ | async" (toggleButtonEvent)="toggleRememberMe($event)"
+      <ec-form-toggle-and-text [toggle]="rememberMe$ | async" (toggleButtonEvent)="toggleRememberMe(!!$event)"
         [label]="'Remember Me'">
       </ec-form-toggle-and-text>
 
     </form>
   </div>
-
-
-
-
 </div>
+<div class="error-message mt-3 text-sm font-bold">{{errorMessage$ | async}}</div>
 <div class="mt-5 sm:mt-6">
-  <button type="button"
+  <button (click)="signIn()" type="button"
     class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
     Login
   </button>

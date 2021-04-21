@@ -31,7 +31,7 @@
                 class="inline-flex items-center p-2 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm min-w-sm">
                 Email
               </span>
-              <input type="text" name="email" id="email" autocomplete="email"
+              <input type="text" name="email" id="email" autocomplete="email" [(ngModel)]="email"
                 class="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300 border px-3">
             </div>
           </div>
@@ -43,7 +43,7 @@
                 class="inline-flex items-center p-2 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm min-w-sm">
                 Password
               </span>
-              <input type="password" name="password" id="password" autocomplete="new-password"
+              <input type="password" name="password" id="password" autocomplete="new-password" [(ngModel)]="password"
                 class="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300 border px-3">
             </div>
           </div>
@@ -59,12 +59,11 @@
     </form>
   </div>
 
-
-
+  <div class="error-message mt-3 text-sm font-bold">{{errorMessage$ | async}}</div>
 
 </div>
 <div class="mt-5 sm:mt-6">
-  <button type="button"
+  <button type="button" (click)="signup()"
     class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
     Register
   </button>

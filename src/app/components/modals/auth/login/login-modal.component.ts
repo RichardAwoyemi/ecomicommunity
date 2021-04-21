@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { getRegistrationError } from 'src/app/auth/state';
 import { AuthService } from 'src/app/services/auth.service';
 import { State } from 'src/app/state/app.state';
-import * as AuthActions from '../../../../auth/state/auth.actions';
 import * as AppActions from '../../../../state/app.actions';
-import { getRememberMe } from '../../../../state/index';
+import { getLoginError, getRememberMe } from '../../../../state/index';
 
 @Component({
   selector: 'ec-login-modal',
@@ -17,29 +15,28 @@ export class LoginModalComponent {
   password = '';
   errorMessage$!: Observable<string>;
   rememberMe$!: Observable<boolean>;
+  rememberMe? = false;
 
   constructor(private store: Store<State>, public authService: AuthService) {}
 
   ngOnInit(): void {
-    this.store.dispatch(AuthActions.resetSignupError());
-    this.errorMessage$ = this.store.select(getRegistrationError);
+    this.store.dispatch(AppActions.resetSignupError());
+    this.errorMessage$ = this.store.select(getLoginError);
     this.rememberMe$ = this.store.select(getRememberMe);
   }
 
   signIn() {
     this.store.dispatch(
-      AuthActions.credentialsLogin({
+      AppActions.credentialsLogin({
         email: this.email,
         password: this.password,
+        remember: this.rememberMe
       })
     );
   }
 
-  toggleRememberMe(toggle: boolean | null) {
+  toggleRememberMe(toggle: boolean) {
+    this.rememberMe = toggle;
     this.store.dispatch(AppActions.ToggleRememberMe());
-  }
-
-  closeModal() {
-    this.store.dispatch(AppActions.HideAuthModal());
   }
 }

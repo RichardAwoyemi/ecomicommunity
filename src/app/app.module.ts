@@ -19,6 +19,8 @@ import { appReducer } from './state/app.reducer';
 import { LoginModalComponent } from './components/modals/auth/login/login-modal.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { TransactionRowComponent } from './components/table/transaction-row.component';
+import { FormsModule } from '@angular/forms';
+import { EmailVerificationComponent } from './components/modals/auth/emaiil-verification/email-verification.component';
 
 @NgModule({
   declarations: [
@@ -28,10 +30,12 @@ import { TransactionRowComponent } from './components/table/transaction-row.comp
     AuthModalComponent,
     FormToggleAndTextComponent,
     LoginModalComponent,
+    EmailVerificationComponent,
     NavbarComponent,
     TransactionRowComponent
   ],
   imports: [
+    FormsModule,
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     BrowserModule,

@@ -14,6 +14,7 @@ export class AuthModalComponent {
 
   LOGIN_MODAL = AppAuthModalStates.Login
   REGISTRATION_MODAL = AppAuthModalStates.Registration
+  EMAIL_VERIFICATION_MODAL = AppAuthModalStates.EmailVerification
 
   email = '';
   password = '';
