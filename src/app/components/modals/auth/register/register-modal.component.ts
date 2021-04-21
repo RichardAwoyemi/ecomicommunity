@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { State } from 'src/app/state/app.state';
 import * as AuthActions from '../../../../auth/state/auth.actions';
 import * as AppActions from '../../../../state/app.actions';
+import { getEmailConsent } from '../../../../state/index';
 
 @Component({
   selector: 'ec-register-modal',
@@ -15,12 +16,14 @@ export class RegisterModalComponent {
   email = '';
   password = '';
   errorMessage$!: Observable<string>;
+  emailConsent$!: Observable<boolean>;
 
   constructor(private store: Store<State>, public authService: AuthService) {}
 
   ngOnInit(): void {
     this.store.dispatch(AuthActions.resetSignupError());
     this.errorMessage$ = this.store.select(getRegistrationError);
+    this.emailConsent$ = this.store.select(getEmailConsent);
   }
 
   signup() {
@@ -30,6 +33,10 @@ export class RegisterModalComponent {
         password: this.password,
       })
     );
+  }
+
+  toggleEmailConsent(toggle: boolean | null) {
+    this.store.dispatch(AppActions.ToggleEmailConsent());
   }
 
   closeModal() {

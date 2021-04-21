@@ -17,6 +17,7 @@ import { RouterEffects } from './router/router.effects';
 import { AppEffects } from './state/app.effects';
 import { appReducer } from './state/app.reducer';
 import { LoginModalComponent } from './components/modals/auth/login/login-modal.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { LoginModalComponent } from './components/modals/auth/login/login-modal.
     RegisterModalComponent,
     AuthModalComponent,
     FormToggleAndTextComponent,
-    LoginModalComponent
+    LoginModalComponent,
+    NavbarComponent
   ],
   imports: [
     AngularFireAuthModule,

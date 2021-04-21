@@ -8,14 +8,18 @@ export interface AppState {
   user: IUser | undefined;
   registrationErrorMessage: string;
   loginErrorMessage: string;
-  authModalState: AppAuthModalStates
+  authModalState: AppAuthModalStates;
+  isNavbarVisible: boolean;
+  emailConsent: boolean;
 }
 
 const initialState: AppState = {
   registrationErrorMessage: '',
   loginErrorMessage: '',
   user: undefined,
-  authModalState: AppAuthModalStates.Closed
+  authModalState: AppAuthModalStates.Closed,
+  isNavbarVisible: false,
+  emailConsent: false,
 };
 
 export const appReducer = createReducer<AppState>(
@@ -89,6 +93,24 @@ export const appReducer = createReducer<AppState>(
       return {
         ...state,
         authModalState: AppAuthModalStates.Registration,
+      };
+    }
+  ),
+  on(
+    AppActions.ToggleNavbar,
+    (state): AppState => {
+      return {
+        ...state,
+        isNavbarVisible: !state.isNavbarVisible,
+      };
+    }
+  ),
+  on(
+    AppActions.ToggleEmailConsent,
+    (state): AppState => {
+      return {
+        ...state,
+        emailConsent: !state.emailConsent,
       };
     }
   ),

@@ -16,11 +16,15 @@ export enum AppActionTypes {
   ResetSignupError = '[App] [Signup] Reset Sign Up Error Message',
   ResetLoginError = '[App] [Login] Reset Login Error Message',
   SetUser = '[App] [Login] Set User',
+  ToggleNavbar = '[App] Toggle Navbar',
+  ToggleEmailConsent = '[App] Toggle Email Consent'
 }
 
 export const ShowLoginModal = createAction(AppActionTypes.ShowLoginModal);
 export const ShowRegstrationModal = createAction(AppActionTypes.ShowRegstrationModal);
 export const HideAuthModal = createAction(AppActionTypes.HideAuthModal);
+export const ToggleNavbar = createAction(AppActionTypes.ToggleNavbar);
+export const ToggleEmailConsent = createAction(AppActionTypes.ToggleEmailConsent);
 
 export const credentialsLogin = createAction(
   AppActionTypes.CredentialsLogin,

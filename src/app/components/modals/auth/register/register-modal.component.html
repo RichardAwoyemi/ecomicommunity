@@ -43,7 +43,8 @@
       </div>
     </div>
 
-    <ec-form-toggle-and-text [label]="'Email Consent'"
+    <ec-form-toggle-and-text [toggle]="emailConsent$ | async" (toggleButtonEvent)="toggleEmailConsent($event)"
+    [label]="'Email Consent'"
       [text]="'I consent for you to contact me with updates about the platform and/or my transactions'">
     </ec-form-toggle-and-text>
 

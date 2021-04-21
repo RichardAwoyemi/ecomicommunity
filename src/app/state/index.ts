@@ -3,6 +3,16 @@ import { AppState } from "./app.reducer";
 
 const getAppFeatureState = createFeatureSelector<AppState>('app');
 
+export const getNavbarVisibility = createSelector(
+  getAppFeatureState,
+  state => state.isNavbarVisible
+);
+
+export const getEmailConsent = createSelector(
+  getAppFeatureState,
+  state => state.emailConsent
+);
+
 export const getAuthModalState = createSelector(
   getAppFeatureState,
   state => state.authModalState

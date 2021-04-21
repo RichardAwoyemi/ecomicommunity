@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../state/app.actions';
 import { AppAuthModalStates } from '../../../state/app.enums';
@@ -20,7 +19,7 @@ export class AuthModalComponent {
   password = '';
   errorMessage$!: Observable<string>;
 
-  constructor(private store: Store<State>, public authService: AuthService) {}
+  constructor(private store: Store<State>) {}
 
   closeModal() {
     this.store.dispatch(AppActions.HideAuthModal());
