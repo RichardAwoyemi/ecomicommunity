@@ -18,6 +18,7 @@ import { AppEffects } from './state/app.effects';
 import { appReducer } from './state/app.reducer';
 import { LoginModalComponent } from './components/modals/auth/login/login-modal.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { TransactionRowComponent } from './components/table/transaction-row.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     AuthModalComponent,
     FormToggleAndTextComponent,
     LoginModalComponent,
-    NavbarComponent
+    NavbarComponent,
+    TransactionRowComponent
   ],
   imports: [
     AngularFireAuthModule,
