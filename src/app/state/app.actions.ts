@@ -17,7 +17,8 @@ export enum AppActionTypes {
   ResetLoginError = '[App] [Login] Reset Login Error Message',
   SetUser = '[App] [Login] Set User',
   ToggleNavbar = '[App] Toggle Navbar',
-  ToggleEmailConsent = '[App] Toggle Email Consent'
+  ToggleEmailConsent = '[App] Toggle Email Consent',
+  ToggleRememberMe = '[App] Toggle Remember me'
 }
 
 export const ShowLoginModal = createAction(AppActionTypes.ShowLoginModal);
@@ -25,6 +26,7 @@ export const ShowRegstrationModal = createAction(AppActionTypes.ShowRegstrationM
 export const HideAuthModal = createAction(AppActionTypes.HideAuthModal);
 export const ToggleNavbar = createAction(AppActionTypes.ToggleNavbar);
 export const ToggleEmailConsent = createAction(AppActionTypes.ToggleEmailConsent);
+export const ToggleRememberMe = createAction(AppActionTypes.ToggleRememberMe);
 
 export const credentialsLogin = createAction(
   AppActionTypes.CredentialsLogin,

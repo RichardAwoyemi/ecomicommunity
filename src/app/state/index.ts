@@ -13,6 +13,11 @@ export const getEmailConsent = createSelector(
   state => state.emailConsent
 );
 
+export const getRememberMe = createSelector(
+  getAppFeatureState,
+  state => state.rememberMe
+);
+
 export const getAuthModalState = createSelector(
   getAppFeatureState,
   state => state.authModalState

@@ -11,6 +11,7 @@ export interface AppState {
   authModalState: AppAuthModalStates;
   isNavbarVisible: boolean;
   emailConsent: boolean;
+  rememberMe: boolean;
 }
 
 const initialState: AppState = {
@@ -20,6 +21,7 @@ const initialState: AppState = {
   authModalState: AppAuthModalStates.Closed,
   isNavbarVisible: false,
   emailConsent: false,
+  rememberMe: false,
 };
 
 export const appReducer = createReducer<AppState>(
@@ -111,6 +113,15 @@ export const appReducer = createReducer<AppState>(
       return {
         ...state,
         emailConsent: !state.emailConsent,
+      };
+    }
+  ),
+  on(
+    AppActions.ToggleRememberMe,
+    (state): AppState => {
+      return {
+        ...state,
+        rememberMe: !state.rememberMe,
       };
     }
   ),

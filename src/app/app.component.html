@@ -90,11 +90,9 @@
                   </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                  <ec-transaction-row class="contents align-middle"></ec-transaction-row>
-                  <ec-transaction-row class="contents align-middle"></ec-transaction-row>
-                  <ec-transaction-row class="contents align-middle"></ec-transaction-row>
-                  <ec-transaction-row class="contents align-middle"></ec-transaction-row>
-                  <ec-transaction-row class="contents align-middle"></ec-transaction-row>
+                  <ng-container *ngFor="let row of testData">
+                    <ec-transaction-row [transaction]='row' class="contents align-middle"></ec-transaction-row>
+                  </ng-container>
                   <tr>
                     <td class="px-6 py-4 whitespace-nowrap">
                       <div class="flex items-center">

@@ -10,7 +10,8 @@
         From: "opacity-100"
         To: "opacity-0"
     -->
-    <div (click)="closeModal()" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+    <div (click)="closeModal()" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true">
+    </div>
 
     <!-- This element is to trick the browser into centering the modal contents. -->
     <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
@@ -38,28 +39,12 @@
           </svg>
         </button>
       </div>
-      <div>
-        <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full text-lg">
-          👋
-          <!-- Heroicon name: outline/check -->
-          <!-- <svg class="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg> -->
-        </div>
 
-        <ng-container [ngSwitch]="state">
-          <ec-register-modal *ngSwitchCase="REGISTRATION_MODAL"></ec-register-modal>
-          <ec-login-modal *ngSwitchCase="LOGIN_MODAL"></ec-login-modal>
-        </ng-container>
+      <ng-container [ngSwitch]="state">
+        <ec-register-modal *ngSwitchCase="REGISTRATION_MODAL"></ec-register-modal>
+        <ec-login-modal *ngSwitchCase="LOGIN_MODAL"></ec-login-modal>
+      </ng-container>
 
-
-      </div>
-      <div class="mt-5 sm:mt-6">
-        <button type="button"
-          class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
-          Register
-        </button>
-      </div>
     </div>
   </div>
 </div>
