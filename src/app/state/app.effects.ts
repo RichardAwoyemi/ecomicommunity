@@ -61,7 +61,7 @@ export class AppEffects {
         from(this.authService.logout()).pipe(
           switchMap(() => [
             AppActions.clearUser(),
-            AppActions.hideAuthModal()
+            AppActions.hideModal()
           ])
         )
       )

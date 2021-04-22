@@ -11,7 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DisclaimerComponent } from './components/disclaimer/disclaimer.component';
 import { FormToggleAndTextComponent } from './components/form-toggle-and-text/form-toggle-and-text.component';
-import { AuthModalComponent } from './components/modals/auth/auth-modal.component';
+import { ModalComponent } from './components/modals/auth/modal.component';
 import { RegisterModalComponent } from './components/modals/auth/register/register-modal.component';
 import { RouterEffects } from './router/router.effects';
 import { AppEffects } from './state/app.effects';
@@ -28,13 +28,13 @@ import { LogOutModalComponent } from './components/modals/auth/logout/logout.com
     AppComponent,
     DisclaimerComponent,
     RegisterModalComponent,
-    AuthModalComponent,
+    ModalComponent,
     FormToggleAndTextComponent,
     LoginModalComponent,
     LogOutModalComponent,
     EmailVerificationComponent,
     NavbarComponent,
-    TransactionRowComponent
+    TransactionRowComponent,
   ],
   imports: [
     FormsModule,

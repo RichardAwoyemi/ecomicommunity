@@ -9,7 +9,7 @@ export enum AppActionTypes {
   ShowLoginModal = '[App] [Login] Show App Login',
   ShowRegstrationModal = '[App] [Registration] Show App Registration Form',
   ShowEmailVerificationModal = '[App] [Registration] Show App Email Verification Form',
-  HideAuthModal = '[App] Hide App Modal',
+  hideModal = '[App] Hide App Modal',
   CredentialsLogin = '[App] [Login] Credentials Login Attempt',
   CredentialsLoginFailure = '[App] [Login] Credentials Login Error',
   CredentialsLoginSuccess = '[App] [Login] Credentials Login Success',
@@ -32,7 +32,7 @@ export const showLoginModal = createAction(AppActionTypes.ShowLoginModal);
 export const showLogOutModal = createAction(AppActionTypes.ShowLogOutModal);
 export const showRegstrationModal = createAction(AppActionTypes.ShowRegstrationModal);
 export const showEmailVerificationModal = createAction(AppActionTypes.ShowEmailVerificationModal);
-export const hideAuthModal = createAction(AppActionTypes.HideAuthModal);
+export const hideModal = createAction(AppActionTypes.hideModal);
 export const toggleNavbar = createAction(AppActionTypes.ToggleNavbar);
 export const toggleEmailConsent = createAction(AppActionTypes.ToggleEmailConsent);
 export const toggleRememberMe = createAction(AppActionTypes.ToggleRememberMe);

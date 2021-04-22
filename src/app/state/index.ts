@@ -18,9 +18,9 @@ export const getRememberMe = createSelector(
   state => state.rememberMe
 );
 
-export const getAuthModalState = createSelector(
+export const getmodalState = createSelector(
   getAppFeatureState,
-  state => state.authModalState
+  state => state.modalState
 );
 
 export const getUser = createSelector(

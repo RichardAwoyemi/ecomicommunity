@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as AppActions from './app.actions';
-import { AppAuthModalStates, AppAuthMessages } from './app.enums';
+import { AppmodalStates, AppAuthMessages } from './app.enums';
 import { IUser } from './app.model';
 
 export interface AppState {
@@ -8,7 +8,7 @@ export interface AppState {
   user: IUser | undefined;
   registrationErrorMessage: string;
   loginErrorMessage: string;
-  authModalState: AppAuthModalStates;
+  modalState: AppmodalStates;
   isNavbarVisible: boolean;
   emailConsent: boolean;
   rememberMe: boolean;
@@ -18,7 +18,7 @@ const initialState: AppState = {
   registrationErrorMessage: '',
   loginErrorMessage: '',
   user: undefined,
-  authModalState: AppAuthModalStates.Closed,
+  modalState: AppmodalStates.Closed,
   isNavbarVisible: false,
   emailConsent: false,
   rememberMe: false,
@@ -72,11 +72,11 @@ export const appReducer = createReducer<AppState>(
     }
   ),
   on(
-    AppActions.hideAuthModal,
+    AppActions.hideModal,
     (state): AppState => {
       return {
         ...state,
-        authModalState: AppAuthModalStates.Closed,
+        modalState: AppmodalStates.Closed,
       };
     }
   ),
@@ -85,7 +85,7 @@ export const appReducer = createReducer<AppState>(
     (state): AppState => {
       return {
         ...state,
-        authModalState: AppAuthModalStates.Login,
+        modalState: AppmodalStates.Login,
       };
     }
   ),
@@ -94,7 +94,7 @@ export const appReducer = createReducer<AppState>(
     (state): AppState => {
       return {
         ...state,
-        authModalState: AppAuthModalStates.LogOut,
+        modalState: AppmodalStates.LogOut,
       };
     }
   ),
@@ -103,7 +103,7 @@ export const appReducer = createReducer<AppState>(
     (state): AppState => {
       return {
         ...state,
-        authModalState: AppAuthModalStates.Registration,
+        modalState: AppmodalStates.Registration,
       };
     }
   ),
@@ -112,7 +112,7 @@ export const appReducer = createReducer<AppState>(
     (state): AppState => {
       return {
         ...state,
-        authModalState: AppAuthModalStates.EmailVerification,
+        modalState: AppmodalStates.EmailVerification,
       };
     }
   ),
@@ -155,9 +155,9 @@ export const appReducer = createReducer<AppState>(
         loginErrorMessage: props.user.emailVerified
           ? ''
           : AppAuthMessages.EmailUnverified,
-        authModalState: props.user.emailVerified
-          ? AppAuthModalStates.Closed
-          : AppAuthModalStates.Login,
+        modalState: props.user.emailVerified
+          ? AppmodalStates.Closed
+          : AppmodalStates.Login,
       };
     }
   ),

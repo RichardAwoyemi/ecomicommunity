@@ -21,13 +21,9 @@
       </div>
     </div>
     <div class="hidden md:flex md:space-x-10">
-      <a href="#" class="font-medium text-gray-500 hover:text-gray-900">Exchange</a>
-
-      <a href="#" class="font-medium text-gray-500 hover:text-gray-900">Analysis</a>
-
       <a href="#" class="font-medium text-gray-500 hover:text-gray-900">Roadmap</a>
-
       <a href="#" class="font-medium text-gray-500 hover:text-gray-900">About Us</a>
+      <a href="mailto:ecomicommunity@gmail.com" class="font-medium text-gray-500 hover:text-gray-900">Contact Us</a>
     </div>
     <div *ngIf="!(isLoggedIn$ | async)"
       class="hidden md:absolute md:flex md:items-center md:justify-end md:inset-y-0 md:right-0">
@@ -88,7 +84,7 @@
     </div>
     <div class="px-2 pt-2 pb-3 space-y-1">
       <a href="#"
-        class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Exchange</a>
+        class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Contact Us</a>
 
       <a href="#"
         class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Analysis</a>
@@ -96,8 +92,8 @@
       <a href="#"
         class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Roadmap</a>
 
-      <a href="#"
-        class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Contact</a>
+      <a href="mailto:ecomicommunity@gmail.com"
+        class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Contact Us</a>
     </div>
     <button *ngIf="!(isLoggedIn$ | async)" (click)='showLoginModal(); toggleNavbar();'
       class="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100 hover:text-indigo-700 border-b">

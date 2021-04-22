@@ -1,4 +1,4 @@
-export enum AppAuthModalStates {
+export enum AppmodalStates {
   Closed = '',
   Login = 'login',
   LogOut = 'log-out',

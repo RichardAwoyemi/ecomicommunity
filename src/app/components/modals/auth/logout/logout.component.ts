@@ -29,6 +29,6 @@ export class LogOutModalComponent {
   }
 
   closeModal() {
-    this.store.dispatch(AppActions.hideAuthModal());
+    this.store.dispatch(AppActions.hideModal());
   }
 }
