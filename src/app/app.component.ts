@@ -5,7 +5,7 @@ import { AuthService } from './services/auth.service';
 import { State } from './state/app.state';
 import * as AppActions from './state/app.actions';
 import { getmodalState } from './state/index';
-import { AppmodalStates } from './state/app.enums';
+import { AppModalStates } from './state/app.enums';
 import { DUMMY_TRANSACTION_DATA } from './data/transactions';
 @Component({
   selector: 'app-root',
@@ -13,7 +13,7 @@ import { DUMMY_TRANSACTION_DATA } from './data/transactions';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  LOGIN_AUTH_MODAL = AppmodalStates.Login;
+  LOGIN_AUTH_MODAL = AppModalStates.Login;
   title = 'ecomi-community';
   modalState$!: Observable<string>;
   testData = DUMMY_TRANSACTION_DATA;

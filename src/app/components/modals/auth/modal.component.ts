@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../state/app.actions';
-import { AppmodalStates } from '../../../state/app.enums';
+import { AppModalStates } from '../../../state/app.enums';
 
 @Component({
   selector: 'ec-modal',
@@ -12,10 +12,10 @@ import { AppmodalStates } from '../../../state/app.enums';
 export class ModalComponent {
   @Input() state!: string | null;
 
-  LOGOUT_MODAL = AppmodalStates.LogOut;
-  LOGIN_MODAL = AppmodalStates.Login;
-  REGISTRATION_MODAL = AppmodalStates.Registration;
-  EMAIL_VERIFICATION_MODAL = AppmodalStates.EmailVerification;
+  LOGOUT_MODAL = AppModalStates.LogOut;
+  LOGIN_MODAL = AppModalStates.Login;
+  REGISTRATION_MODAL = AppModalStates.Registration;
+  EMAIL_VERIFICATION_MODAL = AppModalStates.EmailVerification;
 
   email = '';
   password = '';

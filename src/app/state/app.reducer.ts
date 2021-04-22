@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as AppActions from './app.actions';
-import { AppmodalStates, AppAuthMessages } from './app.enums';
+import { AppModalStates, AppAuthMessages } from './app.enums';
 import { IUser } from './app.model';
 
 export interface AppState {
@@ -8,7 +8,7 @@ export interface AppState {
   user: IUser | undefined;
   registrationErrorMessage: string;
   loginErrorMessage: string;
-  modalState: AppmodalStates;
+  modalState: AppModalStates;
   isNavbarVisible: boolean;
   emailConsent: boolean;
   rememberMe: boolean;
@@ -18,7 +18,7 @@ const initialState: AppState = {
   registrationErrorMessage: '',
   loginErrorMessage: '',
   user: undefined,
-  modalState: AppmodalStates.Closed,
+  modalState: AppModalStates.Closed,
   isNavbarVisible: false,
   emailConsent: false,
   rememberMe: false,
@@ -76,7 +76,7 @@ export const appReducer = createReducer<AppState>(
     (state): AppState => {
       return {
         ...state,
-        modalState: AppmodalStates.Closed,
+        modalState: AppModalStates.Closed,
       };
     }
   ),
@@ -85,7 +85,7 @@ export const appReducer = createReducer<AppState>(
     (state): AppState => {
       return {
         ...state,
-        modalState: AppmodalStates.Login,
+        modalState: AppModalStates.Login,
       };
     }
   ),
@@ -94,7 +94,7 @@ export const appReducer = createReducer<AppState>(
     (state): AppState => {
       return {
         ...state,
-        modalState: AppmodalStates.LogOut,
+        modalState: AppModalStates.LogOut,
       };
     }
   ),
@@ -103,7 +103,7 @@ export const appReducer = createReducer<AppState>(
     (state): AppState => {
       return {
         ...state,
-        modalState: AppmodalStates.Registration,
+        modalState: AppModalStates.Registration,
       };
     }
   ),
@@ -112,7 +112,7 @@ export const appReducer = createReducer<AppState>(
     (state): AppState => {
       return {
         ...state,
-        modalState: AppmodalStates.EmailVerification,
+        modalState: AppModalStates.EmailVerification,
       };
     }
   ),
@@ -156,8 +156,8 @@ export const appReducer = createReducer<AppState>(
           ? ''
           : AppAuthMessages.EmailUnverified,
         modalState: props.user.emailVerified
-          ? AppmodalStates.Closed
-          : AppmodalStates.Login,
+          ? AppModalStates.Closed
+          : AppModalStates.Login,
       };
     }
   ),
