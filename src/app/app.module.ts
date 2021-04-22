@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { routerReducer } from '@ngrx/router-store';
@@ -11,17 +12,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DisclaimerComponent } from './components/disclaimer/disclaimer.component';
 import { FormToggleAndTextComponent } from './components/form-toggle-and-text/form-toggle-and-text.component';
-import { ModalComponent } from './components/modals/auth/modal.component';
+import { EmailVerificationComponent } from './components/modals/auth/email-verification/email-verification.component';
+import { LoginModalComponent } from './components/modals/auth/login/login-modal.component';
+import { LogOutModalComponent } from './components/modals/auth/logout/logout.component';
 import { RegisterModalComponent } from './components/modals/auth/register/register-modal.component';
+import { ModalComponent } from './components/modals/modal.component';
+import { NewTransactionModalComponent } from './components/modals/transactions/new-transaction-modal.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { TransactionRowComponent } from './components/table/transaction-row.component';
 import { RouterEffects } from './router/router.effects';
 import { AppEffects } from './state/app.effects';
 import { appReducer } from './state/app.reducer';
-import { LoginModalComponent } from './components/modals/auth/login/login-modal.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { TransactionRowComponent } from './components/table/transaction-row.component';
-import { FormsModule } from '@angular/forms';
-import { EmailVerificationComponent } from './components/modals/auth/emaiil-verification/email-verification.component';
-import { LogOutModalComponent } from './components/modals/auth/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { LogOutModalComponent } from './components/modals/auth/logout/logout.com
     EmailVerificationComponent,
     NavbarComponent,
     TransactionRowComponent,
+    NewTransactionModalComponent,
   ],
   imports: [
     FormsModule,

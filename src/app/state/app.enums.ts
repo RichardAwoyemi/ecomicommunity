@@ -3,7 +3,8 @@ export enum AppModalStates {
   Login = 'login',
   LogOut = 'log-out',
   Registration = 'registration',
-  EmailVerification = 'email-verification'
+  EmailVerification = 'email-verification',
+  NewTransaction = 'new-transaction'
 }
 
 export enum AppAuthMessages {

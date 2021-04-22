@@ -90,6 +90,15 @@ export const appReducer = createReducer<AppState>(
     }
   ),
   on(
+    AppActions.showNewTransactionModal,
+    (state): AppState => {
+      return {
+        ...state,
+        modalState: AppModalStates.NewTransaction,
+      };
+    }
+  ),
+  on(
     AppActions.showLogOutModal,
     (state): AppState => {
       return {

@@ -33,4 +33,8 @@ export class AppComponent {
   showRegistrationModal(): void {
     this.store.dispatch(AppActions.showRegstrationModal());
   }
+
+  showNewTransactionModal(): void {
+    this.store.dispatch(AppActions.showNewTransactionModal());
+  }
 }
