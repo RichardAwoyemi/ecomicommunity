@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { from, of } from 'rxjs';
 import { catchError, exhaustMap, map, switchMap, tap } from 'rxjs/operators';
-import * as RouterActions from '../../app/router/router.actions';
-import * as AppActions from '../state/app.actions';
 import { AuthService } from '../services/auth.service';
+import * as AppActions from '../state/app.actions';
 
 @Injectable()
 export class AppEffects {
@@ -23,20 +22,16 @@ export class AppEffects {
       )
     );
   });
-
   credentialsRegistationSuccees$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AppActions.credentialsRegistrationSuccess),
       exhaustMap(() =>
         from(this.authService.sendRegistrationVerificationEmail()).pipe(
-          map(() =>
-            AppActions.ShowEmailVerificationModal()
-          )
+          map(() => AppActions.showEmailVerificationModal())
         )
       )
     )
   );
-
   credentialsLogin$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AppActions.credentialsLogin),
@@ -62,10 +57,17 @@ export class AppEffects {
       )
     );
   });
-  // credentialsLoginSuccees$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(AppActions.credentialsLoginSuccess),
-  //     map(() => RouterActions.Go({ payload: { path: ['dashboard/home'] } }))
-  //   )
-  // );
+  logoutUser$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AppActions.logoutUser),
+      exhaustMap(() =>
+        from(this.authService.logout()).pipe(
+          switchMap(() => [
+            AppActions.clearUser(),
+            AppActions.hideAuthModal()
+          ])
+        )
+      )
+    );
+  });
 }

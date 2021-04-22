@@ -37,10 +37,10 @@ export class LoginModalComponent {
 
   toggleRememberMe(toggle: boolean) {
     this.rememberMe = toggle;
-    this.store.dispatch(AppActions.ToggleRememberMe());
+    this.store.dispatch(AppActions.toggleRememberMe());
   }
 
   showRegistrationModal(): void {
-    this.store.dispatch(AppActions.ShowRegstrationModal());
+    this.store.dispatch(AppActions.showRegstrationModal());
   }
 }

@@ -12,9 +12,10 @@ import { AppAuthModalStates } from '../../../state/app.enums';
 export class AuthModalComponent {
   @Input() state!: string | null;
 
-  LOGIN_MODAL = AppAuthModalStates.Login
-  REGISTRATION_MODAL = AppAuthModalStates.Registration
-  EMAIL_VERIFICATION_MODAL = AppAuthModalStates.EmailVerification
+  LOGOUT_MODAL = AppAuthModalStates.LogOut;
+  LOGIN_MODAL = AppAuthModalStates.Login;
+  REGISTRATION_MODAL = AppAuthModalStates.Registration;
+  EMAIL_VERIFICATION_MODAL = AppAuthModalStates.EmailVerification;
 
   email = '';
   password = '';
@@ -23,6 +24,6 @@ export class AuthModalComponent {
   constructor(private store: Store<State>) {}
 
   closeModal() {
-    this.store.dispatch(AppActions.HideAuthModal());
+    this.store.dispatch(AppActions.hideAuthModal());
   }
 }

@@ -43,6 +43,7 @@
       <ng-container [ngSwitch]="state">
         <ec-register-modal *ngSwitchCase="REGISTRATION_MODAL"></ec-register-modal>
         <ec-login-modal *ngSwitchCase="LOGIN_MODAL"></ec-login-modal>
+        <ec-logout-modal *ngSwitchCase="LOGOUT_MODAL"></ec-logout-modal>
         <ec-email-verification *ngSwitchCase="EMAIL_VERIFICATION_MODAL"></ec-email-verification>
       </ng-container>
 

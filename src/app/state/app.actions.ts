@@ -4,6 +4,7 @@ import firebase from 'firebase/app';
 import { IUser } from './app.model';
 
 export enum AppActionTypes {
+  ShowLogOutModal = '[App] [Login] Show App Log Out',
   ShowLoginModal = '[App] [Login] Show App Login',
   ShowRegstrationModal = '[App] [Registration] Show App Registration Form',
   ShowEmailVerificationModal = '[App] [Registration] Show App Email Verification Form',
@@ -11,9 +12,12 @@ export enum AppActionTypes {
   CredentialsLogin = '[App] [Login] Credentials Login Attempt',
   CredentialsLoginFailure = '[App] [Login] Credentials Login Error',
   CredentialsLoginSuccess = '[App] [Login] Credentials Login Success',
+  credentialsLoginVerification = '[App] [Signup] Credentials Login Email Verifcation Check',
   CredentialsRegistration = '[App] [Signup] Credentials Registration Attempt',
   CredentialsRegistrationFailure = '[App] [Signup] Credentials Registration Failure',
   CredentialsRegistrationSuccess = '[App] [Signup] Credentials Registration Success',
+  LogoutUser = '[App] [Logout] Logout User',
+  ClearUser = '[App] [Logout] Clear User',
   ResetSignupError = '[App] [Signup] Reset Sign Up Error Message',
   ResetLoginError = '[App] [Login] Reset Login Error Message',
   SetUser = '[App] [Login] Set User',
@@ -22,13 +26,15 @@ export enum AppActionTypes {
   ToggleRememberMe = '[App] Toggle Remember me'
 }
 
-export const ShowLoginModal = createAction(AppActionTypes.ShowLoginModal);
-export const ShowRegstrationModal = createAction(AppActionTypes.ShowRegstrationModal);
-export const ShowEmailVerificationModal = createAction(AppActionTypes.ShowEmailVerificationModal);
-export const HideAuthModal = createAction(AppActionTypes.HideAuthModal);
-export const ToggleNavbar = createAction(AppActionTypes.ToggleNavbar);
-export const ToggleEmailConsent = createAction(AppActionTypes.ToggleEmailConsent);
-export const ToggleRememberMe = createAction(AppActionTypes.ToggleRememberMe);
+export const showLoginModal = createAction(AppActionTypes.ShowLoginModal);
+export const showLogOutModal = createAction(AppActionTypes.ShowLogOutModal);
+export const showRegstrationModal = createAction(AppActionTypes.ShowRegstrationModal);
+export const showEmailVerificationModal = createAction(AppActionTypes.ShowEmailVerificationModal);
+export const hideAuthModal = createAction(AppActionTypes.HideAuthModal);
+export const toggleNavbar = createAction(AppActionTypes.ToggleNavbar);
+export const toggleEmailConsent = createAction(AppActionTypes.ToggleEmailConsent);
+export const toggleRememberMe = createAction(AppActionTypes.ToggleRememberMe);
+export const clearUser = createAction(AppActionTypes.ClearUser);
 
 export const credentialsLogin = createAction(
   AppActionTypes.CredentialsLogin,
@@ -47,6 +53,11 @@ export const credentialsLoginFailure = createAction(
 export const credentialsLoginSuccess = createAction(
   AppActionTypes.CredentialsLoginSuccess,
   props<{ user: IUser }>()
+);
+
+export const credentialsLoginVerification = createAction(
+  AppActionTypes.credentialsLoginVerification,
+  props<{user: IUser}>()
 );
 
 export const credentialsRegistration = createAction(
@@ -69,6 +80,7 @@ export const credentialsRegistrationSuccess = createAction(
 
 export const resetLoginError = createAction(AppActionTypes.ResetLoginError);
 export const resetSignupError = createAction(AppActionTypes.ResetSignupError);
+export const logoutUser = createAction(AppActionTypes.LogoutUser);
 
 export const setUser = createAction(
   AppActionTypes.SetUser,

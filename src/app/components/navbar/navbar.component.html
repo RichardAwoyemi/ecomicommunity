@@ -29,7 +29,7 @@
 
       <a href="#" class="font-medium text-gray-500 hover:text-gray-900">About Us</a>
     </div>
-    <div class="hidden md:absolute md:flex md:items-center md:justify-end md:inset-y-0 md:right-0">
+    <div *ngIf="!(isLoggedIn$ | async)" class="hidden md:absolute md:flex md:items-center md:justify-end md:inset-y-0 md:right-0">
       <span class="inline-flex rounded-md shadow mr-5">
         <a (click)='showRegistrationModal()'
           class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
@@ -40,6 +40,14 @@
         <a (click)='showLoginModal()'
           class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:text-indigo-500">
           Log in
+        </a>
+      </span>
+    </div>
+    <div *ngIf="isLoggedIn$ | async" class="hidden md:absolute md:flex md:items-center md:justify-end md:inset-y-0 md:right-0">
+      <span class="inline-flex rounded-md shadow mr-5">
+        <a (click)='showLogOutModal()'
+          class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+          Log out
         </a>
       </span>
     </div>

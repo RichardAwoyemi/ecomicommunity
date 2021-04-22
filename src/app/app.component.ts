@@ -21,15 +21,15 @@ export class AppComponent {
   constructor(private store: Store<State>, public authService: AuthService) {}
 
   ngOnInit(): void {
-    this.store.dispatch(AppActions.HideAuthModal());
+    this.store.dispatch(AppActions.hideAuthModal());
     this.authModalState$ = this.store.select(getAuthModalState);
   }
 
   showLoginModal(): void {
-    this.store.dispatch(AppActions.ShowLoginModal());
+    this.store.dispatch(AppActions.showLoginModal());
   }
 
   showRegistrationModal(): void {
-    this.store.dispatch(AppActions.ShowRegstrationModal());
+    this.store.dispatch(AppActions.showRegstrationModal());
   }
 }

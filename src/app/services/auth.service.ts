@@ -13,7 +13,11 @@ import { IUser } from '../state/app.model';
 export class AuthService {
   user$: Observable<firebase.User | null>;
 
-  constructor(private firebaseAuth: AngularFireAuth, public router: Router, private store: Store<State>) {
+  constructor(
+    private firebaseAuth: AngularFireAuth,
+    public router: Router,
+    private store: Store<State>
+  ) {
     this.user$ = firebaseAuth.authState;
   }
 
@@ -39,13 +43,16 @@ export class AuthService {
     return (await this.firebaseAuth.currentUser)?.sendEmailVerification();
   }
 
-  login(email: string, password: string): Promise<firebase.auth.UserCredential> {
+  login(
+    email: string,
+    password: string
+  ): Promise<firebase.auth.UserCredential> {
     return this.firebaseAuth.signInWithEmailAndPassword(email, password);
   }
 
-  logout() {
+  logout(): Promise<void> {
     sessionStorage.removeItem('ec-user');
     localStorage.removeItem('ec-user');
-    this.firebaseAuth.signOut();
+    return this.firebaseAuth.signOut();
   }
 }

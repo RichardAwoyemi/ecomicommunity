@@ -25,10 +25,10 @@ export class EmailVerificationComponent {
   }
 
   toggleEmailConsent(toggle: boolean | null) {
-    this.store.dispatch(AppActions.ToggleEmailConsent());
+    this.store.dispatch(AppActions.toggleEmailConsent());
   }
 
   closeModal() {
-    this.store.dispatch(AppActions.HideAuthModal());
+    this.store.dispatch(AppActions.hideAuthModal());
   }
 }

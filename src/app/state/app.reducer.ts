@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as AppActions from './app.actions';
-import { AppAuthModalStates } from './app.enums';
+import { AppAuthModalStates, AppAuthMessages } from './app.enums';
 import { IUser } from './app.model';
 
 export interface AppState {
@@ -72,7 +72,7 @@ export const appReducer = createReducer<AppState>(
     }
   ),
   on(
-    AppActions.HideAuthModal,
+    AppActions.hideAuthModal,
     (state): AppState => {
       return {
         ...state,
@@ -81,7 +81,7 @@ export const appReducer = createReducer<AppState>(
     }
   ),
   on(
-    AppActions.ShowLoginModal,
+    AppActions.showLoginModal,
     (state): AppState => {
       return {
         ...state,
@@ -90,7 +90,16 @@ export const appReducer = createReducer<AppState>(
     }
   ),
   on(
-    AppActions.ShowRegstrationModal,
+    AppActions.showLogOutModal,
+    (state): AppState => {
+      return {
+        ...state,
+        authModalState: AppAuthModalStates.LogOut,
+      };
+    }
+  ),
+  on(
+    AppActions.showRegstrationModal,
     (state): AppState => {
       return {
         ...state,
@@ -99,7 +108,7 @@ export const appReducer = createReducer<AppState>(
     }
   ),
   on(
-    AppActions.ShowEmailVerificationModal,
+    AppActions.showEmailVerificationModal,
     (state): AppState => {
       return {
         ...state,
@@ -108,7 +117,7 @@ export const appReducer = createReducer<AppState>(
     }
   ),
   on(
-    AppActions.ToggleNavbar,
+    AppActions.toggleNavbar,
     (state): AppState => {
       return {
         ...state,
@@ -117,7 +126,7 @@ export const appReducer = createReducer<AppState>(
     }
   ),
   on(
-    AppActions.ToggleEmailConsent,
+    AppActions.toggleEmailConsent,
     (state): AppState => {
       return {
         ...state,
@@ -126,11 +135,35 @@ export const appReducer = createReducer<AppState>(
     }
   ),
   on(
-    AppActions.ToggleRememberMe,
+    AppActions.toggleRememberMe,
     (state): AppState => {
       return {
         ...state,
         rememberMe: !state.rememberMe,
+      };
+    }
+  ),
+  on(
+    AppActions.credentialsLoginSuccess,
+    (state, props): AppState => {
+      return {
+        ...state,
+        user: props.user.emailVerified ? props.user : undefined,
+        loginErrorMessage: props.user.emailVerified
+          ? ''
+          : AppAuthMessages.EmailUnverified,
+        authModalState: props.user.emailVerified
+          ? AppAuthModalStates.Closed
+          : AppAuthModalStates.Login,
+      };
+    }
+  ),
+  on(
+    AppActions.clearUser,
+    (state): AppState => {
+      return {
+        ...state,
+        user: undefined,
       };
     }
   ),

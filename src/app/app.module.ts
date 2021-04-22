@@ -21,6 +21,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { TransactionRowComponent } from './components/table/transaction-row.component';
 import { FormsModule } from '@angular/forms';
 import { EmailVerificationComponent } from './components/modals/auth/emaiil-verification/email-verification.component';
+import { LogOutModalComponent } from './components/modals/auth/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { EmailVerificationComponent } from './components/modals/auth/emaiil-veri
     AuthModalComponent,
     FormToggleAndTextComponent,
     LoginModalComponent,
+    LogOutModalComponent,
     EmailVerificationComponent,
     NavbarComponent,
     TransactionRowComponent
