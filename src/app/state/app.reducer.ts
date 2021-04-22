@@ -146,6 +146,9 @@ export const appReducer = createReducer<AppState>(
   on(
     AppActions.credentialsLoginSuccess,
     (state, props): AppState => {
+      state.rememberMe
+        ? localStorage.setItem('ec-user', JSON.stringify(state.user))
+        : sessionStorage.setItem('ec-user', JSON.stringify(state.user));
       return {
         ...state,
         user: props.user.emailVerified ? props.user : undefined,
@@ -167,4 +170,15 @@ export const appReducer = createReducer<AppState>(
       };
     }
   ),
+  on(
+    AppActions.isLoggedIn,
+    (state): AppState => {
+      const user =
+        sessionStorage.getItem('ec-user') || localStorage.getItem('ec-user');
+      return {
+        ...state,
+        user: user ? JSON.parse(user) : undefined,
+      };
+    }
+  )
 );

@@ -47,9 +47,6 @@ export class AppEffects {
               },
             }),
           ]),
-          tap((user) =>
-            this.authService.storeUser(user.user, !!action.remember)
-          ),
           catchError((error) =>
             of(AppActions.credentialsLoginFailure({ error }))
           )

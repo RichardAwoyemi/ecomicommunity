@@ -26,12 +26,6 @@ export class AuthService {
     localStorage.removeItem('ec-user');
   }
 
-  storeUser(user: IUser, rememberMe: boolean) {
-    rememberMe
-      ? localStorage.setItem('ec-user', JSON.stringify(user))
-      : sessionStorage.setItem('ec-user', JSON.stringify(user));
-  }
-
   signup(
     email: string,
     password: string

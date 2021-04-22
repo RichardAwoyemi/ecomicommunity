@@ -4,6 +4,7 @@ import firebase from 'firebase/app';
 import { IUser } from './app.model';
 
 export enum AppActionTypes {
+  IsLoggedIn = '[App] Is Logged In',
   ShowLogOutModal = '[App] [Login] Show App Log Out',
   ShowLoginModal = '[App] [Login] Show App Login',
   ShowRegstrationModal = '[App] [Registration] Show App Registration Form',
@@ -26,6 +27,7 @@ export enum AppActionTypes {
   ToggleRememberMe = '[App] Toggle Remember me'
 }
 
+export const isLoggedIn = createAction(AppActionTypes.IsLoggedIn);
 export const showLoginModal = createAction(AppActionTypes.ShowLoginModal);
 export const showLogOutModal = createAction(AppActionTypes.ShowLogOutModal);
 export const showRegstrationModal = createAction(AppActionTypes.ShowRegstrationModal);

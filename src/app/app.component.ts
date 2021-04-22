@@ -22,6 +22,7 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.store.dispatch(AppActions.hideAuthModal());
+    this.store.dispatch(AppActions.isLoggedIn());
     this.authModalState$ = this.store.select(getAuthModalState);
   }
 
