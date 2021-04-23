@@ -13,6 +13,7 @@ export interface AppState {
   emailConsent: boolean;
   rememberMe: boolean;
   dropdownState: AppDropdownState;
+  activeDropdownOptions: { [AppDropdownState: string]: string }[];
 }
 
 const initialState: AppState = {
@@ -23,7 +24,8 @@ const initialState: AppState = {
   isNavbarVisible: false,
   emailConsent: false,
   rememberMe: false,
-  dropdownState: AppDropdownState.Hidden
+  dropdownState: AppDropdownState.Hidden,
+  activeDropdownOptions: [],
 };
 
 export const appReducer = createReducer<AppState>(
@@ -79,6 +81,41 @@ export const appReducer = createReducer<AppState>(
       return {
         ...state,
         modalState: props.modalState,
+        dropdownState: AppDropdownState.Hidden,
+      };
+    }
+  ),
+  on(
+    AppActions.toggleDropdown,
+    (state, props): AppState => {
+      return {
+        ...state,
+        dropdownState:
+          props.dropdownState === state.dropdownState
+            ? AppDropdownState.Hidden
+            : props.dropdownState,
+      };
+    }
+  ),
+  on(
+    AppActions.setDropdownOption,
+    (state, props): AppState => {
+      const array = Object.assign([], state.activeDropdownOptions) as {
+        [AppDropdownState: string]: string;
+      }[];
+      const newItem = { [state.dropdownState]: props.dropdownOption };
+      const index = array.findIndex(
+        (o) => Object.keys(o)[0] === state.dropdownState
+      );
+      if (index === -1) {
+        array.push(newItem);
+      } else {
+        array[index] = newItem;
+      }
+      return {
+        ...state,
+        activeDropdownOptions: array,
+        dropdownState: AppDropdownState.Hidden,
       };
     }
   ),

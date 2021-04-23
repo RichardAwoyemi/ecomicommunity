@@ -17,6 +17,7 @@ import { EmailVerificationComponent } from './components/modals/auth/email-verif
 import { LoginModalComponent } from './components/modals/auth/login/login-modal.component';
 import { LogOutModalComponent } from './components/modals/auth/logout/logout.component';
 import { RegisterModalComponent } from './components/modals/auth/register/register-modal.component';
+import { CloseModalComponent } from './components/modals/close-modal/close-modal.component';
 import { ModalComponent } from './components/modals/modal.component';
 import { AddSaleItemModalComponent } from './components/modals/transactions/add-asset-modal.component.html/add-sale-item-modal.component';
 import { NewTransactionModalComponent } from './components/modals/transactions/new-transaction-modal.component';
@@ -41,6 +42,7 @@ import { appReducer } from './state/app.reducer';
     NewTransactionModalComponent,
     AddSaleItemModalComponent,
     DropdownComponent,
+    CloseModalComponent,
   ],
   imports: [
     FormsModule,

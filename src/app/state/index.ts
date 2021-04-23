@@ -43,4 +43,7 @@ export const getRegistrationError = createSelector(
   state => state.registrationErrorMessage
 )
 
-
+export const getActiveDropdownOptions = createSelector(
+  getAppFeatureState,
+  state => state.activeDropdownOptions
+)

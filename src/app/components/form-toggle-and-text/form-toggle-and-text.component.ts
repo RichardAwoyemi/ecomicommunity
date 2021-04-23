@@ -1,6 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { State } from 'src/app/state/app.state';
 
 @Component({
   selector: 'ec-form-toggle-and-text',

@@ -7,7 +7,8 @@ import { AppModalStates, AppDropdownState } from './app.enums';
 export enum AppActionTypes {
   IsLoggedIn = '[App] Is Logged In',
   showModal = '[App] Show Modal',
-  showDropdown = '[App] Show Dropdown',
+  toggleDropdown = '[App] Toggle Dropdown',
+  setDropdownOption = '[App] Set Dropdown Option',
   hideModal = '[App] Hide App Modal',
   CredentialsLogin = '[App] [Login] Credentials Login Attempt',
   CredentialsLoginFailure = '[App] [Login] Credentials Login Error',
@@ -34,13 +35,18 @@ export const toggleEmailConsent = createAction(
 export const toggleRememberMe = createAction(AppActionTypes.ToggleRememberMe);
 export const clearUser = createAction(AppActionTypes.ClearUser);
 
+export const setDropdownOption = createAction(
+  AppActionTypes.setDropdownOption,
+  props<{ dropdownOption: string }>()
+);
+
 export const showModal = createAction(
   AppActionTypes.showModal,
   props<{ modalState: AppModalStates }>()
 );
 
-export const showDropdown = createAction(
-  AppActionTypes.showDropdown,
+export const toggleDropdown = createAction(
+  AppActionTypes.toggleDropdown,
   props<{ dropdownState: AppDropdownState }>()
 );
 

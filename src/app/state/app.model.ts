@@ -20,3 +20,11 @@ export interface Credentials {
   password: string;
   remember?: boolean;
 }
+
+export interface ITransaction {
+  selling: {
+    type: string;
+    unit: number;
+    
+  }[]
+}

@@ -22,3 +22,8 @@ export enum AppDropdownState {
   Hidden = '',
   AddNewTransactionItemType = 'Add New Transaction Item Type',
 }
+
+export enum AppTransactionItemTypes {
+  Collectible = 'Collectible',
+  Currency = 'Currency'
+}
