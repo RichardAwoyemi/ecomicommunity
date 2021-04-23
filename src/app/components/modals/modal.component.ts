@@ -17,6 +17,7 @@ export class ModalComponent {
   REGISTRATION_MODAL = AppModalStates.Registration;
   EMAIL_VERIFICATION_MODAL = AppModalStates.EmailVerification;
   NEW_TRANSACTION_MODAL = AppModalStates.NewTransaction;
+  ADD_SALE_ITEM_MODAL = AppModalStates.SaleItem;
 
   email = '';
   password = '';
@@ -25,6 +26,6 @@ export class ModalComponent {
   constructor(private store: Store<State>) {}
 
   closeModal() {
-    this.store.dispatch(AppActions.hideModal());
+    this.store.dispatch(AppActions.showModal({modalState: AppModalStates.Closed}));
   }
 }

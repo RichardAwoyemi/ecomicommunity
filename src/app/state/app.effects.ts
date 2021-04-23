@@ -4,6 +4,7 @@ import { from, of } from 'rxjs';
 import { catchError, exhaustMap, map, switchMap, tap } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 import * as AppActions from '../state/app.actions';
+import { AppModalStates } from 'src/app/state/app.enums';
 
 @Injectable()
 export class AppEffects {
@@ -27,7 +28,7 @@ export class AppEffects {
       ofType(AppActions.credentialsRegistrationSuccess),
       exhaustMap(() =>
         from(this.authService.sendRegistrationVerificationEmail()).pipe(
-          map(() => AppActions.showEmailVerificationModal())
+          map(() => AppActions.showModal({modalState: AppModalStates.EmailVerification}))
         )
       )
     )
@@ -61,7 +62,7 @@ export class AppEffects {
         from(this.authService.logout()).pipe(
           switchMap(() => [
             AppActions.clearUser(),
-            AppActions.hideModal()
+            AppActions.showModal({modalState: AppModalStates.Closed})
           ])
         )
       )

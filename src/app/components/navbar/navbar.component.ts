@@ -6,6 +6,7 @@ import * as AppActions from '../../state/app.actions';
 import { Observable } from 'rxjs';
 import { getNavbarVisibility, getUser } from 'src/app/state';
 import { IUser } from 'src/app/state/app.model';
+import { AppModalStates } from 'src/app/state/app.enums';
 
 @Component({
   selector: 'ec-navbar',
@@ -23,15 +24,15 @@ export class NavbarComponent implements OnInit {
   }
 
   showLoginModal(): void {
-    this.store.dispatch(AppActions.showLoginModal());
+    this.store.dispatch(AppActions.showModal({modalState: AppModalStates.Login}));
   }
 
   showRegistrationModal(): void {
-    this.store.dispatch(AppActions.showRegstrationModal());
+    this.store.dispatch(AppActions.showModal({modalState: AppModalStates.Registration}));
   }
 
   showLogOutModal(): void {
-    this.store.dispatch(AppActions.showLogOutModal());
+    this.store.dispatch(AppActions.showModal({modalState: AppModalStates.LogOut}));
   }
 
   toggleNavbar(): void {

@@ -4,7 +4,8 @@ export enum AppModalStates {
   LogOut = 'log-out',
   Registration = 'registration',
   EmailVerification = 'email-verification',
-  NewTransaction = 'new-transaction'
+  NewTransaction = 'new-transaction',
+  SaleItem = 'sale-item'
 }
 
 export enum AppAuthMessages {
@@ -15,4 +16,9 @@ export enum AppTransactionStates {
   Available = 'Available',
   InProgress = 'In Progress',
   Complete = 'Complete'
+}
+
+export enum AppDropdownState {
+  Hidden = '',
+  AddNewTransactionItemType = 'Add New Transaction Item Type',
 }

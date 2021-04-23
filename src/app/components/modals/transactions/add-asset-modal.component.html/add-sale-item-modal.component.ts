@@ -1,16 +1,15 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
 import { getLoginError, getRememberMe } from 'src/app/state';
 import { State } from 'src/app/state/app.state';
-import * as AppActions from '../../../state/app.actions';
-import { AppModalStates } from '../../../state/app.enums';
+import * as AppActions from '../../../../state/app.actions';
+import { AppModalStates } from '../../../../state/app.enums';
 @Component({
-  selector: 'ec-new-transaction-modal',
-  templateUrl: './new-transaction-modal.component.html',
+  selector: 'ec-add-sale-item-modal',
+  templateUrl: './add-sale-item-modal.component.html',
 })
-export class NewTransactionModalComponent {
+export class AddSaleItemModalComponent {
   username = '';
   sellingWallet = '';
   recievingWallet = '';
@@ -18,7 +17,7 @@ export class NewTransactionModalComponent {
   rememberMe$!: Observable<boolean>;
   rememberMe? = false;
 
-  constructor(private store: Store<State>, public authService: AuthService) {}
+  constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
     this.errorMessage$ = this.store.select(getLoginError);
@@ -28,10 +27,6 @@ export class NewTransactionModalComponent {
   toggleRememberMe(toggle: boolean) {
     this.rememberMe = toggle;
     this.store.dispatch(AppActions.toggleRememberMe());
-  }
-
-  showAddSaleItemModal(): void {
-    this.store.dispatch(AppActions.showModal({ modalState: AppModalStates.SaleItem }));
   }
 
   hideModal(): void {

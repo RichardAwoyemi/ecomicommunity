@@ -7,6 +7,7 @@ import * as AppActions from './state/app.actions';
 import { getmodalState } from './state/index';
 import { AppModalStates } from './state/app.enums';
 import { DUMMY_TRANSACTION_DATA } from './data/transactions';
+import { showModal } from './state/app.actions';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -21,20 +22,20 @@ export class AppComponent {
   constructor(private store: Store<State>, public authService: AuthService) {}
 
   ngOnInit(): void {
-    this.store.dispatch(AppActions.hideModal());
+    this.store.dispatch(AppActions.showModal({modalState: AppModalStates.Closed}));
     this.store.dispatch(AppActions.isLoggedIn());
     this.modalState$ = this.store.select(getmodalState);
   }
 
   showLoginModal(): void {
-    this.store.dispatch(AppActions.showLoginModal());
+    this.store.dispatch(AppActions.showModal({modalState: AppModalStates.Login}));
   }
 
   showRegistrationModal(): void {
-    this.store.dispatch(AppActions.showRegstrationModal());
+    this.store.dispatch(AppActions.showModal({modalState: AppModalStates.Registration}));
   }
 
   showNewTransactionModal(): void {
-    this.store.dispatch(AppActions.showNewTransactionModal());
+    this.store.dispatch(AppActions.showModal({modalState: AppModalStates.NewTransaction}));
   }
 }

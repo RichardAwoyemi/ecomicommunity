@@ -18,6 +18,11 @@ export const getRememberMe = createSelector(
   state => state.rememberMe
 );
 
+export const getDropdownState = createSelector(
+  getAppFeatureState,
+  state => state.dropdownState
+);
+
 export const getmodalState = createSelector(
   getAppFeatureState,
   state => state.modalState

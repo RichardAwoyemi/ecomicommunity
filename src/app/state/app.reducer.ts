@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as AppActions from './app.actions';
-import { AppModalStates, AppAuthMessages } from './app.enums';
+import { AppModalStates, AppAuthMessages, AppDropdownState } from './app.enums';
 import { IUser } from './app.model';
 
 export interface AppState {
@@ -12,6 +12,7 @@ export interface AppState {
   isNavbarVisible: boolean;
   emailConsent: boolean;
   rememberMe: boolean;
+  dropdownState: AppDropdownState;
 }
 
 const initialState: AppState = {
@@ -22,6 +23,7 @@ const initialState: AppState = {
   isNavbarVisible: false,
   emailConsent: false,
   rememberMe: false,
+  dropdownState: AppDropdownState.Hidden
 };
 
 export const appReducer = createReducer<AppState>(
@@ -72,56 +74,11 @@ export const appReducer = createReducer<AppState>(
     }
   ),
   on(
-    AppActions.hideModal,
-    (state): AppState => {
+    AppActions.showModal,
+    (state, props): AppState => {
       return {
         ...state,
-        modalState: AppModalStates.Closed,
-      };
-    }
-  ),
-  on(
-    AppActions.showLoginModal,
-    (state): AppState => {
-      return {
-        ...state,
-        modalState: AppModalStates.Login,
-      };
-    }
-  ),
-  on(
-    AppActions.showNewTransactionModal,
-    (state): AppState => {
-      return {
-        ...state,
-        modalState: AppModalStates.NewTransaction,
-      };
-    }
-  ),
-  on(
-    AppActions.showLogOutModal,
-    (state): AppState => {
-      return {
-        ...state,
-        modalState: AppModalStates.LogOut,
-      };
-    }
-  ),
-  on(
-    AppActions.showRegstrationModal,
-    (state): AppState => {
-      return {
-        ...state,
-        modalState: AppModalStates.Registration,
-      };
-    }
-  ),
-  on(
-    AppActions.showEmailVerificationModal,
-    (state): AppState => {
-      return {
-        ...state,
-        modalState: AppModalStates.EmailVerification,
+        modalState: props.modalState,
       };
     }
   ),

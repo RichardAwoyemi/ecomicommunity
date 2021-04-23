@@ -11,12 +11,14 @@ import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DisclaimerComponent } from './components/disclaimer/disclaimer.component';
+import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { FormToggleAndTextComponent } from './components/form-toggle-and-text/form-toggle-and-text.component';
 import { EmailVerificationComponent } from './components/modals/auth/email-verification/email-verification.component';
 import { LoginModalComponent } from './components/modals/auth/login/login-modal.component';
 import { LogOutModalComponent } from './components/modals/auth/logout/logout.component';
 import { RegisterModalComponent } from './components/modals/auth/register/register-modal.component';
 import { ModalComponent } from './components/modals/modal.component';
+import { AddSaleItemModalComponent } from './components/modals/transactions/add-asset-modal.component.html/add-sale-item-modal.component';
 import { NewTransactionModalComponent } from './components/modals/transactions/new-transaction-modal.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { TransactionRowComponent } from './components/table/transaction-row.component';
@@ -37,6 +39,8 @@ import { appReducer } from './state/app.reducer';
     NavbarComponent,
     TransactionRowComponent,
     NewTransactionModalComponent,
+    AddSaleItemModalComponent,
+    DropdownComponent,
   ],
   imports: [
     FormsModule,
