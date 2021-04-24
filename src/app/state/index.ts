@@ -1,49 +1,61 @@
-import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { AppState } from "./app.reducer";
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { AppState } from './app.reducer';
+import { AppDropdownState } from './app.enums';
 
 const getAppFeatureState = createFeatureSelector<AppState>('app');
 
 export const getNavbarVisibility = createSelector(
   getAppFeatureState,
-  state => state.isNavbarVisible
+  (state) => state.isNavbarVisible
 );
 
 export const getEmailConsent = createSelector(
   getAppFeatureState,
-  state => state.emailConsent
+  (state) => state.emailConsent
 );
 
 export const getRememberMe = createSelector(
   getAppFeatureState,
-  state => state.rememberMe
+  (state) => state.rememberMe
 );
 
 export const getDropdownState = createSelector(
   getAppFeatureState,
-  state => state.dropdownState
+  (state) => state.dropdownState
 );
 
 export const getmodalState = createSelector(
   getAppFeatureState,
-  state => state.modalState
+  (state) => state.modalState
 );
 
 export const getUser = createSelector(
   getAppFeatureState,
-  state => state.user
+  (state) => state.user
 );
 
 export const getLoginError = createSelector(
   getAppFeatureState,
-  state => state.loginErrorMessage
-)
+  (state) => state.loginErrorMessage
+);
 
 export const getRegistrationError = createSelector(
   getAppFeatureState,
-  state => state.registrationErrorMessage
-)
+  (state) => state.registrationErrorMessage
+);
 
 export const getActiveDropdownOptions = createSelector(
   getAppFeatureState,
-  state => state.activeDropdownOptions
-)
+  (state) => state.activeDropdownOptions
+);
+
+export const getActiveDropdownSaleItemType = createSelector(
+  getActiveDropdownOptions,
+  (state) =>
+    (state.find(
+      (option) =>
+        Object.keys(option)[0] === AppDropdownState.AddNewTransactionItemType
+    ) || { [AppDropdownState.AddNewTransactionItemType]: undefined })[
+      AppDropdownState.AddNewTransactionItemType
+    ]
+);

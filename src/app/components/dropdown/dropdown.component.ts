@@ -16,6 +16,7 @@ export class DropdownComponent implements OnInit {
   @Input() options?: string[];
   @Input() showList!: boolean | null;
   @Input() dropdown!: AppDropdownState;
+  @Input() topClass = '';
   toggleDropdown$!: Observable<string>;
   activeDropdownOptions$!: Observable<string>;
 
@@ -37,10 +38,6 @@ export class DropdownComponent implements OnInit {
       );
   }
 
-  toggleButton(option: string): void {
-    this.chosenOption.emit(option);
-  }
-
   toggleDropdown(): void {
     this.store.dispatch(
       AppActions.toggleDropdown({
@@ -55,5 +52,6 @@ export class DropdownComponent implements OnInit {
         dropdownOption: option,
       })
     );
+    this.chosenOption.emit(option);
   }
 }
