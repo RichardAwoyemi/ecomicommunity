@@ -4,19 +4,15 @@ import { Observable } from 'rxjs';
 import { getLoginError, getRememberMe } from 'src/app/state';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
-import { getActiveDropdownSaleItemType } from '../../../../state/index';
 import {
-  AppModalStates,
-  AppDropdownState,
-  AppTransactionItemTypes,
+  AppDropdownState, AppModalStates, AppTransactionCurrencies, AppTransactionItemTypes
 } from '../../../../state/app.enums';
-import { map } from 'rxjs/operators';
-import { AppTransactionCurrencies } from '../../../../state/app.enums';
+import { getActiveDropdownSaleItemType } from '../../../../state/index';
 @Component({
-  selector: 'ec-add-sale-item-modal',
-  templateUrl: './add-sale-item-modal.component.html',
+  selector: 'ec-add-price-item-modal',
+  templateUrl: './add-price-item-modal.component.html',
 })
-export class AddSaleItemModalComponent {
+export class AddPriceItemModalComponent {
   NEW_TRANSACTION_ITEM_TYPE = AppDropdownState.AddNewTransactionItemType;
   SELL_TRANSACTION_CURRENCY= AppDropdownState.SellTransactionCurrency;
   username = '';
@@ -46,9 +42,9 @@ export class AddSaleItemModalComponent {
     this.store.dispatch(AppActions.toggleRememberMe());
   }
 
-  nextModal(): void {
+  hideModal(): void {
     this.store.dispatch(
-      AppActions.showModal({ modalState: AppModalStates.PriceItem })
+      AppActions.showModal({ modalState: AppModalStates.Closed })
     );
   }
 }
