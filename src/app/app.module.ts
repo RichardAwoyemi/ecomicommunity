@@ -19,10 +19,11 @@ import { LogOutModalComponent } from './components/modals/auth/logout/logout.com
 import { RegisterModalComponent } from './components/modals/auth/register/register-modal.component';
 import { CloseModalComponent } from './components/modals/close-modal/close-modal.component';
 import { ModalComponent } from './components/modals/modal.component';
-import { AddSaleItemModalComponent } from './components/modals/transactions/add-asset-modal.component.html/add-sale-item-modal.component';
+import { AddSaleItemModalComponent } from './components/modals/transactions/add-sale-item-modal.component.html/add-sale-item-modal.component';
 import { NewTransactionModalComponent } from './components/modals/transactions/new-transaction-modal.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { TransactionRowComponent } from './components/table/transaction-row.component';
+import { TextDropdownSuffixComponent } from './components/text-dropdown-suffix/text-dropdown-suffix.component';
 import { RouterEffects } from './router/router.effects';
 import { AppEffects } from './state/app.effects';
 import { appReducer } from './state/app.reducer';
@@ -43,6 +44,7 @@ import { appReducer } from './state/app.reducer';
     AddSaleItemModalComponent,
     DropdownComponent,
     CloseModalComponent,
+    TextDropdownSuffixComponent,
   ],
   imports: [
     FormsModule,

@@ -4,17 +4,18 @@ module.exports = {
   theme: {
     extend: {
       minHeight: {
-        '80vh': '80vh',
-       },
-       maxHeight: {
-        '65vh': '65vh'
-       },
+        "80vh": "80vh",
+      },
+      maxHeight: {
+        "65vh": "65vh",
+      },
       minWidth: {
-        '0': '0',
-        'xs': '4rem',
-        'sm': '6rem',
-        'md': '8rem',
-       },
+        0: "0",
+        xs: "4rem",
+        sm: "6rem",
+        md: "8rem",
+        "20rem": "20rem",
+      },
     },
   },
   variants: {
