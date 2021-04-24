@@ -24,6 +24,8 @@ import { NewTransactionModalComponent } from './components/modals/transactions/n
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { TransactionRowComponent } from './components/table/transaction-row.component';
 import { RouterEffects } from './router/router.effects';
+import { TransactionService } from './services/transaction.service';
+import { UserService } from './services/user.service';
 import { AppEffects } from './state/app.effects';
 import { appReducer } from './state/app.reducer';
 
@@ -64,7 +66,7 @@ import { appReducer } from './state/app.reducer';
     }),
     EffectsModule.forRoot([RouterEffects, AppEffects]),
   ],
-  providers: [],
+  providers: [TransactionService, UserService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

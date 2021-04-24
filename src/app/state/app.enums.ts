@@ -9,7 +9,7 @@ export enum AppModalStates {
 }
 
 export enum AppAuthMessages {
-  EmailUnverified = 'Please Veriify Your Email Address To Conitinue.'
+  EmailUnverified = 'Please Verify Your Email Address To Continue.'
 }
 
 export enum AppTransactionStates {

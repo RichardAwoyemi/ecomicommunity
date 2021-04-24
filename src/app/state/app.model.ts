@@ -1,3 +1,5 @@
+import { AppTransactionStates } from "./app.enums";
+
 export interface IUser {
   email: string | null | undefined;
   uid: string | undefined;
@@ -22,9 +24,15 @@ export interface Credentials {
 }
 
 export interface ITransaction {
-  selling: {
-    type: string;
-    unit: number;
-    
-  }[]
+  id?: string;
+  userid: string;
+  selling: IAmount;
+  price: IAmount;
+  status?: AppTransactionStates;
+  datePosted?: string;
+}
+
+export interface IAmount {
+  currency?: string;
+  units?: number;
 }
