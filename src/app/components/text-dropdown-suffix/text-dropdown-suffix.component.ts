@@ -8,15 +8,16 @@ import { AppDropdownState } from '../../state/app.enums';
 import { getDropdownState, getActiveDropdownOptions } from '../../state/index';
 
 @Component({
-  selector: 'ec-dropdown',
-  templateUrl: './dropdown.component.html',
+  selector: 'ec-text-dropdown-suffix',
+  templateUrl: './text-dropdown-suffix.component.html',
 })
-export class DropdownComponent implements OnInit {
+export class TextDropdownSuffixComponent implements OnInit {
   @Input() label?: string;
   @Input() options?: string[];
   @Input() showList!: boolean | null;
   @Input() dropdown!: AppDropdownState;
   @Input() topClass = '';
+  @Input() textField = 0;
   toggleDropdown$!: Observable<string>;
   activeDropdownOptions$!: Observable<string>;
 

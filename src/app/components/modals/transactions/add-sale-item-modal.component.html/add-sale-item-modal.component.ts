@@ -11,12 +11,14 @@ import {
   AppTransactionItemTypes,
 } from '../../../../state/app.enums';
 import { map } from 'rxjs/operators';
+import { AppTransactionCurrencies } from '../../../../state/app.enums';
 @Component({
   selector: 'ec-add-sale-item-modal',
   templateUrl: './add-sale-item-modal.component.html',
 })
 export class AddSaleItemModalComponent {
-  dropdown = AppDropdownState.AddNewTransactionItemType;
+  NEW_TRANSACTION_ITEM_TYPE = AppDropdownState.AddNewTransactionItemType;
+  SELL_TRANSACTION_CURRENCY= AppDropdownState.SellTransactionCurrency;
   username = '';
   sellingWallet = '';
   recievingWallet = '';
@@ -26,10 +28,9 @@ export class AddSaleItemModalComponent {
   rememberMe? = false;
   COLLECTIBLE_TYPE = AppTransactionItemTypes.Collectible;
   CURRENCY_TYPE = AppTransactionItemTypes.Currency;
-  options = [
-    this.COLLECTIBLE_TYPE,
-    this.CURRENCY_TYPE,
-  ];
+  TRANSACTION_TYPES = Object.keys(AppTransactionItemTypes);
+  TRANSACTION_CURRENCIES = Object.keys(AppTransactionCurrencies);
+  quantity = 0;
 
   constructor(private store: Store<State>) {}
 
@@ -45,9 +46,9 @@ export class AddSaleItemModalComponent {
     this.store.dispatch(AppActions.toggleRememberMe());
   }
 
-  hideModal(): void {
+  nextModal(): void {
     this.store.dispatch(
-      AppActions.showModal({ modalState: AppModalStates.Closed })
+      AppActions.showModal({ modalState: AppModalStates.PriceItem })
     );
   }
 }

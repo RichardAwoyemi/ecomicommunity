@@ -18,6 +18,7 @@ export class ModalComponent {
   EMAIL_VERIFICATION_MODAL = AppModalStates.EmailVerification;
   NEW_TRANSACTION_MODAL = AppModalStates.NewTransaction;
   ADD_SALE_ITEM_MODAL = AppModalStates.SaleItem;
+  ADD_PRICE_ITEM_MODAL = AppModalStates.PriceItem;
 
   email = '';
   password = '';

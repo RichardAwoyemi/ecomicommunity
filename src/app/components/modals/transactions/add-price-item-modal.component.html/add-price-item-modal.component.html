@@ -1,22 +1,29 @@
 <div
-  class="m-auto inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left max-h-65vh overflow-visible shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full sm:p-6">
+  class="m-auto inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left max-h-65vh min-w-20rem overflow-visible shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full sm:p-6">
   <ec-close-modal></ec-close-modal>
   <div class="mt-3 text-center sm:mt-5">
     <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-      Sale Item
+      Price
     </h3>
     <form>
       <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
         <div class="sm:grid sm:grid-cols-2 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
           <div class="mt-1 sm:mt-0 sm:col-span-2">
-            <ec-dropdown [label]="'Type'" [dropdown]="dropdown" [options]="options"></ec-dropdown>
+            <ec-dropdown class="border-b" [label]="'Type'" [dropdown]="NEW_TRANSACTION_ITEM_TYPE"
+              [options]="TRANSACTION_TYPES">
+            </ec-dropdown>
 
             <ng-container [ngSwitch]="(activeSaleItemType$ | async)">
-              <ng-container *ngSwitchCase="COLLECTIBLE_TYPE"></ng-container>
-              <ng-container *ngSwitchCase="CURRENCY_TYPE"></ng-container>
-            </ng-container>
+              <ng-container *ngSwitchCase="COLLECTIBLE_TYPE">
+                <div class="mt-4 text-sm text-gray-700" [innerHtml]="'Coming Soon...'"></div>
+              </ng-container>
+              <ng-container *ngSwitchCase="CURRENCY_TYPE">
 
-            <ec-dropdown [topClass]="'mt-4'" [label]="'Type'" [dropdown]="dropdown" [options]="options"></ec-dropdown>
+                <ec-text-dropdown-suffix [textField]='100' [label]="'GEMS'" [dropdown]="SELL_TRANSACTION_CURRENCY"
+                  [options]="TRANSACTION_CURRENCIES"></ec-text-dropdown-suffix>
+
+              </ng-container>
+            </ng-container>
           </div>
         </div>
       </div>
@@ -24,7 +31,7 @@
   </div>
   <div class="error-message mt-3 text-sm font-bold">{{errorMessage$ | async}}</div>
   <div class="mt-5 sm:mt-6">
-    <button (click)="hideModal()" type="button" [disabled]="true"
+    <button (click)="hideModal()" type="button" [disabled]="false"
       class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm disabled:opacity-50">
       Next
     </button>

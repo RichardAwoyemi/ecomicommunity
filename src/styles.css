@@ -2,3 +2,19 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+ec-register-modal,
+ec-login-modal,
+ec-logout-modal,
+ec-email-verification,
+ec-new-transaction-modal,
+ec-add-sale-item-modal,
+ec-register-modal > div,
+ec-login-modal > div,
+ec-logout-modal > div,
+ec-email-verification > div,
+ec-new-transaction-modal > div,
+ec-add-sale-item-modal > div  {
+  margin: auto;
+  min-width: 20rem;
+}

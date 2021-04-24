@@ -1,0 +1,32 @@
+<div [ngClass]="topClass" class="relative block text-left mt-6 sm:mt-5">
+  <div class="mt-1 sm:mt-0 sm:col-span-2">
+    <div class="max-w-lg flex rounded-md shadow-sm">
+      <input type="text" name="email" id="email" autocomplete="email" [(ngModel)]="textField"
+        class="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-none rounded-l-md sm:text-sm border-gray-300 border px-3">
+      <span (click)="toggleDropdown()" [innerHtml]="(activeDropdownOptions$ | async)"
+        class="justify-center inline-flex items-center p-2 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm min-w-sm">
+      </span>
+    </div>
+  </div>
+  <!--
+    Dropdown menu, show/hide based on menu state.
+
+    Entering: "transition ease-out duration-100"
+      From: "transform opacity-0 scale-95"
+      To: "transform opacity-100 scale-100"
+    Leaving: "transition ease-in duration-75"
+      From: "transform opacity-100 scale-100"
+      To: "transform opacity-0 scale-95"
+  -->
+  <div *ngIf="(toggleDropdown$ | async) == dropdown"
+    class="z-50 origin-top-right absolute right-0 mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+    role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+    <div class="" role="none">
+      <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+      <button *ngFor="let option of options" (click)="setDropdownOption(option)" type="submit"
+        class="text-gray-700 block w-full px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-3"
+        [innerHtml]="option">
+      </button>
+    </div>
+  </div>
+</div>

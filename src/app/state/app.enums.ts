@@ -5,7 +5,8 @@ export enum AppModalStates {
   Registration = 'registration',
   EmailVerification = 'email-verification',
   NewTransaction = 'new-transaction',
-  SaleItem = 'sale-item'
+  SaleItem = 'sale-item',
+  PriceItem = 'price-item',
 }
 
 export enum AppAuthMessages {
@@ -15,15 +16,26 @@ export enum AppAuthMessages {
 export enum AppTransactionStates {
   Available = 'Available',
   InProgress = 'In Progress',
-  Complete = 'Complete'
+  Complete = 'Complete',
 }
 
 export enum AppDropdownState {
   Hidden = '',
   AddNewTransactionItemType = 'Add New Transaction Item Type',
+  SellTransactionCurrency = 'Sell Transaction Currency',
 }
 
 export enum AppTransactionItemTypes {
   Collectible = 'Collectible',
-  Currency = 'Currency'
+  Currency = 'Currency',
+}
+
+export enum AppTransactionCurrencies {
+  GEMS = 'GEMS',
+  BTC = 'BTC',
+  BNB = 'BNB',
+  DAI = 'DAI',
+  OMI = 'OMI',
+  USDC = 'USDC',
+  USDT = 'USDT',
 }
