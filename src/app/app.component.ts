@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { DUMMY_TRANSACTION_DATA } from './data/transactions';
 import { AuthService } from './services/auth.service';
 import * as AppActions from './state/app.actions';
 import { AppModalStates } from './state/app.enums';
@@ -19,7 +18,6 @@ export class AppComponent {
   title = 'ecomi-community';
   modalState$!: Observable<string>;
   transactions$!: Observable<ITransaction[]>;
-  testData = DUMMY_TRANSACTION_DATA;
 
   constructor(private store: Store<State>) {}
 
