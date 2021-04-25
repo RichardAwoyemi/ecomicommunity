@@ -59,3 +59,13 @@ export const getActiveDropdownSaleItemType = createSelector(
       AppDropdownState.AddNewTransactionItemType
     ]
 );
+
+export const getTransactions = createSelector(
+  getAppFeatureState,
+  (state) => state.transactions
+);
+
+export const getActiveTransaction = createSelector(
+  getAppFeatureState,
+  (state) => state.activeTransaction
+);

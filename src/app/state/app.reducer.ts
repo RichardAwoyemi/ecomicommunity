@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as AppActions from './app.actions';
 import { AppModalStates, AppAuthMessages, AppDropdownState } from './app.enums';
-import { IUser } from './app.model';
+import { IUser, ITransaction } from './app.model';
 
 export interface AppState {
   // user: firebase.app.UserCredential | undefined;
@@ -14,6 +14,8 @@ export interface AppState {
   rememberMe: boolean;
   dropdownState: AppDropdownState;
   activeDropdownOptions: { [AppDropdownState: string]: string }[];
+  activeTransaction: ITransaction;
+  transactions: ITransaction[];
 }
 
 const initialState: AppState = {
@@ -26,6 +28,12 @@ const initialState: AppState = {
   rememberMe: false,
   dropdownState: AppDropdownState.Hidden,
   activeDropdownOptions: [],
+  activeTransaction: {
+    userid: '',
+    selling: { units: 0, currency: '' },
+    price: { units: 0, currency: '' },
+  },
+  transactions: []
 };
 
 export const appReducer = createReducer<AppState>(
@@ -165,11 +173,13 @@ export const appReducer = createReducer<AppState>(
     }
   ),
   on(
-    AppActions.clearUser,
+    AppActions.isLoggedIn,
     (state): AppState => {
+      const user =
+        sessionStorage.getItem('ec-user') || localStorage.getItem('ec-user');
       return {
         ...state,
-        user: undefined,
+        user: user ? JSON.parse(user) : undefined,
       };
     }
   ),
@@ -181,6 +191,28 @@ export const appReducer = createReducer<AppState>(
       return {
         ...state,
         user: user ? JSON.parse(user) : undefined,
+      };
+    }
+  ),
+  on(
+    AppActions.resetActiveTransaction,
+    (state): AppState => {
+      return {
+        ...state,
+        activeTransaction: {
+          userid: '',
+          selling: { units: 0, currency: '' },
+          price: { units: 0, currency: '' },
+        },
+      };
+    }
+  ),
+  on(
+    AppActions.setTransactions,
+    (state, props): AppState => {
+      return {
+        ...state,
+        transactions: props.txs
       };
     }
   )

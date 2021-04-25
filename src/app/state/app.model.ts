@@ -24,6 +24,7 @@ export interface Credentials {
 }
 
 export interface ITransaction {
+  
   id?: string;
   userid: string;
   selling: IAmount;

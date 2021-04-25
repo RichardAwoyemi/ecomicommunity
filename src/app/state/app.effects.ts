@@ -5,10 +5,15 @@ import { catchError, exhaustMap, map, switchMap, tap } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 import * as AppActions from '../state/app.actions';
 import { AppModalStates } from 'src/app/state/app.enums';
+import { TransactionService } from 'src/app/services/transaction.service';
 
 @Injectable()
 export class AppEffects {
-  constructor(private actions$: Actions, private authService: AuthService) {}
+  constructor(
+    private actions$: Actions,
+    private authService: AuthService,
+    private transactionService: TransactionService
+  ) {}
 
   credentialsRegistation$ = createEffect(() => {
     return this.actions$.pipe(
@@ -28,7 +33,11 @@ export class AppEffects {
       ofType(AppActions.credentialsRegistrationSuccess),
       exhaustMap(() =>
         from(this.authService.sendRegistrationVerificationEmail()).pipe(
-          map(() => AppActions.showModal({modalState: AppModalStates.EmailVerification}))
+          map(() =>
+            AppActions.showModal({
+              modalState: AppModalStates.EmailVerification,
+            })
+          )
         )
       )
     )
@@ -61,9 +70,18 @@ export class AppEffects {
       exhaustMap(() =>
         from(this.authService.logout()).pipe(
           switchMap(() => [
-            AppActions.clearUser(),
-            AppActions.showModal({modalState: AppModalStates.Closed})
+            AppActions.showModal({ modalState: AppModalStates.Closed }),
           ])
+        )
+      )
+    );
+  });
+  getTransactions$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AppActions.getTransactions),
+      exhaustMap(() =>
+        from(this.transactionService.getTransactions()).pipe(
+          switchMap((payload) => [AppActions.setTransactions({ txs: payload })])
         )
       )
     );

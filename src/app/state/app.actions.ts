@@ -1,7 +1,7 @@
 /* NgRx */
 import { createAction, props } from '@ngrx/store';
 import firebase from 'firebase/app';
-import { IUser } from './app.model';
+import { IUser, ITransaction } from './app.model';
 import { AppModalStates, AppDropdownState } from './app.enums';
 
 export enum AppActionTypes {
@@ -18,9 +18,11 @@ export enum AppActionTypes {
   CredentialsRegistrationFailure = '[App] [Signup] Credentials Registration Failure',
   CredentialsRegistrationSuccess = '[App] [Signup] Credentials Registration Success',
   LogoutUser = '[App] [Logout] Logout User',
-  ClearUser = '[App] [Logout] Clear User',
   ResetSignupError = '[App] [Signup] Reset Sign Up Error Message',
   ResetLoginError = '[App] [Login] Reset Login Error Message',
+  ResetActiveTransaction = '[App] [Transaction] Reset Active Transaction',
+  GetTransactions = '[App] [Transactions] Get Full Transaction List',
+  SetTransactions = '[App] [Transactions] Set Full Transaction List',
   SetUser = '[App] [Login] Set User',
   ToggleNavbar = '[App] Toggle Navbar',
   ToggleEmailConsent = '[App] Toggle Email Consent',
@@ -33,7 +35,6 @@ export const toggleEmailConsent = createAction(
   AppActionTypes.ToggleEmailConsent
 );
 export const toggleRememberMe = createAction(AppActionTypes.ToggleRememberMe);
-export const clearUser = createAction(AppActionTypes.ClearUser);
 
 export const setDropdownOption = createAction(
   AppActionTypes.setDropdownOption,
@@ -99,4 +100,13 @@ export const logoutUser = createAction(AppActionTypes.LogoutUser);
 export const setUser = createAction(
   AppActionTypes.SetUser,
   props<{ user: firebase.auth.UserCredential }>()
+);
+
+export const getTransactions = createAction(AppActionTypes.GetTransactions);
+export const setTransactions = createAction(
+  AppActionTypes.SetTransactions,
+  props<{ txs: ITransaction[] }>()
+);
+export const resetActiveTransaction = createAction(
+  AppActionTypes.ResetActiveTransaction
 );
