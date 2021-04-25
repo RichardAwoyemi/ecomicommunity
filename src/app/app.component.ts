@@ -24,7 +24,9 @@ export class AppComponent {
   constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
-    this.store.dispatch(AppActions.showModal({modalState: AppModalStates.Closed}));
+    this.store.dispatch(
+      AppActions.showModal({ modalState: AppModalStates.Closed })
+    );
     this.store.dispatch(AppActions.isLoggedIn());
     this.store.dispatch(AppActions.getTransactions());
     this.modalState$ = this.store.select(getmodalState);
@@ -32,14 +34,20 @@ export class AppComponent {
   }
 
   showLoginModal(): void {
-    this.store.dispatch(AppActions.showModal({modalState: AppModalStates.Login}));
+    this.store.dispatch(
+      AppActions.showModal({ modalState: AppModalStates.Login })
+    );
   }
 
   showRegistrationModal(): void {
-    this.store.dispatch(AppActions.showModal({modalState: AppModalStates.Registration}));
+    this.store.dispatch(
+      AppActions.showModal({ modalState: AppModalStates.Registration })
+    );
   }
 
   showNewTransactionModal(): void {
-    this.store.dispatch(AppActions.showModal({modalState: AppModalStates.NewTransaction}));
+    this.store.dispatch(
+      AppActions.showModal({ modalState: AppModalStates.NewTransaction })
+    );
   }
 }

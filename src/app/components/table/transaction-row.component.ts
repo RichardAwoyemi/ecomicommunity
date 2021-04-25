@@ -22,23 +22,23 @@ export class TransactionRowComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.transactionService.getTransactions().pipe(takeUntil(this.ngUnsubscribe))
-    .subscribe((response) => {
-      if (response) {
-        console.log(response);
-      }
-    });
+  //   this.transactionService.getTransactions().pipe(takeUntil(this.ngUnsubscribe))
+  //   .subscribe((response) => {
+  //     if (response) {
+  //       console.log(response);
+  //     }
+  //   });
 
-    this.transactionService.addTransaction({
-      userid: '1',
-      selling: {
-        units: 100,
-        currency: 'BTC'
-      },
-      price: {
-        units: 120,
-        currency: 'BTC'
-      }
-    })
+  //   this.transactionService.addTransaction({
+  //     userid: '1',
+  //     selling: {
+  //       units: 100,
+  //       currency: 'BTC'
+  //     },
+  //     price: {
+  //       units: 120,
+  //       currency: 'BTC'
+  //     }
+  //   })
   }
 }
