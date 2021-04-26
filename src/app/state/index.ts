@@ -65,7 +65,7 @@ export const getTransactions = createSelector(
   (state) => state.transactions
 );
 
-export const getActiveTransaction = createSelector(
+export const getSaleAssets = createSelector(
   getAppFeatureState,
-  (state) => state.activeTransaction
+  (state) => state.saleAssets
 );

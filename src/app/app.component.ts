@@ -27,9 +27,9 @@ export class AppComponent {
       AppActions.showModal({ modalState: AppModalStates.Closed })
     );
     this.store.dispatch(AppActions.isLoggedIn());
-    this.store.dispatch(AppActions.getTransactions());
+    // this.store.dispatch(AppActions.getTransactions());
     this.modalState$ = this.store.select(getmodalState);
-    this.transactions$ = this.store.select(getTransactions);
+    // this.transactions$ = this.store.select(getTransactions);
 
   }
 

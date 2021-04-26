@@ -2,10 +2,14 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { getLoginError, getRememberMe } from 'src/app/state';
+import { IAmount } from 'src/app/state/app.model';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
 import {
-  AppDropdownState, AppModalStates, AppTransactionCurrencies, AppTransactionItemTypes
+  AppDropdownState,
+  AppModalStates,
+  AppTransactionCurrencies,
+  AppTransactionItemTypes,
 } from '../../../../state/app.enums';
 import { getActiveDropdownSaleItemType } from '../../../../state/index';
 @Component({
@@ -14,7 +18,7 @@ import { getActiveDropdownSaleItemType } from '../../../../state/index';
 })
 export class AddPriceItemModalComponent {
   NEW_TRANSACTION_ITEM_TYPE = AppDropdownState.AddNewTransactionItemType;
-  SELL_TRANSACTION_CURRENCY= AppDropdownState.SellTransactionCurrency;
+  SELL_TRANSACTION_CURRENCY = AppDropdownState.SellTransactionCurrency;
   username = '';
   sellingWallet = '';
   recievingWallet = '';
@@ -33,8 +37,7 @@ export class AddPriceItemModalComponent {
   ngOnInit(): void {
     this.errorMessage$ = this.store.select(getLoginError);
     this.rememberMe$ = this.store.select(getRememberMe);
-    this.activeSaleItemType$ = this.store
-      .select(getActiveDropdownSaleItemType);
+    this.activeSaleItemType$ = this.store.select(getActiveDropdownSaleItemType);
   }
 
   toggleRememberMe(toggle: boolean) {
@@ -46,5 +49,9 @@ export class AddPriceItemModalComponent {
     this.store.dispatch(
       AppActions.showModal({ modalState: AppModalStates.Closed })
     );
+  }
+
+  setPriceItems(amount: IAmount): void {
+    this.store.dispatch(AppActions.setPriceItems({ amount }));
   }
 }

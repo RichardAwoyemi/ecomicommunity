@@ -1,7 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
 import * as AppActions from './app.actions';
-import { AppModalStates, AppAuthMessages, AppDropdownState } from './app.enums';
-import { IUser, ITransaction } from './app.model';
+import {
+  AppModalStates,
+  AppAuthMessages,
+  AppDropdownState,
+  AppTransactionCurrencies,
+} from './app.enums';
+import { IUser, ITransaction, IAmount } from './app.model';
 
 export interface AppState {
   // user: firebase.app.UserCredential | undefined;
@@ -14,8 +19,9 @@ export interface AppState {
   rememberMe: boolean;
   dropdownState: AppDropdownState;
   activeDropdownOptions: { [AppDropdownState: string]: string }[];
-  activeTransaction: ITransaction;
   transactions: ITransaction[];
+  saleAssets: IAmount;
+  priceAssets: IAmount;
 }
 
 const initialState: AppState = {
@@ -28,12 +34,15 @@ const initialState: AppState = {
   rememberMe: false,
   dropdownState: AppDropdownState.Hidden,
   activeDropdownOptions: [],
-  activeTransaction: {
-    userid: '',
-    selling: { units: 0, currency: '' },
-    price: { units: 0, currency: '' },
+  transactions: [],
+  saleAssets: {
+    currency: AppTransactionCurrencies.GEMS,
+    units: 100,
   },
-  transactions: []
+  priceAssets: {
+    currency: AppTransactionCurrencies.BTC,
+    units: 0.001,
+  }
 };
 
 export const appReducer = createReducer<AppState>(
@@ -92,7 +101,7 @@ export const appReducer = createReducer<AppState>(
         modalState: props.modalState,
         dropdownState: AppDropdownState.Hidden,
         loginErrorMessage: '',
-        registrationErrorMessage: ''
+        registrationErrorMessage: '',
       };
     }
   ),
@@ -191,10 +200,9 @@ export const appReducer = createReducer<AppState>(
     (state): AppState => {
       return {
         ...state,
-        activeTransaction: {
-          userid: '',
-          selling: { units: 0, currency: '' },
-          price: { units: 0, currency: '' },
+        saleAssets: {
+          currency: AppTransactionCurrencies.GEMS,
+          units: 100,
         },
       };
     }
@@ -204,7 +212,25 @@ export const appReducer = createReducer<AppState>(
     (state, props): AppState => {
       return {
         ...state,
-        transactions: props.txs
+        transactions: props.txs,
+      };
+    }
+  ),
+  on(
+    AppActions.setSaleItems,
+    (state, props): AppState => {
+      return {
+        ...state,
+        saleAssets: props.amount,
+      };
+    }
+  ),
+  on(
+    AppActions.setPriceItems,
+    (state, props): AppState => {
+      return {
+        ...state,
+        priceAssets: props.amount,
       };
     }
   )

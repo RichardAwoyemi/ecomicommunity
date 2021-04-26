@@ -6,6 +6,7 @@ import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../state/app.actions';
 import { AppDropdownState } from '../../state/app.enums';
 import { getDropdownState, getActiveDropdownOptions } from '../../state/index';
+import { IAmount } from '../../state/app.model';
 
 @Component({
   selector: 'ec-text-dropdown-suffix',
@@ -21,7 +22,7 @@ export class TextDropdownSuffixComponent implements OnInit {
   toggleDropdown$!: Observable<string>;
   activeDropdownOptions$!: Observable<string>;
 
-  @Output() chosenOption = new EventEmitter<string | null>();
+  @Output() fieldValue = new EventEmitter<IAmount>();
 
   constructor(private store: Store<State>) {}
 
@@ -47,12 +48,12 @@ export class TextDropdownSuffixComponent implements OnInit {
     );
   }
 
-  setDropdownOption(option: string): void {
-    this.store.dispatch(
-      AppActions.setDropdownOption({
-        dropdownOption: option,
-      })
-    );
-    this.chosenOption.emit(option);
+  valueChange(value: number, option?: string): void {
+    // this.store.dispatch(
+    //   AppActions.setDropdownOption({
+    //     dropdownOption: option,
+    //   })
+    // );
+      this.fieldValue.emit({units: value, currency: option});
   }
 }

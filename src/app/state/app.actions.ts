@@ -1,7 +1,7 @@
 /* NgRx */
 import { createAction, props } from '@ngrx/store';
 import firebase from 'firebase/app';
-import { IUser, ITransaction } from './app.model';
+import { IUser, ITransaction, IAmount } from './app.model';
 import { AppModalStates, AppDropdownState } from './app.enums';
 
 export enum AppActionTypes {
@@ -23,6 +23,8 @@ export enum AppActionTypes {
   ResetActiveTransaction = '[App] [Transaction] Reset Active Transaction',
   GetTransactions = '[App] [Transactions] Get Full Transaction List',
   SetTransactions = '[App] [Transactions] Set Full Transaction List',
+  SetSaleItems = '[App] [Transactions] Set Sale Assets',
+  SetPriceItems = '[App] [Transactions] Set Price Assets',
   SetUser = '[App] [Login] Set User',
   GetUser = '[App] [Login] Get User Info',
   ClearUser = '[App] [Login] Clear User Info',
@@ -125,4 +127,12 @@ export const setTransactions = createAction(
 );
 export const resetActiveTransaction = createAction(
   AppActionTypes.ResetActiveTransaction
+);
+export const setSaleItems = createAction(
+  AppActionTypes.SetSaleItems,
+  props<{ amount: IAmount }>()
+);
+export const setPriceItems = createAction(
+  AppActionTypes.SetPriceItems,
+  props<{ amount: IAmount }>()
 );

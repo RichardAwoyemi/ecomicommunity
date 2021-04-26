@@ -12,6 +12,7 @@ import {
 } from '../../../../state/app.enums';
 import { map } from 'rxjs/operators';
 import { AppTransactionCurrencies } from '../../../../state/app.enums';
+import { IAmount } from '../../../../state/app.model';
 @Component({
   selector: 'ec-add-sale-item-modal',
   templateUrl: './add-sale-item-modal.component.html',
@@ -31,6 +32,8 @@ export class AddSaleItemModalComponent {
   TRANSACTION_TYPES = Object.keys(AppTransactionItemTypes);
   TRANSACTION_CURRENCIES = Object.keys(AppTransactionCurrencies);
   quantity = 0;
+  currency = AppTransactionCurrencies.GEMS;
+  units = 100;
 
   constructor(private store: Store<State>) {}
 
@@ -46,9 +49,11 @@ export class AddSaleItemModalComponent {
     this.store.dispatch(AppActions.toggleRememberMe());
   }
 
+  setSaleItems(amount: IAmount): void {
+    this.store.dispatch(AppActions.setSaleItems({ amount }));
+  }
+
   nextModal(): void {
-    this.store.dispatch(
-      AppActions.showModal({ modalState: AppModalStates.PriceItem })
-    );
+    this.store.dispatch(AppActions.showModal({ modalState: AppModalStates.PriceItem }));
   }
 }
