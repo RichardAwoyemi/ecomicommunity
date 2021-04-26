@@ -184,17 +184,6 @@ export const appReducer = createReducer<AppState>(
     }
   ),
   on(
-    AppActions.isLoggedIn,
-    (state): AppState => {
-      const user =
-        sessionStorage.getItem('ec-user') || localStorage.getItem('ec-user');
-      return {
-        ...state,
-        user: user ? JSON.parse(user) : undefined,
-      };
-    }
-  ),
-  on(
     AppActions.resetActiveTransaction,
     (state): AppState => {
       return {
