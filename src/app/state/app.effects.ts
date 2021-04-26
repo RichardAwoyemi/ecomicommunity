@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { from, of } from 'rxjs';
-import { catchError, exhaustMap, map, switchMap, tap } from 'rxjs/operators';
+import {
+  catchError,
+  exhaustMap,
+  map,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 import * as AppActions from '../state/app.actions';
 import { AppModalStates } from 'src/app/state/app.enums';
@@ -90,7 +97,10 @@ export class AppEffects {
       exhaustMap((action) =>
         from(this.authService.login(action.email, action.password)).pipe(
           switchMap((user) => [
-            AppActions.getUser({ uid: user.user?.uid || '', emailVerified: user.user?.emailVerified || false }),
+            AppActions.getUser({
+              uid: user.user?.uid || '',
+              emailVerified: user.user?.emailVerified || false,
+            }),
           ]),
           catchError((error) =>
             of(AppActions.credentialsLoginFailure({ error }))
@@ -106,7 +116,7 @@ export class AppEffects {
         from(this.authService.logout()).pipe(
           switchMap(() => [
             AppActions.showModal({ modalState: AppModalStates.Closed }),
-            AppActions.clearUser()
+            AppActions.clearUser(),
           ])
         )
       )
@@ -118,6 +128,18 @@ export class AppEffects {
       exhaustMap(() =>
         from(this.transactionService.getTransactions()).pipe(
           switchMap((payload) => [AppActions.setTransactions({ txs: payload })])
+        )
+      )
+    );
+  });
+  addTransactions$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AppActions.addTransaction),
+      exhaustMap((props) =>
+        from(this.transactionService.addTransaction(props.txn)).pipe(
+          switchMap(() => [
+            AppActions.showModal({ modalState: AppModalStates.Closed }),
+          ])
         )
       )
     );

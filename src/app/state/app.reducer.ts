@@ -20,8 +20,8 @@ export interface AppState {
   dropdownState: AppDropdownState;
   activeDropdownOptions: { [AppDropdownState: string]: string }[];
   transactions: ITransaction[];
-  saleAssets: IAmount;
-  priceAssets: IAmount;
+  saleItems: IAmount;
+  priceItems: IAmount;
 }
 
 const initialState: AppState = {
@@ -35,11 +35,11 @@ const initialState: AppState = {
   dropdownState: AppDropdownState.Hidden,
   activeDropdownOptions: [],
   transactions: [],
-  saleAssets: {
+  saleItems: {
     currency: AppTransactionCurrencies.GEMS,
     units: 100,
   },
-  priceAssets: {
+  priceItems: {
     currency: AppTransactionCurrencies.BTC,
     units: 0.001,
   }
@@ -200,7 +200,7 @@ export const appReducer = createReducer<AppState>(
     (state): AppState => {
       return {
         ...state,
-        saleAssets: {
+        saleItems: {
           currency: AppTransactionCurrencies.GEMS,
           units: 100,
         },
@@ -221,7 +221,7 @@ export const appReducer = createReducer<AppState>(
     (state, props): AppState => {
       return {
         ...state,
-        saleAssets: props.amount,
+        saleItems: props.amount,
       };
     }
   ),
@@ -230,7 +230,7 @@ export const appReducer = createReducer<AppState>(
     (state, props): AppState => {
       return {
         ...state,
-        priceAssets: props.amount,
+        priceItems: props.amount,
       };
     }
   )

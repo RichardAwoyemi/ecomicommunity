@@ -21,7 +21,9 @@ import { CloseModalComponent } from './components/modals/close-modal/close-modal
 import { ModalComponent } from './components/modals/modal.component';
 import { AddPriceItemModalComponent } from './components/modals/transactions/add-price-item-modal.component.html/add-price-item-modal.component';
 import { AddSaleItemModalComponent } from './components/modals/transactions/add-sale-item-modal.component.html/add-sale-item-modal.component';
-import { NewTransactionModalComponent } from './components/modals/transactions/new-transaction-modal.component';
+import { AddTransactionButtonComponent } from './components/modals/transactions/add-transaction-button/add-transaction-button.component';
+import { NewTransactionModalComponent } from './components/modals/transactions/new-transaction-modal/new-transaction-modal.component';
+import { NewTransactionSummaryModalComponent } from './components/modals/transactions/new-transaction-summary-modal/new-transaction-summary-modal.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { TransactionRowComponent } from './components/table/transaction-row.component';
 import { TextDropdownSuffixComponent } from './components/text-dropdown-suffix/text-dropdown-suffix.component';
@@ -44,11 +46,13 @@ import { appReducer } from './state/app.reducer';
     NavbarComponent,
     TransactionRowComponent,
     NewTransactionModalComponent,
+    NewTransactionSummaryModalComponent,
     AddSaleItemModalComponent,
     AddPriceItemModalComponent,
     DropdownComponent,
     CloseModalComponent,
     TextDropdownSuffixComponent,
+    AddTransactionButtonComponent
   ],
   imports: [
     FormsModule,

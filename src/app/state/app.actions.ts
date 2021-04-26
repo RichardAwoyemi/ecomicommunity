@@ -23,6 +23,7 @@ export enum AppActionTypes {
   ResetActiveTransaction = '[App] [Transaction] Reset Active Transaction',
   GetTransactions = '[App] [Transactions] Get Full Transaction List',
   SetTransactions = '[App] [Transactions] Set Full Transaction List',
+  AddTransaction = '[App] [Transactions] Add New Transaction',
   SetSaleItems = '[App] [Transactions] Set Sale Assets',
   SetPriceItems = '[App] [Transactions] Set Price Assets',
   SetUser = '[App] [Login] Set User',
@@ -31,7 +32,7 @@ export enum AppActionTypes {
   PersistUser = '[App] [Register] Perist User',
   ToggleNavbar = '[App] Toggle Navbar',
   ToggleEmailConsent = '[App] Toggle Email Consent',
-  ToggleRememberMe = '[App] Toggle Remember me',
+  ToggleRememberMe = '[App] Toggle Remember Me',
 }
 
 export const isLoggedIn = createAction(AppActionTypes.IsLoggedIn);
@@ -85,7 +86,7 @@ export const credentialsRegistration = createAction(
   props<{
     email: string;
     password: string;
-    username: string,
+    username: string;
     remember?: boolean;
   }>()
 );
@@ -104,7 +105,6 @@ export const resetSignupError = createAction(AppActionTypes.ResetSignupError);
 export const logoutUser = createAction(AppActionTypes.LogoutUser);
 export const clearUser = createAction(AppActionTypes.ClearUser);
 
-
 export const setUser = createAction(
   AppActionTypes.SetUser,
   props<{ user: firebase.auth.UserCredential }>()
@@ -117,7 +117,7 @@ export const persistUser = createAction(
 
 export const getUser = createAction(
   AppActionTypes.GetUser,
-  props<{ uid: string, emailVerified: boolean }>()
+  props<{ uid: string; emailVerified: boolean }>()
 );
 
 export const getTransactions = createAction(AppActionTypes.GetTransactions);
@@ -125,9 +125,16 @@ export const setTransactions = createAction(
   AppActionTypes.SetTransactions,
   props<{ txs: ITransaction[] }>()
 );
+
+export const addTransaction = createAction(
+  AppActionTypes.AddTransaction,
+  props<{ txn: ITransaction }>()
+);
+
 export const resetActiveTransaction = createAction(
   AppActionTypes.ResetActiveTransaction
 );
+
 export const setSaleItems = createAction(
   AppActionTypes.SetSaleItems,
   props<{ amount: IAmount }>()

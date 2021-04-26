@@ -34,6 +34,11 @@ export const getUser = createSelector(
   (state) => state.user
 );
 
+export const getUID = createSelector(
+  getUser,
+  (state) => state?.uid
+);
+
 export const getLoginError = createSelector(
   getAppFeatureState,
   (state) => state.loginErrorMessage
@@ -65,7 +70,12 @@ export const getTransactions = createSelector(
   (state) => state.transactions
 );
 
-export const getSaleAssets = createSelector(
+export const getSaleItems = createSelector(
   getAppFeatureState,
-  (state) => state.saleAssets
+  (state) => state.saleItems
+);
+
+export const getPriceItems = createSelector(
+  getAppFeatureState,
+  (state) => state.priceItems
 );

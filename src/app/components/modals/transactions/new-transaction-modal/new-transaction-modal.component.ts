@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { getLoginError, getRememberMe } from 'src/app/state';
 import { State } from 'src/app/state/app.state';
-import * as AppActions from '../../../state/app.actions';
-import { AppModalStates } from '../../../state/app.enums';
+import * as AppActions from '../../../../state/app.actions';
+import { AppModalStates } from '../../../../state/app.enums';
 @Component({
   selector: 'ec-new-transaction-modal',
   templateUrl: './new-transaction-modal.component.html',

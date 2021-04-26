@@ -45,10 +45,8 @@ export class AddPriceItemModalComponent {
     this.store.dispatch(AppActions.toggleRememberMe());
   }
 
-  hideModal(): void {
-    this.store.dispatch(
-      AppActions.showModal({ modalState: AppModalStates.Closed })
-    );
+  nextModal(): void {
+    this.store.dispatch(AppActions.showModal({ modalState: AppModalStates.NewTransactionSummary }));
   }
 
   setPriceItems(amount: IAmount): void {
