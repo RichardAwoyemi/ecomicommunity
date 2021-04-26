@@ -24,6 +24,7 @@ export enum AppActionTypes {
   GetTransactions = '[App] [Transactions] Get Full Transaction List',
   SetTransactions = '[App] [Transactions] Set Full Transaction List',
   SetUser = '[App] [Login] Set User',
+  PersistUser = '[App] [Register] Perist User',
   ToggleNavbar = '[App] Toggle Navbar',
   ToggleEmailConsent = '[App] Toggle Email Consent',
   ToggleRememberMe = '[App] Toggle Remember me',
@@ -80,6 +81,7 @@ export const credentialsRegistration = createAction(
   props<{
     email: string;
     password: string;
+    username: string,
     remember?: boolean;
   }>()
 );
@@ -100,6 +102,11 @@ export const logoutUser = createAction(AppActionTypes.LogoutUser);
 export const setUser = createAction(
   AppActionTypes.SetUser,
   props<{ user: firebase.auth.UserCredential }>()
+);
+
+export const persistUser = createAction(
+  AppActionTypes.PersistUser,
+  props<{ user: IUser }>()
 );
 
 export const getTransactions = createAction(AppActionTypes.GetTransactions);

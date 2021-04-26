@@ -14,6 +14,7 @@ import { getEmailConsent, getRegistrationError } from '../../../../state/index';
 export class RegisterModalComponent {
   email = '';
   password = '';
+  username = '';
   errorMessage$!: Observable<string>;
   emailConsent$!: Observable<boolean>;
   consent? = false;
@@ -31,6 +32,7 @@ export class RegisterModalComponent {
       AppActions.credentialsRegistration({
         email: this.email,
         password: this.password,
+        username: this.username
       })
     );
   }
