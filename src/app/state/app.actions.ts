@@ -24,6 +24,8 @@ export enum AppActionTypes {
   GetTransactions = '[App] [Transactions] Get Full Transaction List',
   SetTransactions = '[App] [Transactions] Set Full Transaction List',
   SetUser = '[App] [Login] Set User',
+  GetUser = '[App] [Login] Get User Info',
+  ClearUser = '[App] [Login] Clear User Info',
   PersistUser = '[App] [Register] Perist User',
   ToggleNavbar = '[App] Toggle Navbar',
   ToggleEmailConsent = '[App] Toggle Email Consent',
@@ -98,6 +100,8 @@ export const credentialsRegistrationSuccess = createAction(
 export const resetLoginError = createAction(AppActionTypes.ResetLoginError);
 export const resetSignupError = createAction(AppActionTypes.ResetSignupError);
 export const logoutUser = createAction(AppActionTypes.LogoutUser);
+export const clearUser = createAction(AppActionTypes.ClearUser);
+
 
 export const setUser = createAction(
   AppActionTypes.SetUser,
@@ -107,6 +111,11 @@ export const setUser = createAction(
 export const persistUser = createAction(
   AppActionTypes.PersistUser,
   props<{ user: IUser }>()
+);
+
+export const getUser = createAction(
+  AppActionTypes.GetUser,
+  props<{ uid: string, emailVerified: boolean }>()
 );
 
 export const getTransactions = createAction(AppActionTypes.GetTransactions);

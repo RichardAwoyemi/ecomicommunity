@@ -29,8 +29,10 @@ export class AppEffects {
                 email: user.user?.email,
                 emailVerified: user.user?.emailVerified,
                 photoURL: user.user?.photoURL,
-                username: props.username
-            }})),
+                username: props.username,
+              },
+            })
+          ),
           catchError((error) =>
             of(AppActions.credentialsRegistrationFailure({ error }))
           )
@@ -52,33 +54,43 @@ export class AppEffects {
       )
     )
   );
-  persistUser$ = createEffect(() =>
-  this.actions$.pipe(
-    ofType(AppActions.persistUser),
-    exhaustMap((props) =>
-      from(this.userService.setUser(props.user)).pipe(
-        switchMap(() => [
-          AppActions.credentialsRegistrationSuccess(),
-        ])
+  getUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AppActions.getUser),
+      exhaustMap((props) =>
+        from(this.userService.getUserById(props.uid)).pipe(
+          switchMap((user) => [
+            AppActions.credentialsLoginSuccess({
+              user: {
+                uid: user.uid,
+                email: user.email,
+                emailVerified: props.emailVerified,
+                photoURL: user?.photoURL,
+                username: user?.username,
+              },
+            }),
+          ])
+        )
       )
     )
-  )
-);
+  );
+  persistUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AppActions.persistUser),
+      exhaustMap((props) =>
+        from(this.userService.setUser(props.user)).pipe(
+          switchMap(() => [AppActions.credentialsRegistrationSuccess()])
+        )
+      )
+    )
+  );
   credentialsLogin$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AppActions.credentialsLogin),
       exhaustMap((action) =>
         from(this.authService.login(action.email, action.password)).pipe(
           switchMap((user) => [
-            AppActions.credentialsLoginSuccess({
-              user: {
-                uid: user.user?.uid,
-                email: user.user?.email,
-                emailVerified: user.user?.emailVerified,
-                photoURL: user.user?.photoURL,
-                username: user.user?.displayName
-              },
-            }),
+            AppActions.getUser({ uid: user.user?.uid || '', emailVerified: user.user?.emailVerified || false }),
           ]),
           catchError((error) =>
             of(AppActions.credentialsLoginFailure({ error }))
@@ -94,6 +106,7 @@ export class AppEffects {
         from(this.authService.logout()).pipe(
           switchMap(() => [
             AppActions.showModal({ modalState: AppModalStates.Closed }),
+            AppActions.clearUser()
           ])
         )
       )

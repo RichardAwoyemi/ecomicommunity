@@ -15,9 +15,9 @@ export class UserService {
   constructor(private afs: AngularFirestore, public router: Router) {}
 
   setUser(user: IUser): Promise<void> {
-    const documentId = this.afs.createId();
+    // const documentId = this.afs.createId();
     const usersRef: AngularFirestoreDocument = this.afs.doc(
-      `users/${documentId}`
+      `users/${user.uid}`
     );
     const userData: IUser = {
       uid: user.uid,
@@ -31,7 +31,7 @@ export class UserService {
     });
   }
 
-  getUserById(id: string): Observable<IUser> {
+  getUserById(id: string | undefined): Observable<IUser> {
     return this.afs
       .collection('users')
       .doc(id)

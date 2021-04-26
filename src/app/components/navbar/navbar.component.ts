@@ -14,13 +14,13 @@ import { AppModalStates } from 'src/app/state/app.enums';
 })
 export class NavbarComponent implements OnInit {
   isNavbarVisible$!: Observable<boolean>;
-  isLoggedIn$!: Observable<IUser | undefined>
+  user$!: Observable<IUser | undefined>
 
   constructor(private store: Store<State>, public authService: AuthService) {}
 
   ngOnInit(): void {
     this.isNavbarVisible$ = this.store.select(getNavbarVisibility);
-    this.isLoggedIn$ = this.store.select(getUser);
+    this.user$ = this.store.select(getUser);
   }
 
   showLoginModal(): void {

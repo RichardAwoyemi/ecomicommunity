@@ -18,27 +18,9 @@ export class TransactionRowComponent implements OnInit {
 
   ngUnsubscribe = new Subject<void>();
 
-  constructor(public transactionService: TransactionService) {
+  constructor() {
   }
 
   ngOnInit(): void {
-  //   this.transactionService.getTransactions().pipe(takeUntil(this.ngUnsubscribe))
-  //   .subscribe((response) => {
-  //     if (response) {
-  //       console.log(response);
-  //     }
-  //   });
-
-  //   this.transactionService.addTransaction({
-  //     userid: '1',
-  //     selling: {
-  //       units: 100,
-  //       currency: 'BTC'
-  //     },
-  //     price: {
-  //       units: 120,
-  //       currency: 'BTC'
-  //     }
-  //   })
   }
 }

@@ -79,6 +79,7 @@ export const appReducer = createReducer<AppState>(
     (state, props): AppState => {
       return {
         ...state,
+        modalState: AppModalStates.Closed,
         user: props.user,
       };
     }
@@ -90,6 +91,8 @@ export const appReducer = createReducer<AppState>(
         ...state,
         modalState: props.modalState,
         dropdownState: AppDropdownState.Hidden,
+        loginErrorMessage: '',
+        registrationErrorMessage: ''
       };
     }
   ),
