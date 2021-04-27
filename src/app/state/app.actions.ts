@@ -29,6 +29,8 @@ export enum AppActionTypes {
   SetUser = '[App] [Login] Set User',
   GetUser = '[App] [Login] Get User Info',
   ClearUser = '[App] [Login] Clear User Info',
+  SetEmailVerificationFailMessage = "[App] [Login] Email Verification Failed",
+  EmailVerificationFailure = "[App] [Login] Email Verification Failure",
   PersistUser = '[App] [Register] Perist User',
   ToggleNavbar = '[App] Toggle Navbar',
   ToggleEmailConsent = '[App] Toggle Email Consent',
@@ -115,9 +117,17 @@ export const persistUser = createAction(
   props<{ user: IUser }>()
 );
 
+export const setEmailVerificationFailMessage = createAction(
+  AppActionTypes.SetEmailVerificationFailMessage,
+);
+
+export const emailVerificationFailure = createAction(
+  AppActionTypes.EmailVerificationFailure,
+);
+
 export const getUser = createAction(
   AppActionTypes.GetUser,
-  props<{ uid: string; emailVerified: boolean }>()
+  props<{ key: string }>()
 );
 
 export const getTransactions = createAction(AppActionTypes.GetTransactions);

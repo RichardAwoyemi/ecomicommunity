@@ -23,7 +23,6 @@ export class UserService {
       uid: user.uid,
       username: user.username,
       email: user.email,
-      emailVerified: user.emailVerified,
       photoURL: user.photoURL,
     };
     return usersRef.set(userData, {

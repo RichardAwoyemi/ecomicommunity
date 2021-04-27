@@ -3,6 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { from, of } from 'rxjs';
 import {
   catchError,
+  concatMap,
   exhaustMap,
   map,
   switchMap,
@@ -19,7 +20,7 @@ import { UserService } from '../services/user.service';
 export class AppEffects {
   constructor(
     private actions$: Actions,
-    private authService: AuthService,
+    public authService: AuthService,
     private transactionService: TransactionService,
     private userService: UserService
   ) {}
@@ -34,7 +35,6 @@ export class AppEffects {
               user: {
                 uid: user.user?.uid,
                 email: user.user?.email,
-                emailVerified: user.user?.emailVerified,
                 photoURL: user.user?.photoURL,
                 username: props.username,
               },
@@ -65,13 +65,12 @@ export class AppEffects {
     this.actions$.pipe(
       ofType(AppActions.getUser),
       exhaustMap((props) =>
-        from(this.userService.getUserById(props.uid)).pipe(
+        from(this.userService.getUserById(props.key)).pipe(
           switchMap((user) => [
             AppActions.credentialsLoginSuccess({
               user: {
                 uid: user.uid,
                 email: user.email,
-                emailVerified: props.emailVerified,
                 photoURL: user?.photoURL,
                 username: user?.username,
               },
@@ -96,11 +95,10 @@ export class AppEffects {
       ofType(AppActions.credentialsLogin),
       exhaustMap((action) =>
         from(this.authService.login(action.email, action.password)).pipe(
-          switchMap((user) => [
-            AppActions.getUser({
-              uid: user.user?.uid || '',
-              emailVerified: user.user?.emailVerified || false,
-            }),
+          concatMap((user) => [
+            user.user?.emailVerified
+              ? AppActions.getUser({ key: user.user.uid })
+              : AppActions.emailVerificationFailure(),
           ]),
           catchError((error) =>
             of(AppActions.credentialsLoginFailure({ error }))
@@ -109,15 +107,24 @@ export class AppEffects {
       )
     );
   });
+  emailVerificationFailure$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AppActions.emailVerificationFailure),
+      switchMap(() => [
+        AppActions.setEmailVerificationFailMessage(),
+        AppActions.logoutUser(),
+      ])
+    );
+  });
   logoutUser$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AppActions.logoutUser),
       exhaustMap(() =>
         from(this.authService.logout()).pipe(
-          switchMap(() => [
-            AppActions.showModal({ modalState: AppModalStates.Closed }),
-            AppActions.clearUser(),
-          ])
+          map(() => AppActions.clearUser()),
+          catchError((error) =>
+            tap(error => console.log(error))
+          )
         )
       )
     );

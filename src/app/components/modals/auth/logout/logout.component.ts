@@ -12,17 +12,10 @@ import { getEmailConsent, getRegistrationError } from '../../../../state/index';
   templateUrl: './logout.component.html',
 })
 export class LogOutModalComponent {
-  email = '';
-  password = '';
-  errorMessage$!: Observable<string>;
-  emailConsent$!: Observable<boolean>;
-  consent? = false;
 
-  constructor(private store: Store<State>, public authService: AuthService) {}
+  constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
-    this.store.dispatch(AppActions.resetSignupError());
-    this.emailConsent$ = this.store.select(getEmailConsent);
   }
 
   logout() {

@@ -42,7 +42,7 @@ const initialState: AppState = {
   priceItems: {
     currency: AppTransactionCurrencies.BTC,
     units: 0.001,
-  }
+  },
 };
 
 export const appReducer = createReducer<AppState>(
@@ -80,16 +80,6 @@ export const appReducer = createReducer<AppState>(
       return {
         ...state,
         loginErrorMessage: '',
-      };
-    }
-  ),
-  on(
-    AppActions.credentialsLoginSuccess,
-    (state, props): AppState => {
-      return {
-        ...state,
-        modalState: AppModalStates.Closed,
-        user: props.user,
       };
     }
   ),
@@ -174,13 +164,9 @@ export const appReducer = createReducer<AppState>(
         : sessionStorage.setItem('ec-user', JSON.stringify(state.user));
       return {
         ...state,
-        user: props.user.emailVerified ? props.user : undefined,
-        loginErrorMessage: props.user.emailVerified
-          ? ''
-          : AppAuthMessages.EmailUnverified,
-        modalState: props.user.emailVerified
-          ? AppModalStates.Closed
-          : AppModalStates.Login,
+        user: props.user,
+        loginErrorMessage: '',
+        modalState: AppModalStates.Closed
       };
     }
   ),
@@ -192,6 +178,15 @@ export const appReducer = createReducer<AppState>(
       return {
         ...state,
         user: user ? JSON.parse(user) : undefined,
+      };
+    }
+  ),
+  on(
+    AppActions.clearUser,
+    (state): AppState => {
+      return {
+        ...state,
+        user: undefined,
       };
     }
   ),
@@ -231,6 +226,15 @@ export const appReducer = createReducer<AppState>(
       return {
         ...state,
         priceItems: props.amount,
+      };
+    }
+  ),
+  on(
+    AppActions.setEmailVerificationFailMessage,
+    (state, props): AppState => {
+      return {
+        ...state,
+        loginErrorMessage: AppAuthMessages.EmailUnverified
       };
     }
   )
