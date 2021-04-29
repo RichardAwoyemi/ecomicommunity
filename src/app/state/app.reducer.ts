@@ -1,12 +1,13 @@
 import { createReducer, on } from '@ngrx/store';
 import * as AppActions from './app.actions';
 import {
-  AppModalStates,
   AppAuthMessages,
-  AppDropdownState,
-  AppTransactionCurrencies,
+  AppDropdownState, AppModalStates,
+
+
+  AppTransactionCurrencies
 } from './app.enums';
-import { IUser, ITransaction, IAmount } from './app.model';
+import { IAmount, ITransaction, IUser } from './app.model';
 
 export interface AppState {
   // user: firebase.app.UserCredential | undefined;
@@ -20,6 +21,7 @@ export interface AppState {
   dropdownState: AppDropdownState;
   activeDropdownOptions: { [AppDropdownState: string]: string }[];
   transactions: ITransaction[];
+  activeTransaction: ITransaction | undefined;
   saleItems: IAmount;
   priceItems: IAmount;
 }
@@ -35,6 +37,7 @@ const initialState: AppState = {
   dropdownState: AppDropdownState.Hidden,
   activeDropdownOptions: [],
   transactions: [],
+  activeTransaction: undefined,
   saleItems: {
     currency: AppTransactionCurrencies.GEMS,
     units: 100,
@@ -191,7 +194,7 @@ export const appReducer = createReducer<AppState>(
     }
   ),
   on(
-    AppActions.resetActiveTransaction,
+    AppActions.resetActiveSale,
     (state): AppState => {
       return {
         ...state,
@@ -237,11 +240,21 @@ export const appReducer = createReducer<AppState>(
   ),
   on(
     AppActions.setEmailVerificationFailMessage,
-    (state, props): AppState => {
+    (state): AppState => {
       return {
         ...state,
         loginErrorMessage: AppAuthMessages.EmailUnverified,
       };
     }
+  ),
+  on(
+    AppActions.setActiveTransaction,
+    (state, props): AppState => {
+      return {
+        ...state,
+        activeTransaction: props.txn,
+      };
+    }
   )
 );
+

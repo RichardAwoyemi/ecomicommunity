@@ -9,12 +9,16 @@ ec-logout-modal,
 ec-email-verification,
 ec-new-transaction-modal,
 ec-add-sale-item-modal,
+ec-add-price-item-modal,
+ec-new-transaction-summary-modal,
 ec-register-modal > div,
 ec-login-modal > div,
 ec-logout-modal > div,
 ec-email-verification > div,
 ec-new-transaction-modal > div,
-ec-add-sale-item-modal > div  {
+ec-add-sale-item-modal > div,
+ec-add-price-item-modal > div
+ec-new-transaction-summary-modal > div {
   margin: auto;
   min-width: 20rem;
 }

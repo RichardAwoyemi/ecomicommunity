@@ -6,23 +6,24 @@ import { AppModalStates, AppDropdownState } from './app.enums';
 
 export enum AppActionTypes {
   IsLoggedIn = '[App] Is Logged In',
-  showModal = '[App] Show Modal',
-  toggleDropdown = '[App] Toggle Dropdown',
-  setDropdownOption = '[App] Set Dropdown Option',
-  hideModal = '[App] Hide App Modal',
+  ShowModal = '[App] Show Modal',
+  ToggleDropdown = '[App] Toggle Dropdown',
+  SetDropdownOption = '[App] Set Dropdown Option',
+  HideModal = '[App] Hide App Modal',
   CredentialsLogin = '[App] [Login] Credentials Login Attempt',
   CredentialsLoginFailure = '[App] [Login] Credentials Login Error',
   CredentialsLoginSuccess = '[App] [Login] Credentials Login Success',
-  credentialsLoginVerification = '[App] [Signup] Credentials Login Email Verifcation Check',
+  CredentialsLoginVerification = '[App] [Signup] Credentials Login Email Verifcation Check',
   CredentialsRegistration = '[App] [Signup] Credentials Registration Attempt',
   CredentialsRegistrationFailure = '[App] [Signup] Credentials Registration Failure',
   CredentialsRegistrationSuccess = '[App] [Signup] Credentials Registration Success',
   LogoutUser = '[App] [Logout] Logout User',
   ResetSignupError = '[App] [Signup] Reset Sign Up Error Message',
   ResetLoginError = '[App] [Login] Reset Login Error Message',
-  ResetActiveTransaction = '[App] [Transaction] Reset Active Transaction',
+  ResetActiveSale = '[App] [Transaction] Reset Active Transaction',
   GetTransactions = '[App] [Transactions] Get Full Transaction List',
   SetTransactions = '[App] [Transactions] Set Full Transaction List',
+  SetActiveTransaction = '[App] [Transaction] Set Active Transaction',
   AddTransaction = '[App] [Transactions] Add New Transaction',
   SetSaleItems = '[App] [Transactions] Set Sale Assets',
   SetPriceItems = '[App] [Transactions] Set Price Assets',
@@ -45,17 +46,17 @@ export const toggleEmailConsent = createAction(
 export const toggleRememberMe = createAction(AppActionTypes.ToggleRememberMe);
 
 export const setDropdownOption = createAction(
-  AppActionTypes.setDropdownOption,
+  AppActionTypes.SetDropdownOption,
   props<{ dropdownOption: string }>()
 );
 
 export const showModal = createAction(
-  AppActionTypes.showModal,
+  AppActionTypes.ShowModal,
   props<{ modalState: AppModalStates }>()
 );
 
 export const toggleDropdown = createAction(
-  AppActionTypes.toggleDropdown,
+  AppActionTypes.ToggleDropdown,
   props<{ dropdownState: AppDropdownState }>()
 );
 
@@ -79,7 +80,7 @@ export const credentialsLoginSuccess = createAction(
 );
 
 export const credentialsLoginVerification = createAction(
-  AppActionTypes.credentialsLoginVerification,
+  AppActionTypes.CredentialsLoginVerification,
   props<{ user: IUser }>()
 );
 
@@ -141,8 +142,8 @@ export const addTransaction = createAction(
   props<{ txn: ITransaction }>()
 );
 
-export const resetActiveTransaction = createAction(
-  AppActionTypes.ResetActiveTransaction
+export const resetActiveSale = createAction(
+  AppActionTypes.ResetActiveSale
 );
 
 export const setSaleItems = createAction(
@@ -153,3 +154,9 @@ export const setPriceItems = createAction(
   AppActionTypes.SetPriceItems,
   props<{ amount: IAmount }>()
 );
+export const setActiveTransaction = createAction(
+  AppActionTypes.SetActiveTransaction,
+  props<{ txn?: ITransaction }>()
+);
+
+

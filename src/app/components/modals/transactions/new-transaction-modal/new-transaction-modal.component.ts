@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
 import { getLoginError, getRememberMe } from 'src/app/state';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
@@ -18,7 +17,7 @@ export class NewTransactionModalComponent {
   rememberMe$!: Observable<boolean>;
   rememberMe? = false;
 
-  constructor(private store: Store<State>, public authService: AuthService) {}
+  constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
     this.errorMessage$ = this.store.select(getLoginError);

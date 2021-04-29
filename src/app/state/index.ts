@@ -75,6 +75,11 @@ export const getTransactions = createSelector(
   (state) => state.transactions
 );
 
+export const getActiveTransaction = createSelector(
+  getAppFeatureState,
+  (state) => state.activeTransaction
+)
+
 export const getSaleItems = createSelector(
   getAppFeatureState,
   (state) => state.saleItems

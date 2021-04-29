@@ -20,6 +20,7 @@ export class ModalComponent {
   NEW_TRANSACTION_SUMMARY_MODAL = AppModalStates.NewTransactionSummary;
   ADD_SALE_ITEM_MODAL = AppModalStates.SaleItem;
   ADD_PRICE_ITEM_MODAL = AppModalStates.PriceItem;
+  PURCHASE_SUMMARY_MODAL = AppModalStates.PurchaseSummary;
 
   email = '';
   password = '';

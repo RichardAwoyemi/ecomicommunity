@@ -1,16 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { TransactionService } from 'src/app/services/transaction.service';
-import { AppTransactionStates } from '../../state/app.enums';
+import { State } from 'src/app/state/app.state';
+import { AppModalStates, AppTransactionStates } from '../../state/app.enums';
 import { ITransaction } from '../../state/app.model';
+import * as AppActions from '../../state/app.actions';
 
 @Component({
   selector: 'ec-transaction-row',
   templateUrl: './transaction-row.component.html',
 })
-export class TransactionRowComponent implements OnInit {
-
+export class TransactionRowComponent {
   @Input() transaction?: ITransaction;
 
   AVAILABLE = AppTransactionStates.Available;
@@ -19,9 +19,13 @@ export class TransactionRowComponent implements OnInit {
 
   ngUnsubscribe = new Subject<void>();
 
-  constructor() {
+  constructor(private store: Store<State>) {}
+
+  setActiveTransaction() {
+    this.store.dispatch(AppActions.setActiveTransaction({txn: this.transaction}))
   }
 
-  ngOnInit(): void {
+  openPurchaseSummaryModal() {
+    this.store.dispatch(AppActions.showModal({modalState: AppModalStates.PurchaseSummary}));
   }
 }

@@ -6,6 +6,7 @@ export enum AppModalStates {
   EmailVerification = 'email-verification',
   NewTransaction = 'new-transaction',
   NewTransactionSummary = 'new-transaction-summary',
+  PurchaseSummary = 'purchase-summary',
   SaleItem = 'sale-item',
   PriceItem = 'price-item',
 }

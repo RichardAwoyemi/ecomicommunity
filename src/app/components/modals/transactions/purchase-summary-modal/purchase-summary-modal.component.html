@@ -10,7 +10,7 @@
 
     <div class="mt-1 text-center sm:mt-2">
       <h3 class="text-sm leading-6 font-medium text-gray-600" id="modal-title"
-        [innerHtml]="'You have requested to exchange ' + (saleItems$ | async)?.units + ' ' + (saleItems$ | async)?.currency + ' for ' + (priceItems$ | async)?.units + ' ' + (priceItems$ | async)?.currency + '.'">
+        [innerHtml]="'You are agreeing to purchase ' + (activeTransaction$ | async)?.selling?.units + ' ' + (activeTransaction$ | async)?.selling?.currency + ' for ' + (activeTransaction$ | async)?.price?.units + ' ' + (activeTransaction$ | async)?.price?.currency + '.'">
       </h3>
       <h3 class="text-sm leading-6 font-medium text-gray-600" id="modal-title"
         [innerHtml]="'Would you like to contiinue?'">
@@ -23,9 +23,9 @@
       class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm">
       Cancel
     </button>
-    <ec-add-transaction-button [username]="(username$ | async) || ''" [saleItem]="(saleItems$ | async) || {}"
-      [priceItem]="(priceItems$ | async) || {}" [uid]="(uid$ | async) || ''" type="button" class="w-full mt-3 sm:mt-0"
+    <ec-confirm-purchase-button [username]="(username$ | async) || ''" [uid]="(uid$ | async) || ''"
+      [transaction]="(activeTransaction$ | async) || undefined" type="button" class="w-full mt-3 sm:mt-0"
       innerHtml="Confirm">
-    </ec-add-transaction-button>
+    </ec-confirm-purchase-button>
   </div>
 </div>
