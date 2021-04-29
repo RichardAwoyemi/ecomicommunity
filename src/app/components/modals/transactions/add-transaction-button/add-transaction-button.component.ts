@@ -12,6 +12,7 @@ export class AddTransactionButtonComponent {
   @Input() saleItem!: IAmount;
   @Input() priceItem!: IAmount;
   @Input() uid!: string;
+  @Input() username!: string;
 
   constructor(private store: Store<State>) {}
 
@@ -22,6 +23,7 @@ export class AddTransactionButtonComponent {
           selling: this.saleItem,
           price: this.priceItem,
           userid: this.uid || '',
+          username: this.username || ''
         },
       }
     ))

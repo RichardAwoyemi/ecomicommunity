@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { AppTransactionStates } from '../../state/app.enums';
+import { ITransaction } from '../../state/app.model';
 
 @Component({
   selector: 'ec-transaction-row',
@@ -10,7 +11,7 @@ import { AppTransactionStates } from '../../state/app.enums';
 })
 export class TransactionRowComponent implements OnInit {
 
-  @Input() transaction: any;
+  @Input() transaction?: ITransaction;
 
   AVAILABLE = AppTransactionStates.Available;
   IN_PROGRESS = AppTransactionStates.InProgress;

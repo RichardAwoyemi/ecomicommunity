@@ -39,6 +39,11 @@ export const getUID = createSelector(
   (state) => state?.uid
 );
 
+export const getUsername = createSelector(
+  getUser,
+  (state) => state?.username
+);
+
 export const getLoginError = createSelector(
   getAppFeatureState,
   (state) => state.loginErrorMessage

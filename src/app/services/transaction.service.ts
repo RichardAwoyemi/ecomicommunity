@@ -19,9 +19,10 @@ export class TransactionService {
     const transactionData: ITransaction = {
       id: documentId,
       userid: tx.userid,
+      username: tx.username,
       selling: {
         currency: tx.selling.currency,
-        units: tx.selling.units 
+        units: tx.selling.units
       },
       price: {
         currency: tx.price.currency,
