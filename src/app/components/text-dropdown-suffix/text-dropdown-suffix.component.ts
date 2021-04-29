@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../state/app.actions';
-import { AppDropdownState } from '../../state/app.enums';
+import { AppDropdownState, AppTransactionCurrencies } from '../../state/app.enums';
 import { getDropdownState, getActiveDropdownOptions } from '../../state/index';
 import { IAmount } from '../../state/app.model';
 
@@ -13,7 +13,7 @@ import { IAmount } from '../../state/app.model';
   templateUrl: './text-dropdown-suffix.component.html',
 })
 export class TextDropdownSuffixComponent implements OnInit {
-  @Input() label?: string;
+  @Input() label!: string;
   @Input() options?: string[];
   @Input() showList!: boolean | null;
   @Input() dropdown!: AppDropdownState;
@@ -28,16 +28,16 @@ export class TextDropdownSuffixComponent implements OnInit {
 
   ngOnInit(): void {
     this.toggleDropdown$ = this.store.select(getDropdownState);
-    this.activeDropdownOptions$ = this.store
-      .select(getActiveDropdownOptions)
-      .pipe(
-        map((list) => {
-          const index = list.findIndex(
-            (item) => Object.keys(item)[0] === this.dropdown
-          );
-          return index !== -1 ? list[index][this.dropdown] : this.label || '';
-        })
-      );
+    // this.activeDropdownOptions$ = this.store
+    //   .select(getActiveDropdownOptions)
+    //   .pipe(
+    //     map((list) => {
+    //       const index = list.findIndex(
+    //         (item) => Object.keys(item)[0] === this.dropdown
+    //       );
+    //       return index !== -1 ? list[index][this.dropdown] : this.label || '';
+    //     })
+    //   );
   }
 
   toggleDropdown(): void {
@@ -48,7 +48,7 @@ export class TextDropdownSuffixComponent implements OnInit {
     );
   }
 
-  valueChange(value: number, option?: string): void {
+  valueChange(value: number, option?: string | undefined): void {
     // this.store.dispatch(
     //   AppActions.setDropdownOption({
     //     dropdownOption: option,

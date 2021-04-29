@@ -1,18 +1,14 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { getLoginError, getRememberMe } from 'src/app/state';
+import { getLoginError, getRememberMe, getSaleItemsCurrency } from 'src/app/state';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
-import { getActiveDropdownSaleItemType } from '../../../../state/index';
 import {
-  AppModalStates,
-  AppDropdownState,
-  AppTransactionItemTypes,
+  AppDropdownState, AppModalStates, AppTransactionCurrencies, AppTransactionItemTypes
 } from '../../../../state/app.enums';
-import { map } from 'rxjs/operators';
-import { AppTransactionCurrencies } from '../../../../state/app.enums';
 import { IAmount } from '../../../../state/app.model';
+import { getActiveDropdownTransactionType } from '../../../../state/index';
 @Component({
   selector: 'ec-add-sale-item-modal',
   templateUrl: './add-sale-item-modal.component.html',
@@ -26,6 +22,7 @@ export class AddSaleItemModalComponent {
   errorMessage$!: Observable<string>;
   rememberMe$!: Observable<boolean>;
   activeSaleItemType$!: Observable<string | undefined>;
+  activeSaleItemCurrency$?: Observable<string | undefined>;
   rememberMe? = false;
   COLLECTIBLE_TYPE = AppTransactionItemTypes.Collectible;
   CURRENCY_TYPE = AppTransactionItemTypes.Currency;
@@ -41,7 +38,8 @@ export class AddSaleItemModalComponent {
     this.errorMessage$ = this.store.select(getLoginError);
     this.rememberMe$ = this.store.select(getRememberMe);
     this.activeSaleItemType$ = this.store
-      .select(getActiveDropdownSaleItemType);
+      .select(getActiveDropdownTransactionType);
+    this.activeSaleItemCurrency$ = this.store.select(getSaleItemsCurrency);
   }
 
   toggleRememberMe(toggle: boolean) {

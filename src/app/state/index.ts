@@ -54,7 +54,7 @@ export const getActiveDropdownOptions = createSelector(
   (state) => state.activeDropdownOptions
 );
 
-export const getActiveDropdownSaleItemType = createSelector(
+export const getActiveDropdownTransactionType = createSelector(
   getActiveDropdownOptions,
   (state) =>
     (state.find(
@@ -75,7 +75,17 @@ export const getSaleItems = createSelector(
   (state) => state.saleItems
 );
 
+export const getSaleItemsCurrency = createSelector(
+  getSaleItems,
+  (state) => state.currency
+);
+
 export const getPriceItems = createSelector(
   getAppFeatureState,
   (state) => state.priceItems
+);
+
+export const getPriceItemsCurrency = createSelector(
+  getPriceItems,
+  (state) => state.currency
 );

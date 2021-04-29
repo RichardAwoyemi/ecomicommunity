@@ -166,7 +166,7 @@ export const appReducer = createReducer<AppState>(
         ...state,
         user: props.user,
         loginErrorMessage: '',
-        modalState: AppModalStates.Closed
+        modalState: AppModalStates.Closed,
       };
     }
   ),
@@ -216,7 +216,10 @@ export const appReducer = createReducer<AppState>(
     (state, props): AppState => {
       return {
         ...state,
-        saleItems: props.amount,
+        saleItems: {
+          currency: props?.amount?.currency || state?.saleItems?.currency,
+          units: props.amount.units || state?.saleItems?.units,
+        },
       };
     }
   ),
@@ -225,7 +228,10 @@ export const appReducer = createReducer<AppState>(
     (state, props): AppState => {
       return {
         ...state,
-        priceItems: props.amount,
+        priceItems: {
+          currency: props?.amount?.currency || state?.priceItems?.currency,
+          units: props.amount.units || state?.priceItems?.units,
+        },
       };
     }
   ),
@@ -234,7 +240,7 @@ export const appReducer = createReducer<AppState>(
     (state, props): AppState => {
       return {
         ...state,
-        loginErrorMessage: AppAuthMessages.EmailUnverified
+        loginErrorMessage: AppAuthMessages.EmailUnverified,
       };
     }
   )

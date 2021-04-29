@@ -1,4 +1,4 @@
-import { AppTransactionStates } from './app.enums';
+import { AppTransactionStates, AppTransactionCurrencies } from './app.enums';
 
 export interface IUser {
   email: string | null | undefined;

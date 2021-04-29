@@ -24,6 +24,7 @@ export enum AppDropdownState {
   Hidden = '',
   AddNewTransactionItemType = 'Add New Transaction Item Type',
   SellTransactionCurrency = 'Sell Transaction Currency',
+  PriceTransactionCurrency = 'Price Transaction Cuurrency'
 }
 
 export enum AppTransactionItemTypes {
