@@ -12,7 +12,8 @@ export const environment = {
     messagingSenderId: "158709385260",
     appId: "1:158709385260:web:684a87e1cb9274a353e989",
     measurementId: "G-GVM90YYPXJ"
-  }
+  },
+  firebaseApiUrl: 'https://europe-west2-ecomi-community.cloudfunctions.net',
 };
 
 /*
