@@ -1,20 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { from, of } from 'rxjs';
-import {
-  catchError,
-  concatMap,
-  exhaustMap,
-  map,
-  switchMap,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
-import { AuthService } from '../services/auth.service';
-import * as AppActions from '../state/app.actions';
-import { AppModalStates } from 'src/app/state/app.enums';
+import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
 import { TransactionService } from 'src/app/services/transaction.service';
+import { AppModalStates } from 'src/app/state/app.enums';
+import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
+import * as AppActions from '../state/app.actions';
 
 @Injectable()
 export class AppEffects {
@@ -52,11 +44,11 @@ export class AppEffects {
       ofType(AppActions.credentialsRegistrationSuccess),
       exhaustMap(() =>
         from(this.authService.sendRegistrationVerificationEmail()).pipe(
-          switchMap(() => [
+          map(() =>
             AppActions.showModal({
               modalState: AppModalStates.EmailVerification,
-            }),
-          ])
+            })
+          )
         )
       )
     )
@@ -66,7 +58,7 @@ export class AppEffects {
       ofType(AppActions.getUser),
       exhaustMap((props) =>
         from(this.userService.getUserById(props.key)).pipe(
-          switchMap((user) => [
+          map((user) =>
             AppActions.credentialsLoginSuccess({
               user: {
                 uid: user.uid,
@@ -74,8 +66,8 @@ export class AppEffects {
                 photoURL: user?.photoURL,
                 username: user?.username,
               },
-            }),
-          ])
+            })
+          )
         )
       )
     )
@@ -85,7 +77,7 @@ export class AppEffects {
       ofType(AppActions.persistUser),
       exhaustMap((props) =>
         from(this.userService.setUser(props.user)).pipe(
-          switchMap(() => [AppActions.credentialsRegistrationSuccess()])
+          map(() => AppActions.credentialsRegistrationSuccess())
         )
       )
     )
@@ -95,11 +87,11 @@ export class AppEffects {
       ofType(AppActions.credentialsLogin),
       exhaustMap((action) =>
         from(this.authService.login(action.email, action.password)).pipe(
-          concatMap((user) => [
+          map((user) =>
             user.user?.emailVerified
               ? AppActions.getUser({ key: user.user.uid })
-              : AppActions.emailVerificationFailure(),
-          ]),
+              : AppActions.emailVerificationFailure()
+          ),
           catchError((error) =>
             of(AppActions.credentialsLoginFailure({ error }))
           )
@@ -110,31 +102,25 @@ export class AppEffects {
   emailVerificationFailure$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AppActions.emailVerificationFailure),
-      switchMap(() => [
-        AppActions.setEmailVerificationFailMessage(),
-        AppActions.logoutUser(),
-      ])
+      map(
+        () => AppActions.setEmailVerificationFailMessage(),
+        AppActions.logoutUser()
+      )
     );
   });
   logoutUser$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AppActions.logoutUser),
-      exhaustMap(() =>
-        from(this.authService.logout()).pipe(
-          map(() => AppActions.clearUser()),
-          catchError((error) =>
-            tap(error => console.log(error))
-          )
-        )
+      map(() => AppActions.clearUser()),
+      tap(() => this.authService.logout())
       )
-    );
   });
   getTransactions$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AppActions.getTransactions),
       exhaustMap(() =>
         from(this.transactionService.getTransactions()).pipe(
-          switchMap((payload) => [AppActions.setTransactions({ txs: payload })])
+          map((payload) => AppActions.setTransactions({ txs: payload }))
         )
       )
     );
@@ -144,9 +130,17 @@ export class AppEffects {
       ofType(AppActions.addTransaction),
       exhaustMap((props) =>
         from(this.transactionService.addTransaction(props.txn)).pipe(
-          switchMap(() => [
-            AppActions.showModal({ modalState: AppModalStates.Closed }),
-          ])
+          map(() => AppActions.showModal({ modalState: AppModalStates.Closed }))
+        )
+      )
+    );
+  });
+  deleteTransactions$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AppActions.deleteTransaction),
+      exhaustMap((props) =>
+        from(this.transactionService.deleteTransaction(props.id)).pipe(
+          map(() => AppActions.showModal({ modalState: AppModalStates.Closed }))
         )
       )
     );

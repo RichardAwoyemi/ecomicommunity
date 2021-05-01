@@ -19,6 +19,7 @@ export class TextDropdownSuffixComponent implements OnInit {
   @Input() dropdown!: AppDropdownState;
   @Input() topClass = '';
   @Input() textField = 0;
+  @Input() inputType = 'text';
   toggleDropdown$!: Observable<string>;
   activeDropdownOptions$!: Observable<string>;
 
@@ -28,16 +29,6 @@ export class TextDropdownSuffixComponent implements OnInit {
 
   ngOnInit(): void {
     this.toggleDropdown$ = this.store.select(getDropdownState);
-    // this.activeDropdownOptions$ = this.store
-    //   .select(getActiveDropdownOptions)
-    //   .pipe(
-    //     map((list) => {
-    //       const index = list.findIndex(
-    //         (item) => Object.keys(item)[0] === this.dropdown
-    //       );
-    //       return index !== -1 ? list[index][this.dropdown] : this.label || '';
-    //     })
-    //   );
   }
 
   toggleDropdown(): void {
@@ -49,11 +40,6 @@ export class TextDropdownSuffixComponent implements OnInit {
   }
 
   valueChange(value: number, option?: string | undefined): void {
-    // this.store.dispatch(
-    //   AppActions.setDropdownOption({
-    //     dropdownOption: option,
-    //   })
-    // );
       this.fieldValue.emit({units: value, currency: option});
   }
 }

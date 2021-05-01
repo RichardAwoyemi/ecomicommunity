@@ -2,15 +2,13 @@ import { createReducer, on } from '@ngrx/store';
 import * as AppActions from './app.actions';
 import {
   AppAuthMessages,
-  AppDropdownState, AppModalStates,
-
-
-  AppTransactionCurrencies
+  AppDropdownState,
+  AppModalStates,
+  AppTransactionCurrencies,
 } from './app.enums';
 import { IAmount, ITransaction, IUser } from './app.model';
 
 export interface AppState {
-  // user: firebase.app.UserCredential | undefined;
   user: IUser | undefined;
   registrationErrorMessage: string;
   loginErrorMessage: string;
@@ -180,13 +178,19 @@ export const appReducer = createReducer<AppState>(
         sessionStorage.getItem('ec-user') || localStorage.getItem('ec-user');
       return {
         ...state,
-        user: user ? JSON.parse(user) : undefined,
+        user: state.user ? state.user : user ? JSON.parse(user) : undefined,
       };
     }
   ),
   on(
     AppActions.clearUser,
     (state): AppState => {
+      if (localStorage.getItem('ec-user')) {
+        localStorage.removeItem('ec-user');
+      }
+      if (sessionStorage.getItem('ec-user')) {
+        sessionStorage.removeItem('ec-user');
+      }
       return {
         ...state,
         user: undefined,
@@ -257,4 +261,3 @@ export const appReducer = createReducer<AppState>(
     }
   )
 );
-

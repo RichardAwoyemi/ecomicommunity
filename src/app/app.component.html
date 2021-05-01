@@ -89,7 +89,7 @@
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                   <ng-container *ngFor="let row of (transactions$ | async)">
-                    <ec-transaction-row [transaction]='row' class="contents align-middle"></ec-transaction-row>
+                    <ec-transaction-row [user]='(user$ | async) || undefined' [transaction]='row' class="contents align-middle"></ec-transaction-row>
                   </ng-container>
                 </tbody>
               </table>

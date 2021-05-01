@@ -4,7 +4,6 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
-import { routerReducer } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
@@ -29,7 +28,6 @@ import { PurchaseSummaryModalComponent } from './components/modals/transactions/
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { TransactionRowComponent } from './components/table/transaction-row.component';
 import { TextDropdownSuffixComponent } from './components/text-dropdown-suffix/text-dropdown-suffix.component';
-import { RouterEffects } from './router/router.effects';
 import { TransactionService } from './services/transaction.service';
 import { UserService } from './services/user.service';
 import { AppEffects } from './state/app.effects';
@@ -64,19 +62,13 @@ import { appReducer } from './state/app.reducer';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot(
-      {
-        router: routerReducer,
-        app: appReducer,
-      },
-      {}
-    ),
+    StoreModule.forRoot({ app: appReducer }, {}),
     StoreDevtoolsModule.instrument({
       name: 'Ecomi Community',
-      maxAge: 25,
+      maxAge: 100,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([RouterEffects, AppEffects]),
+    EffectsModule.forRoot([AppEffects]),
   ],
   providers: [TransactionService, UserService],
   bootstrap: [AppComponent],

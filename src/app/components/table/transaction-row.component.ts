@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { State } from 'src/app/state/app.state';
 import { AppModalStates, AppTransactionStates } from '../../state/app.enums';
-import { ITransaction } from '../../state/app.model';
+import { ITransaction, IUser } from '../../state/app.model';
 import * as AppActions from '../../state/app.actions';
 
 @Component({
@@ -12,6 +12,7 @@ import * as AppActions from '../../state/app.actions';
 })
 export class TransactionRowComponent {
   @Input() transaction?: ITransaction;
+  @Input() user?: IUser;
 
   AVAILABLE = AppTransactionStates.Available;
   IN_PROGRESS = AppTransactionStates.InProgress;
@@ -27,5 +28,9 @@ export class TransactionRowComponent {
 
   openPurchaseSummaryModal() {
     this.store.dispatch(AppActions.showModal({modalState: AppModalStates.PurchaseSummary}));
+  }
+
+  cancelActiveTransaction() {
+    this.store.dispatch(AppActions.deleteTransaction({id: this.transaction?.id || '' }));
   }
 }
