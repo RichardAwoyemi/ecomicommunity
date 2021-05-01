@@ -23,14 +23,24 @@ export class TransactionRowComponent {
   constructor(private store: Store<State>) {}
 
   setActiveTransaction() {
-    this.store.dispatch(AppActions.setActiveTransaction({txn: this.transaction}))
+    this.store.dispatch(
+      AppActions.setActiveTransaction({ txn: this.transaction })
+    );
   }
 
   openPurchaseSummaryModal() {
-    this.store.dispatch(AppActions.showModal({modalState: AppModalStates.PurchaseSummary}));
+    this.store.dispatch(
+      AppActions.showModal({
+        modalState: this.user
+          ? AppModalStates.PurchaseSummary
+          : AppModalStates.Registration,
+      })
+    );
   }
 
   cancelActiveTransaction() {
-    this.store.dispatch(AppActions.deleteTransaction({id: this.transaction?.id || '' }));
+    this.store.dispatch(
+      AppActions.deleteTransaction({ id: this.transaction?.id || '' })
+    );
   }
 }

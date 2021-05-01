@@ -22,6 +22,7 @@ import { AddPriceItemModalComponent } from './components/modals/transactions/add
 import { AddSaleItemModalComponent } from './components/modals/transactions/add-sale-item-modal.component.html/add-sale-item-modal.component';
 import { AddTransactionButtonComponent } from './components/modals/transactions/add-transaction-button/add-transaction-button.component';
 import { ConfirmPurchaseButtonComponent } from './components/modals/transactions/confirm-purchase-button/confirm-purchase-button.component';
+import { NewTransactionButtonComponent } from './components/modals/transactions/new-transaction-button/new-transaction-button.component';
 import { NewTransactionModalComponent } from './components/modals/transactions/new-transaction-modal/new-transaction-modal.component';
 import { NewTransactionSummaryModalComponent } from './components/modals/transactions/new-transaction-summary-modal/new-transaction-summary-modal.component';
 import { PurchaseSummaryModalComponent } from './components/modals/transactions/purchase-summary-modal/purchase-summary-modal.component';
@@ -55,6 +56,7 @@ import { appReducer } from './state/app.reducer';
     AddTransactionButtonComponent,
     PurchaseSummaryModalComponent,
     ConfirmPurchaseButtonComponent,
+    NewTransactionButtonComponent
   ],
   imports: [
     FormsModule,

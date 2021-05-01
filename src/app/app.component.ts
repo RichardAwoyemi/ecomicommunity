@@ -45,10 +45,4 @@ export class AppComponent {
       AppActions.showModal({ modalState: AppModalStates.Registration })
     );
   }
-
-  showNewTransactionModal(): void {
-    this.store.dispatch(
-      AppActions.showModal({ modalState: AppModalStates.NewTransaction })
-    );
-  }
 }
