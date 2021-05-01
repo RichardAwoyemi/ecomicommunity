@@ -1,3 +1,4 @@
+import { HttpClient, HttpHandler } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
@@ -32,6 +33,7 @@ import { TransactionService } from './services/transaction.service';
 import { UserService } from './services/user.service';
 import { AppEffects } from './state/app.effects';
 import { appReducer } from './state/app.reducer';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,7 @@ import { appReducer } from './state/app.reducer';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     StoreModule.forRoot({ app: appReducer }, {}),
     StoreDevtoolsModule.instrument({
       name: 'Ecomi Community',

@@ -15,9 +15,9 @@ function isAuthorised(
 ): boolean {
   const userSecret = userPrivateDoc.get("secret");
   const authorization = request.get("Authorization");
-  const split = authorization ? authorization.split("Bearer") : [];
+  const split = authorization ? authorization.split("Bearer ") : [];
   const bearerKey = split && split.length >= 2 ? split[1] : undefined;
-  return userSecret === bearerKey && bearerKey !== undefined;
+  return userSecret == bearerKey && bearerKey != undefined;
 }
 
 function errorHandler(error: CustomError, response: functions.Response) {
@@ -40,11 +40,12 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
 
       corsHandler(request, response, () => {
         const buyerUid = request.get(HEADERS.X_BUYER_UID);
+        const sellerUid = request.get(HEADERS.X_BUYER_UID);
         const transactionId = request.get(HEADERS.X_TRANSACTION_ID);
 
-        console.log(`variables: ${buyerUid}, ${transactionId}`);
+        // console.log(`Buyer Uid: ${buyerUid}, Seller Uid, ${sellerUid}, Transaction Id: ${transactionId}`);
 
-        if (buyerUid !== undefined && transactionId !== undefined) {
+        if (buyerUid !== undefined && transactionId !== undefined && sellerUid !== undefined) {
           // console.log(`Preparing documents for user: ${userUid}`);
           const buyerDocRef: admin.firestore.DocumentReference = admin
               .firestore()
@@ -56,6 +57,12 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
               .collection("transactions")
               .doc(transactionId);
 
+          const sellerDocRef: admin.firestore.DocumentReference = admin
+              .firestore()
+              .collection("users")
+              .doc(sellerUid);
+
+
           return admin
               .firestore()
               .runTransaction(async (transaction: admin.firestore.Transaction) => {
@@ -64,37 +71,41 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
                 // Check that the buyer creating the request is authorised
                 if (isAuthorised(request, buyerDoc)) {
                   const transactionDoc: admin.firestore.DocumentSnapshot = await transaction.get(transactionDocRef);
+                  const sellerDoc: admin.firestore.DocumentSnapshot = await transaction.get(sellerDocRef);
 
                   // Check that the transaction is Available before updating it
-                  if (transactionDoc.get("status") == "Available" && !transactionDoc.get("buyerUid")) {
+                  if (transactionDoc.get("status") == "Available") {
+                    // console.log("Validated transaction status");
                     // Update the status and the buyerUid if it's a valid and available transaction
                     transaction.set(transactionDocRef, {
                       status: "In Progress",
                       buyerUid: buyerUid,
                     }, {merge: true});
 
-                    const sellerUid = transactionDoc.get("sellerUid");
-                    const sellerDocRef: admin.firestore.DocumentReference = admin
-                        .firestore()
-                        .collection("users")
-                        .doc(sellerUid);
+                    // console.log("Updated transaction doc");
 
-                    const sellerDoc: admin.firestore.DocumentSnapshot = await transaction.get(sellerDocRef);
-
-                    const transactionSummary: ITransactionSummary = {
-                      id: transactionDoc.get("id"),
-                      price: {
-                        currency: transactionDoc.get("price").get("currency"),
-                        units: transactionDoc.get("price").get("units"),
-                      },
-                      selling: {
-                        currency: transactionDoc.get("selling").get("currency"),
-                        units: transactionDoc.get("selling").get("units"),
-                      },
-                      sellerEmail: sellerDoc.get("email"),
-                      buyerEmail: buyerDoc.get("email"),
-                    };
-                    return transactionSummary;
+                    const transactionData: FirebaseFirestore.DocumentData | undefined = transactionDoc.data();
+                    if (transactionDoc.exists) {
+                      const transactionSummary: ITransactionSummary = {
+                        id: transactionData?.id,
+                        price: {
+                          currency: transactionData?.price?.currency,
+                          units: transactionData?.price?.units,
+                        },
+                        selling: {
+                          currency: transactionData?.selling?.currency,
+                          units: transactionData?.selling?.units,
+                        },
+                        sellerEmail: sellerDoc.get("email"),
+                        buyerEmail: buyerDoc.get("email"),
+                      };
+                      return transactionSummary;
+                    } else {
+                      throw new functions.https.HttpsError(
+                          "not-found",
+                          ERROR_MESSAGES.NOT_FOUND_DATA
+                      );
+                    }
                   } else {
                     throw new functions.https.HttpsError(
                         "already-exists",
@@ -109,7 +120,7 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
                 }
               })
               .then((transactionSummary: ITransactionSummary) => {
-                console.log(transactionSummary);
+                // console.log(transactionSummary);
                 // TODO: Send emails to these dons
               })
               .then(() => {

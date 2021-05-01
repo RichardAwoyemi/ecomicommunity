@@ -4,6 +4,7 @@ export interface IUser {
   email: string | null | undefined;
   uid: string | undefined;
   username: string | null | undefined;
+  secret?: string | null | undefined;
   photoURL?: string | null;
 }
 
@@ -12,6 +13,17 @@ export class User implements IUser {
     public email: string,
     public uid: string | undefined,
     public username: string,
+    public secret?: string | undefined,
+    public photoURL?: string | null
+  ) {}
+}
+
+export class ExistingUser implements IUser {
+  constructor(
+    public email: string,
+    public uid: string,
+    public username: string,
+    public secret: string,
     public photoURL?: string | null
   ) {}
 }
