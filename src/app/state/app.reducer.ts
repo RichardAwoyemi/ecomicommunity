@@ -7,6 +7,7 @@ import {
   AppTransactionCurrencies,
 } from './app.enums';
 import { IAmount, ITransaction, IUser } from './app.model';
+import { UtilService } from '../services/util.service';
 
 export interface AppState {
   user: IUser | undefined;
@@ -174,11 +175,11 @@ export const appReducer = createReducer<AppState>(
   on(
     AppActions.isLoggedIn,
     (state): AppState => {
-      const user =
-        sessionStorage.getItem('ec-user') || localStorage.getItem('ec-user');
+      const localUser = UtilService.checkUser(localStorage.getItem('ec-user'));
+      const sessionUser = UtilService.checkUser(sessionStorage.getItem('ec-user'));
       return {
         ...state,
-        user: state.user ? state.user : user ? JSON.parse(user) : undefined,
+        user: state.user ? state.user : localUser ? localUser : sessionUser || undefined,
       };
     }
   ),

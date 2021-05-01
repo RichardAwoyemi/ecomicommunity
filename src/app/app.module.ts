@@ -31,6 +31,7 @@ import { TransactionRowComponent } from './components/table/transaction-row.comp
 import { TextDropdownSuffixComponent } from './components/text-dropdown-suffix/text-dropdown-suffix.component';
 import { TransactionService } from './services/transaction.service';
 import { UserService } from './services/user.service';
+import { UtilService } from './services/util.service';
 import { AppEffects } from './state/app.effects';
 import { appReducer } from './state/app.reducer';
 
@@ -72,7 +73,7 @@ import { appReducer } from './state/app.reducer';
     }),
     EffectsModule.forRoot([AppEffects]),
   ],
-  providers: [TransactionService, UserService],
+  providers: [TransactionService, UserService, UtilService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

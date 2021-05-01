@@ -24,14 +24,12 @@ export interface Credentials {
 
 export interface ITransaction {
   id?: string;
-  username: string;
-  userid: string;
   selling: IAmount;
   price: IAmount;
   status?: AppTransactionStates;
   datePosted?: string;
   buyer?: IUser
-  seller?: IUser
+  seller: IUser
 }
 
 export interface IAmount {

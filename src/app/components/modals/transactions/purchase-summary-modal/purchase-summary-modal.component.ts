@@ -5,13 +5,10 @@ import { AuthService } from 'src/app/services/auth.service';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
 import { AppModalStates } from '../../../../state/app.enums';
-import { IAmount, ITransaction } from '../../../../state/app.model';
+import { IAmount, ITransaction, IUser } from '../../../../state/app.model';
 import {
   getActiveTransaction,
-  getPriceItems, getSaleItems,
-
-  getUID,
-  getUsername
+  getPriceItems, getSaleItems, getUser
 } from '../../../../state/index';
 @Component({
   selector: 'ec-purchase-summary-modal',
@@ -20,8 +17,7 @@ import {
 export class PurchaseSummaryModalComponent {
   saleItems$!: Observable<IAmount>;
   priceItems$!: Observable<IAmount>;
-  uid$!: Observable<string | undefined>;
-  username$!: Observable<string | null | undefined>;
+  user$!: Observable<IUser | undefined>;
   activeTransaction$!: Observable<ITransaction | undefined>;
 
   constructor(private store: Store<State>, public authService: AuthService) {}
@@ -29,8 +25,7 @@ export class PurchaseSummaryModalComponent {
   ngOnInit(): void {
     this.saleItems$ = this.store.select(getSaleItems);
     this.priceItems$ = this.store.select(getPriceItems);
-    this.uid$ = this.store.select(getUID);
-    this.username$ = this.store.select(getUsername);
+    this.user$ = this.store.select(getUser);
     this.activeTransaction$ = this.store.select(getActiveTransaction);
   }
 

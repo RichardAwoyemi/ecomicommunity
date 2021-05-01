@@ -145,4 +145,14 @@ export class AppEffects {
       )
     );
   });
+  confirmPurchase$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AppActions.confirmPurchase),
+      exhaustMap((props) =>
+        from(this.transactionService.confirmPurchase(props.txn!, props.user)).pipe(
+          map(() => AppActions.showModal({ modalState: AppModalStates.Closed }))
+        )
+      )
+    );
+  });
 }

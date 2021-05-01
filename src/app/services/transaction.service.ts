@@ -5,7 +5,7 @@ import {
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { AppTransactionStates } from '../state/app.enums';
-import { ITransaction } from '../state/app.model';
+import { ITransaction, IUser } from '../state/app.model';
 import { Observable, from } from 'rxjs';
 import { deleteTransaction } from '../state/app.actions';
 
@@ -20,8 +20,7 @@ export class TransactionService {
     );
     const transactionData: ITransaction = {
       id: documentId,
-      userid: tx.userid,
-      username: tx.username,
+      seller: tx.seller,
       selling: {
         currency: tx.selling.currency,
         units: tx.selling.units,
@@ -44,5 +43,11 @@ export class TransactionService {
 
   getTransactions(): Observable<ITransaction[]> {
     return this.afs.collection<ITransaction>('transactions').valueChanges();
+  }
+
+  confirmPurchase(txn: ITransaction, user: IUser): Promise<void> {
+    return this.afs
+      .doc(`transactions/${txn.id}`)
+      .update({ status: AppTransactionStates.InProgress });
   }
 }

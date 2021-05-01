@@ -8,7 +8,6 @@ import { State } from './state/app.state';
 import { getmodalState, getTransactions, getUser } from './state/index';
 import { TransactionService } from './services/transaction.service';
 import { ITransaction, IUser } from './state/app.model';
-import { UserService } from './services/user.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -21,7 +20,7 @@ export class AppComponent {
   transactions$!: Observable<ITransaction[]>;
   user$!: Observable<IUser | undefined>;
 
-  constructor(private store: Store<State>, public userService: UserService, public transactionService: TransactionService ) {}
+  constructor(private store: Store<State>, public transactionService: TransactionService ) {}
 
   ngOnInit(): void {
     this.store.dispatch(

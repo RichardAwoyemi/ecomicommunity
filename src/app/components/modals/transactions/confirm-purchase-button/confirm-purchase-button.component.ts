@@ -2,7 +2,7 @@ import { Component, Input, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
-import { IAmount, ITransaction } from '../../../../state/app.model';
+import { IAmount, ITransaction, IUser } from '../../../../state/app.model';
 
 @Component({
   selector: 'ec-confirm-purchase-button',
@@ -11,22 +11,17 @@ import { IAmount, ITransaction } from '../../../../state/app.model';
 export class ConfirmPurchaseButtonComponent {
   @Input() saleItem!: IAmount;
   @Input() priceItem!: IAmount;
-  @Input() uid!: string;
-  @Input() username!: string;
+  @Input() user?: IUser;
   @Input() transaction!: ITransaction | undefined;
 
   constructor(private store: Store<State>) {}
 
-  confirmTransaction(): void {
+  confirmPurchase(): void {
     this.store.dispatch(
-      AppActions.addTransaction({
-        txn: {
-          selling: this.saleItem,
-          price: this.priceItem,
-          userid: this.uid || '',
-          username: this.username || ''
-        },
-      }
-    ))
+      AppActions.confirmPurchase({
+        user: this.user!,
+        txn: this.transaction!,
+      })
+    );
   }
 }

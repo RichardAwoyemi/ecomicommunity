@@ -5,11 +5,12 @@ import { AuthService } from 'src/app/services/auth.service';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
 import { AppModalStates } from '../../../../state/app.enums';
-import { IAmount } from '../../../../state/app.model';
+import { IAmount, IUser } from '../../../../state/app.model';
 import {
   getPriceItems, getSaleItems,
 
   getUID,
+  getUser,
   getUsername
 } from '../../../../state/index';
 @Component({
@@ -19,16 +20,14 @@ import {
 export class NewTransactionSummaryModalComponent {
   saleItems$!: Observable<IAmount>;
   priceItems$!: Observable<IAmount>;
-  uid$!: Observable<string | undefined>;
-  username$!: Observable<string | null | undefined>;
+  user$!: Observable<IUser | undefined>;
 
   constructor(private store: Store<State>, public authService: AuthService) {}
 
   ngOnInit(): void {
     this.saleItems$ = this.store.select(getSaleItems);
     this.priceItems$ = this.store.select(getPriceItems);
-    this.uid$ = this.store.select(getUID);
-    this.username$ = this.store.select(getUsername);
+    this.user$ = this.store.select(getUser);
   }
 
   closeModal() {
