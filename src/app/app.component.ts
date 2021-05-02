@@ -15,7 +15,6 @@ import { ITransaction, IUser } from './state/app.model';
 })
 export class AppComponent {
   LOGIN_AUTH_MODAL = AppModalStates.Login;
-  title = 'ecomi-community';
   modalState$!: Observable<string>;
   transactions$!: Observable<ITransaction[]>;
   user$!: Observable<IUser | undefined>;

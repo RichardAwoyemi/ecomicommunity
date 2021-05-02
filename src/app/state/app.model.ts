@@ -40,8 +40,9 @@ export interface ITransaction {
   price: IAmount;
   status?: AppTransactionStates;
   datePosted?: string;
-  buyer?: IUser
-  seller: IUser
+  buyer?: IUser;
+  sellerUid: string;
+  sellerUsername: string;
 }
 
 export interface IAmount {

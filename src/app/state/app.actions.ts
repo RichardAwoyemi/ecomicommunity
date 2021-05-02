@@ -25,6 +25,7 @@ export enum AppActionTypes {
   SetTransactions = '[App] [Transactions] Set Full Transaction List',
   DeleteTransaction = '[App] [Transaction] Delete Transaction from the table by ID',
   SetActiveTransaction = '[App] [Transaction] Set Active Transaction',
+  ResetNewTransaction = '[App] [Transaction] Reset New Transaction',
   ConfirmPurchase = '[App] Confirm Purchase',
   AddTransaction = '[App] [Transactions] Add New Transaction',
   SetSaleItems = '[App] [Transactions] Set Sale Assets',
@@ -169,6 +170,9 @@ export const setPriceItems = createAction(
 export const setActiveTransaction = createAction(
   AppActionTypes.SetActiveTransaction,
   props<{ txn?: ITransaction }>()
+);
+export const resetNewTransaction = createAction(
+  AppActionTypes.ResetNewTransaction
 );
 
 

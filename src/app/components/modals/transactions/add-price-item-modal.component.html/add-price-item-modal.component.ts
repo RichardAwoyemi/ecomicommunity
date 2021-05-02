@@ -5,7 +5,7 @@ import { getActiveDropdownTransactionType, getLoginError, getRememberMe } from '
 import { IAmount } from 'src/app/state/app.model';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
-import { getPriceItemsCurrency } from '../../../../state/index';
+import { getPriceItemsCurrency, getPriceItemsUnits } from '../../../../state/index';
 import {
   AppDropdownState,
   AppModalStates,
@@ -27,6 +27,7 @@ export class AddPriceItemModalComponent {
   activePriceItemType$!: Observable<string | undefined>;
   rememberMe? = false;
   activePriceItemCurrency$?: Observable<string | undefined>;
+  activePriceItemUnits$?: Observable<number | undefined>;
   currency = AppTransactionCurrencies.USDT;
   COLLECTIBLE_TYPE = AppTransactionItemTypes.Collectible;
   CURRENCY_TYPE = AppTransactionItemTypes.Currency;
@@ -41,6 +42,7 @@ export class AddPriceItemModalComponent {
     this.rememberMe$ = this.store.select(getRememberMe);
     this.activePriceItemType$ = this.store.select(getActiveDropdownTransactionType);
     this.activePriceItemCurrency$ = this.store.select(getPriceItemsCurrency);
+    this.activePriceItemUnits$ = this.store.select(getPriceItemsUnits);
   }
 
   toggleRememberMe(toggle: boolean) {

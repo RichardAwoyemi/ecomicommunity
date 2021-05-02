@@ -39,11 +39,11 @@ const initialState: AppState = {
   activeTransaction: undefined,
   saleItems: {
     currency: AppTransactionCurrencies.GEMS,
-    units: 100,
+    units: 1000,
   },
   priceItems: {
     currency: AppTransactionCurrencies.BTC,
-    units: 0.001,
+    units: 0.0125,
   },
 };
 
@@ -162,8 +162,8 @@ export const appReducer = createReducer<AppState>(
     AppActions.credentialsLoginSuccess,
     (state, props): AppState => {
       state.rememberMe
-        ? localStorage.setItem('ec-user', JSON.stringify(state.user))
-        : sessionStorage.setItem('ec-user', JSON.stringify(state.user));
+        ? localStorage.setItem('ec-user', JSON.stringify(props.user))
+        : sessionStorage.setItem('ec-user', JSON.stringify(props.user));
       return {
         ...state,
         user: props.user,
@@ -258,6 +258,16 @@ export const appReducer = createReducer<AppState>(
       return {
         ...state,
         activeTransaction: props.txn,
+      };
+    }
+  ),
+  on(
+    AppActions.resetNewTransaction,
+    (state): AppState => {
+      return {
+        ...state,
+        saleItems: initialState.saleItems,
+        priceItems: initialState.priceItems
       };
     }
   )

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { getLoginError, getRememberMe, getSaleItemsCurrency } from 'src/app/state';
+import { getLoginError, getRememberMe, getSaleItemsCurrency, getSaleItemsUnits } from 'src/app/state';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
 import {
@@ -23,6 +23,7 @@ export class AddSaleItemModalComponent {
   rememberMe$!: Observable<boolean>;
   activeSaleItemType$!: Observable<string | undefined>;
   activeSaleItemCurrency$?: Observable<string | undefined>;
+  activeSaleItemUnits$?: Observable<number | undefined>;
   rememberMe? = false;
   COLLECTIBLE_TYPE = AppTransactionItemTypes.Collectible;
   CURRENCY_TYPE = AppTransactionItemTypes.Currency;
@@ -40,6 +41,7 @@ export class AddSaleItemModalComponent {
     this.activeSaleItemType$ = this.store
       .select(getActiveDropdownTransactionType);
     this.activeSaleItemCurrency$ = this.store.select(getSaleItemsCurrency);
+    this.activeSaleItemUnits$ = this.store.select(getSaleItemsUnits);
   }
 
   toggleRememberMe(toggle: boolean) {

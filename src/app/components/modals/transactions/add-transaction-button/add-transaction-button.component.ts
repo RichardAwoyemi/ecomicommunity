@@ -21,7 +21,8 @@ export class AddTransactionButtonComponent {
         txn: {
           selling: this.saleItem,
           price: this.priceItem,
-          seller: this.user!,
+          sellerUid: this.user!.uid!,
+          sellerUsername: this.user!.username!,
         },
       }
     ))

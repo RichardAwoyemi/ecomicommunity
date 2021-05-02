@@ -90,6 +90,11 @@ export const getSaleItemsCurrency = createSelector(
   (state) => state.currency
 );
 
+export const getSaleItemsUnits = createSelector(
+  getSaleItems,
+  (state) => state.units
+);
+
 export const getPriceItems = createSelector(
   getAppFeatureState,
   (state) => state.priceItems
@@ -98,4 +103,9 @@ export const getPriceItems = createSelector(
 export const getPriceItemsCurrency = createSelector(
   getPriceItems,
   (state) => state.currency
+);
+
+export const getPriceItemsUnits = createSelector(
+  getPriceItems,
+  (state) => state.units
 );

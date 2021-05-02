@@ -5,7 +5,7 @@
       <div class="flex-shrink-0 h-10 w-10"><img class="h-10 w-10 rounded-full" [src]='"assets/svgs/default-avatar.svg"'
           alt=""></div>
       <div class="ml-4">
-        <div class="text-sm font-medium text-gray-900" [innerText]='transaction?.seller?.username'></div>
+        <div class="text-sm font-medium text-gray-900" [innerText]='transaction?.sellerUsername'></div>
       </div>
     </div>
   </td>
@@ -30,11 +30,11 @@
 
   </td>
   <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-    <button *ngIf="(transaction?.status == 'Available') && (user?.uid == transaction?.seller?.uid)" (click)="cancelActiveTransaction()" type="button"
+    <button *ngIf="(transaction?.status == 'Available') && (user?.uid == transaction?.sellerUid)" (click)="cancelActiveTransaction()" type="button"
       class=" mr-2 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
       Delete
     </button>
-    <button *ngIf="(transaction?.status == 'Available') && !(user?.uid == transaction?.seller?.uid)" (click)="setActiveTransaction(); openPurchaseSummaryModal()" type="button"
+    <button *ngIf="(transaction?.status == 'Available') && !(user?.uid == transaction?.sellerUid)" (click)="setActiveTransaction(); openPurchaseSummaryModal()" type="button"
       class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
       Purchase
     </button>
