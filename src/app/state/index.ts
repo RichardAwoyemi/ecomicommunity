@@ -1,6 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { AppState } from './app.reducer';
 import { AppDropdownState } from './app.enums';
+import { NETWORK_FEES_PC } from '../data/currency-settings';
 
 const getAppFeatureState = createFeatureSelector<AppState>('app');
 
@@ -87,7 +88,7 @@ export const getSaleItems = createSelector(
 
 export const getSaleItemsCurrency = createSelector(
   getSaleItems,
-  (state) => state.currency
+  (state) => state.currency!
 );
 
 export const getSaleItemsUnits = createSelector(
@@ -109,3 +110,9 @@ export const getPriceItemsUnits = createSelector(
   getPriceItems,
   (state) => state.units
 );
+
+export const getSaleCurrencyNetworkSymbolList = createSelector(
+  getSaleItemsCurrency,
+  (state) => NETWORK_FEES_PC[state].map( details => details.symbol )
+)
+

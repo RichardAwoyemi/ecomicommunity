@@ -8,14 +8,31 @@
       </h3>
     </div>
 
-    <div class="mt-1 text-center sm:mt-2">
+    <div class="mt-1 text-center sm:mt-2 border rounded-lg py-2">
+      <div [innerHtml]="'Selling'"
+        class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+      </div>
+      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Initial Amount: ' + (saleItems$ | async)!.units! + ' ' + (saleItems$ | async)!.currency!"></div>
+      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Platform Fees (5%): ' + ((saleItems$ | async)!.units! * 0.05).toPrecision(3) + ' ' + (saleItems$ | async)!.currency!"></div>
+      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Network Fees: ' + (saleItems$ | async)?.units + ' ' + (saleItems$ | async)?.currency"></div>
+      <div class="flex justify-center  font-bold my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Total: ' + (saleItems$ | async)?.units + ' ' + (saleItems$ | async)?.currency"></div>
+      <hr class="my-2">
+      <div [innerHtml]="'Recieving'"
+        class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+      </div>
+      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Initial Amount: ' + (priceItems$ | async)!.units! + ' ' + (priceItems$ | async)!.currency!"></div>
+      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Platform Fees (5%): ' + ((priceItems$ | async)!.units! * 0.05).toPrecision(3) + ' ' + (priceItems$ | async)!.currency!"></div>
+      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Network Fees: ' + (priceItems$ | async)?.units + ' ' + (priceItems$ | async)?.currency"></div>
+      <div class="flex justify-center font-bold my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Total: ' + (priceItems$ | async)?.units + ' ' + (priceItems$ | async)?.currency"></div>
+    </div>
+
+    <!--
       <h3 class="text-sm leading-6 font-medium text-gray-600" id="modal-title"
         [innerHtml]="'You have requested to exchange ' + (saleItems$ | async)?.units + ' ' + (saleItems$ | async)?.currency + ' for ' + (priceItems$ | async)?.units + ' ' + (priceItems$ | async)?.currency + '.'">
       </h3>
       <h3 class="text-sm leading-6 font-medium text-gray-600" id="modal-title"
-        [innerHtml]="'Would you like to contiinue?'">
-      </h3>
-    </div>
+        [innerHtml]="'Would you like to continue?'">
+      </h3> -->
 
   </div>
   <div class="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">

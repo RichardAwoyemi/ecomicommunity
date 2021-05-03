@@ -14,15 +14,49 @@
             </ec-dropdown>
 
             <ng-container [ngSwitch]="(activeSaleItemType$ | async)">
+              <!-- Collectibles -->
               <ng-container *ngSwitchCase="COLLECTIBLE_TYPE">
                 <div class="mt-4 text-sm text-gray-700" [innerHtml]="'Coming Soon...'"></div>
               </ng-container>
-              <ng-container *ngSwitchCase="CURRENCY_TYPE">
 
-                <ec-text-dropdown-suffix (fieldValue)="setSaleItems($event)" [inputType]="'number'"[textField]='(activeSaleItemUnits$ | async)!' [label]="(activeSaleItemCurrency$ | async) || currency" [dropdown]="SELL_TRANSACTION_CURRENCY"
-                  [options]="TRANSACTION_CURRENCIES"></ec-text-dropdown-suffix>
+              <!-- Currencies -->
+              <ng-container *ngSwitchCase="CURRENCY_TYPE">
+                <ec-text-dropdown-suffix (fieldValue)="setSaleItems($event)" [inputType]="'number'"
+                  [textField]='(activeSaleItemUnits$ | async)!' [label]="(activeSaleItemCurrency$ | async) || currency"
+                  [dropdown]="SELL_TRANSACTION_CURRENCY" [options]="TRANSACTION_CURRENCIES"></ec-text-dropdown-suffix>
+
+                <!-- Wallet Details -->
+                <hr class="my-4">
+
+                <div class="justify-between	flex">
+                  <div class="items-center flex text-xs sm:text-sm text-gray-700" [innerHtml]="'Network:'"></div>
+
+                  <div class="flex">
+                    <button [innerHtml]="'BEP 20'" type="button"
+                      class="flex ml-2 items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    </button>
+                    <button [innerHtml]="'ERC 20'" type="button"
+                      class="flex ml-2 items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    </button>
+                  </div>
+                </div>
+
+                <div class="mt-4 sm:col-span-2">
+                  <div class="max-w-lg flex rounded-md shadow-sm text-xs sm:text-sm">
+                    <span [innerHtml]="'Wallet Address: '"
+                      class="inline-flex items-center p-2 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm min-w-sm">
+                    </span>
+                    <input type="text"
+                      class="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300 border px-3">
+                  </div>
+                </div>
+
+
+
+
 
               </ng-container>
+
             </ng-container>
           </div>
         </div>

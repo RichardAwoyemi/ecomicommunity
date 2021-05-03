@@ -22,9 +22,6 @@ export class AppComponent {
   constructor(private store: Store<State>, public transactionService: TransactionService ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(
-      AppActions.showModal({ modalState: AppModalStates.Closed })
-    );
     this.store.dispatch(AppActions.isLoggedIn());
     this.store.dispatch(AppActions.getTransactions());
     this.modalState$ = this.store.select(getmodalState);

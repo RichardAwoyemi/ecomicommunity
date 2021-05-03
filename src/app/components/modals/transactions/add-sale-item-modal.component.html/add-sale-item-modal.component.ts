@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { DEFAULT_NETWORKS, NETWORK_FEES_PC } from 'src/app/data/currency-settings';
 import { getLoginError, getRememberMe, getSaleItemsCurrency, getSaleItemsUnits } from 'src/app/state';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
@@ -8,7 +9,7 @@ import {
   AppDropdownState, AppModalStates, AppTransactionCurrencies, AppTransactionItemTypes
 } from '../../../../state/app.enums';
 import { IAmount } from '../../../../state/app.model';
-import { getActiveDropdownTransactionType } from '../../../../state/index';
+import { getActiveDropdownTransactionType, getSaleCurrencyNetworkSymbolList } from '../../../../state/index';
 @Component({
   selector: 'ec-add-sale-item-modal',
   templateUrl: './add-sale-item-modal.component.html',
@@ -32,6 +33,7 @@ export class AddSaleItemModalComponent {
   quantity = 0;
   currency = AppTransactionCurrencies.GEMS;
   units = 100;
+  networkList$!: Observable<string[]>;
 
   constructor(private store: Store<State>) {}
 
@@ -42,6 +44,7 @@ export class AddSaleItemModalComponent {
       .select(getActiveDropdownTransactionType);
     this.activeSaleItemCurrency$ = this.store.select(getSaleItemsCurrency);
     this.activeSaleItemUnits$ = this.store.select(getSaleItemsUnits);
+    this.networkList$ = this.store.select(getSaleCurrencyNetworkSymbolList);
   }
 
   toggleRememberMe(toggle: boolean) {
