@@ -43,7 +43,7 @@ export const NETWORK_FEES_PC: INetworkFees = {
     { symbol: NetworkSymbols.BEP20, fee: 0.01, minimum: 0.5 },
   ],
   [AppTransactionCurrencies.BTC]: [
-    { symbol: NetworkSymbols.BTC, fee: 0.01, minimum: 0.005 },
+    { symbol: NetworkSymbols.BTC, fee: 0.0005, minimum: 0.005 },
   ],
   [AppTransactionCurrencies.DAI]: [
     { symbol: NetworkSymbols.ERC20, fee: 30, minimum: 250 },

@@ -24,6 +24,24 @@
                   [label]="(activePriceItemCurrency$ | async) || currency" [dropdown]="PRICE_TRANSACTION_CURRENCY"
                   [options]="TRANSACTION_CURRENCIES"></ec-text-dropdown-suffix>
 
+                <div class="my-4">
+                  <div class="justify-between flex">
+                    <div class="flex text-xs sm:text-sm text-gray-700" [innerHtml]="'Network Fees: '"></div>
+                    <div class="flex text-xs sm:text-sm text-gray-700"
+                      [innerHtml]="(priceItemsFees$ | async)!.networkFees.toPrecision(10) | number"></div>
+                  </div>
+                  <div class="justify-between flex">
+                    <div class="flex text-xs sm:text-sm text-gray-700" [innerHtml]="'Platform Fees: '"></div>
+                    <div class="flex text-xs sm:text-sm text-gray-700"
+                      [innerHtml]="(priceItemsFees$ | async)!.platformFees.toPrecision(10) | number"></div>
+                  </div>
+                  <div class="justify-between flex">
+                    <div class="flex text-xs sm:text-sm text-gray-700" [innerHtml]="'Total Received: '"></div>
+                    <div class="flex text-xs sm:text-sm text-gray-700"
+                      [innerHtml]="(priceItemsFees$ | async)!.totalPostFees.toPrecision(10) | number"></div>
+                  </div>
+                </div>
+
                 <!-- Wallet Details -->
                 <hr class="my-4">
 

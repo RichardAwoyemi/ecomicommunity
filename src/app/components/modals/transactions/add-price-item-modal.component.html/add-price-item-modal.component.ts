@@ -4,9 +4,10 @@ import { Observable } from 'rxjs';
 import { Networks, NetworkSymbols } from 'src/app/data/currency-settings';
 import {
   getActiveDropdownTransactionType,
+  getPriceItemsFees,
   getPriceItemsNetworkSymbol,
 } from 'src/app/state';
-import { IAmount } from 'src/app/state/app.model';
+import { IAmount, IFees } from 'src/app/state/app.model';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
 import {
@@ -40,6 +41,7 @@ export class AddPriceItemModalComponent {
   networkSymbolList$!: Observable<NetworkSymbols[]>;
   networkSymbol$!: Observable<NetworkSymbols>;
   network$!: Observable<Networks>;
+  priceItemsFees$!: Observable<IFees>;
 
   constructor(private store: Store<State>) {}
 
@@ -54,6 +56,7 @@ export class AddPriceItemModalComponent {
     );
     this.networkSymbol$ = this.store.select(getPriceItemsNetworkSymbol);
     this.network$ = this.store.select(getPriceItemsNetwork);
+    this.priceItemsFees$ = this.store.select(getPriceItemsFees);
   }
 
   nextModal(): void {

@@ -1,15 +1,18 @@
 import { createReducer, on } from '@ngrx/store';
+import {
+  DEFAULT_NETWORKS,
+  NETWORK_FEES_PC
+} from 'src/app/data/currency-settings';
+import { Networks, NetworkSymbols } from '../data/currency-settings';
+import { UtilService } from '../services/util.service';
 import * as AppActions from './app.actions';
 import {
   AppAuthMessages,
   AppDropdownState,
   AppModalStates,
-  AppTransactionCurrencies,
+  AppTransactionCurrencies
 } from './app.enums';
 import { IAmount, ITransaction, IUser } from './app.model';
-import { UtilService } from '../services/util.service';
-import { DEFAULT_NETWORKS } from 'src/app/data/currency-settings';
-import { NetworkSymbols, Networks } from '../data/currency-settings';
 
 export interface AppState {
   user: IUser | undefined;
@@ -46,6 +49,14 @@ const initialState: AppState = {
     network: Networks.VEVE,
     networkSymbol: NetworkSymbols.VEVE,
     walletAddress: '',
+    fees: {
+      networkFees: NETWORK_FEES_PC[AppTransactionCurrencies.GEMS][0].fee,
+      platformFees: 1000 * 0.05,
+      totalPostFees:
+        1000 -
+        NETWORK_FEES_PC[AppTransactionCurrencies.GEMS][0].fee -
+        NETWORK_FEES_PC[AppTransactionCurrencies.GEMS][0].minimum * 0.05,
+    },
   },
   priceItems: {
     currency: AppTransactionCurrencies.BTC,
@@ -53,6 +64,14 @@ const initialState: AppState = {
     network: Networks.BTC,
     networkSymbol: NetworkSymbols.BTC,
     walletAddress: '',
+    fees: {
+      networkFees: NETWORK_FEES_PC[AppTransactionCurrencies.BTC][0].fee,
+      platformFees: 0.125 * 0.05,
+      totalPostFees:
+        0.0125 -
+        NETWORK_FEES_PC[AppTransactionCurrencies.BTC][0].fee -
+        NETWORK_FEES_PC[AppTransactionCurrencies.BTC][0].minimum * 0.05,
+    },
   },
 };
 
@@ -185,10 +204,16 @@ export const appReducer = createReducer<AppState>(
     AppActions.isLoggedIn,
     (state): AppState => {
       const localUser = UtilService.checkUser(localStorage.getItem('ec-user'));
-      const sessionUser = UtilService.checkUser(sessionStorage.getItem('ec-user'));
+      const sessionUser = UtilService.checkUser(
+        sessionStorage.getItem('ec-user')
+      );
       return {
         ...state,
-        user: state.user ? state.user : localUser ? localUser : sessionUser || undefined,
+        user: state.user
+          ? state.user
+          : localUser
+          ? localUser
+          : sessionUser || undefined,
       };
     }
   ),
@@ -219,15 +244,37 @@ export const appReducer = createReducer<AppState>(
   on(
     AppActions.setSaleItems,
     (state, props): AppState => {
-      const networkSymbol = (props?.amount?.currency && (props?.amount?.currency !== state.saleItems.currency)) ? DEFAULT_NETWORKS[props?.amount?.currency!] : state.saleItems.networkSymbol;
+      const networkSymbol =
+        props?.amount?.networkSymbol ||
+        (props?.amount?.currency &&
+        props?.amount?.currency !== state.saleItems.currency
+          ? DEFAULT_NETWORKS[props?.amount?.currency!]
+          : state.saleItems.networkSymbol);
+      const currency = props?.amount?.currency || state.saleItems.currency;
+      const units = props?.amount?.units || state.saleItems.units!;
+      const networkFees = NETWORK_FEES_PC[currency!].find(
+        (network) => network.symbol === networkSymbol
+      )!.fee!;
+      const platformFees = Math.max(
+        0.05 * units,
+        NETWORK_FEES_PC[currency!].find(
+          (network) => network.symbol === networkSymbol
+        )!.minimum! * 0.05
+      );
       return {
         ...state,
         saleItems: {
-          currency: props?.amount?.currency || state.saleItems.currency,
-          units: props?.amount?.units || state.saleItems.units,
-          networkSymbol: props?.amount?.networkSymbol || networkSymbol,
+          currency: currency,
+          units: props?.amount?.units || state.saleItems.units!,
+          networkSymbol: networkSymbol,
           network: Networks[props?.amount?.networkSymbol || networkSymbol!],
-          walletAddress: props?.amount?.walletAddress || state.saleItems.walletAddress
+          walletAddress:
+            props?.amount?.walletAddress || state.saleItems.walletAddress,
+          fees: {
+            networkFees: networkFees,
+            platformFees: platformFees,
+            totalPostFees: units - networkFees - platformFees,
+          },
         },
       };
     }
@@ -235,7 +282,23 @@ export const appReducer = createReducer<AppState>(
   on(
     AppActions.setPriceItems,
     (state, props): AppState => {
-      const networkSymbol = (props?.amount?.currency && (props?.amount?.currency !== state.priceItems.currency)) ? DEFAULT_NETWORKS[props?.amount?.currency!] : state.priceItems.networkSymbol;
+      const networkSymbol =
+        props?.amount?.networkSymbol ||
+        (props?.amount?.currency &&
+        props?.amount?.currency !== state.priceItems.currency
+          ? DEFAULT_NETWORKS[props?.amount?.currency!]
+          : state.priceItems.networkSymbol);
+      const currency = props?.amount?.currency || state.priceItems.currency;
+      const units = props?.amount?.units || state.priceItems.units!;
+      const networkFees = NETWORK_FEES_PC[currency!].find(
+        (network) => network.symbol === networkSymbol
+      )!.fee!;
+      const platformFees = Math.max(
+        0.05 * units,
+        NETWORK_FEES_PC[currency!].find(
+          (network) => network.symbol === networkSymbol
+        )!.minimum! * 0.05
+      );
       return {
         ...state,
         priceItems: {
@@ -243,7 +306,13 @@ export const appReducer = createReducer<AppState>(
           units: props?.amount?.units || state.priceItems.units,
           networkSymbol: props?.amount?.networkSymbol || networkSymbol,
           network: Networks[networkSymbol!],
-          walletAddress: props?.amount?.walletAddress || state.priceItems.walletAddress
+          walletAddress:
+            props?.amount?.walletAddress || state.priceItems.walletAddress,
+          fees: {
+            networkFees: networkFees,
+            platformFees: platformFees,
+            totalPostFees: units - networkFees - platformFees,
+          },
         },
       };
     }
@@ -272,7 +341,7 @@ export const appReducer = createReducer<AppState>(
       return {
         ...state,
         saleItems: initialState.saleItems,
-        priceItems: initialState.priceItems
+        priceItems: initialState.priceItems,
       };
     }
   )

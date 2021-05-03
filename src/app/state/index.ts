@@ -106,6 +106,11 @@ export const getSaleItemsNetwork = createSelector(
   (state) => state.network!
 );
 
+export const getSaleItemsFees = createSelector(
+  getSaleItems,
+  (state) => state.fees!
+);
+
 export const getPriceItems = createSelector(
   getAppFeatureState,
   (state) => state.priceItems
@@ -124,6 +129,11 @@ export const getPriceItemsUnits = createSelector(
 export const getPriceItemsNetworkSymbol = createSelector(
   getPriceItems,
   (state) => state.networkSymbol!
+);
+
+export const getPriceItemsFees = createSelector(
+  getPriceItems,
+  (state) => state.fees!
 );
 
 export const getPriceItemsNetwork = createSelector(
