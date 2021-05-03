@@ -9,7 +9,6 @@ export enum AppActionTypes {
   ShowModal = '[App] Show Modal',
   ToggleDropdown = '[App] Toggle Dropdown',
   SetDropdownOption = '[App] Set Dropdown Option',
-  HideModal = '[App] Hide App Modal',
   CredentialsLogin = '[App] [Login] Credentials Login Attempt',
   CredentialsLoginFailure = '[App] [Login] Credentials Login Error',
   CredentialsLoginSuccess = '[App] [Login] Credentials Login Success',
@@ -20,7 +19,6 @@ export enum AppActionTypes {
   LogoutUser = '[App] [Logout] Logout User',
   ResetSignupError = '[App] [Signup] Reset Sign Up Error Message',
   ResetLoginError = '[App] [Login] Reset Login Error Message',
-  ResetActiveSale = '[App] [Transaction] Reset Active Transaction',
   GetTransactions = '[App] [Transactions] Get Full Transaction List',
   SetTransactions = '[App] [Transactions] Set Full Transaction List',
   DeleteTransaction = '[App] [Transaction] Delete Transaction from the table by ID',
@@ -155,9 +153,6 @@ export const deleteTransaction = createAction(
   props<{ id: string }>()
 );
 
-export const resetActiveSale = createAction(
-  AppActionTypes.ResetActiveSale
-);
 
 export const setSaleItems = createAction(
   AppActionTypes.SetSaleItems,

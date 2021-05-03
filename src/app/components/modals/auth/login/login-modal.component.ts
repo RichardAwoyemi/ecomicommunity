@@ -21,7 +21,7 @@ export class LoginModalComponent {
   constructor(private store: Store<State>, public authService: AuthService) {}
 
   ngOnInit(): void {
-    this.store.dispatch(AppActions.resetSignupError());
+    this.store.dispatch(AppActions.resetLoginError());
     this.errorMessage$ = this.store.select(getLoginError);
     this.rememberMe$ = this.store.select(getRememberMe);
   }

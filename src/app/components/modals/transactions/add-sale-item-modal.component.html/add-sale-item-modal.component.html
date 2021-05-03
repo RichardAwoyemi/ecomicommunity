@@ -32,18 +32,21 @@
                   <div class="items-center flex text-xs sm:text-sm text-gray-700" [innerHtml]="'Network:'"></div>
 
                   <div class="flex">
-                    <button [innerHtml]="'BEP 20'" type="button"
-                      class="flex ml-2 items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    </button>
-                    <button [innerHtml]="'ERC 20'" type="button"
+                    <button *ngFor="let symbol of (networkSymbolList$ | async)" [innerHtml]="symbol" type="button"
+                      (click)="setSaleItems({networkSymbol: symbol})"
+                      [ngClass]="(networkSymbol$ | async) == symbol ? 'ring-2 ring-offset-2 ring-indigo-500 bg-gray-50' : ''"
                       class="flex ml-2 items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     </button>
                   </div>
                 </div>
+                <div class="text-left italic text-gray-500 mt-4 flex text-xs sm:text-sm text-gray-700"
+                  [innerHtml]="'Please ensure you use the correct ' + (network$ | async) + ((networkSymbol$ | async) == NETWORK_SYMBOLS.VEVE ? ' Username' : ' Wallet Address') + ' so we can correctly allocate the source of funds.'">
+                </div>
 
-                <div class="mt-4 sm:col-span-2">
+                <div class="mt-2 sm:col-span-2">
                   <div class="max-w-lg flex rounded-md shadow-sm text-xs sm:text-sm">
-                    <span [innerHtml]="'Wallet Address: '"
+                    <span
+                      [innerHtml]="(networkSymbol$ | async) == NETWORK_SYMBOLS.VEVE ? 'VeVe Username:' : 'Wallet Address:'"
                       class="inline-flex items-center p-2 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm min-w-sm">
                     </span>
                     <input type="text"
@@ -51,19 +54,13 @@
                   </div>
                 </div>
 
-
-
-
-
               </ng-container>
-
             </ng-container>
           </div>
         </div>
       </div>
     </form>
   </div>
-  <div class="error-message mt-3 text-sm font-bold">{{errorMessage$ | async}}</div>
   <div class="mt-5 sm:mt-6">
     <button (click)="nextModal()" type="button" [disabled]="false"
       class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm disabled:opacity-50">

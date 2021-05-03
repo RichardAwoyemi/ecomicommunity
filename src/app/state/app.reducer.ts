@@ -8,6 +8,8 @@ import {
 } from './app.enums';
 import { IAmount, ITransaction, IUser } from './app.model';
 import { UtilService } from '../services/util.service';
+import { DEFAULT_NETWORKS } from 'src/app/data/currency-settings';
+import { NetworkSymbols, Networks } from '../data/currency-settings';
 
 export interface AppState {
   user: IUser | undefined;
@@ -29,7 +31,8 @@ const initialState: AppState = {
   registrationErrorMessage: '',
   loginErrorMessage: '',
   user: undefined,
-  modalState: AppModalStates.Closed,
+  // modalState: AppModalStates.Closed,
+  modalState: AppModalStates.SaleItem,
   isNavbarVisible: false,
   emailConsent: false,
   rememberMe: false,
@@ -40,10 +43,16 @@ const initialState: AppState = {
   saleItems: {
     currency: AppTransactionCurrencies.GEMS,
     units: 1000,
+    network: Networks.VEVE,
+    networkSymbol: NetworkSymbols.VEVE,
+    walletAddress: '',
   },
   priceItems: {
     currency: AppTransactionCurrencies.BTC,
     units: 0.0125,
+    network: Networks.BTC,
+    networkSymbol: NetworkSymbols.BTC,
+    walletAddress: '',
   },
 };
 
@@ -199,18 +208,6 @@ export const appReducer = createReducer<AppState>(
     }
   ),
   on(
-    AppActions.resetActiveSale,
-    (state): AppState => {
-      return {
-        ...state,
-        saleItems: {
-          currency: AppTransactionCurrencies.GEMS,
-          units: 100,
-        },
-      };
-    }
-  ),
-  on(
     AppActions.setTransactions,
     (state, props): AppState => {
       return {
@@ -222,11 +219,15 @@ export const appReducer = createReducer<AppState>(
   on(
     AppActions.setSaleItems,
     (state, props): AppState => {
+      const networkSymbol = (props?.amount?.currency && (props?.amount?.currency !== state.saleItems.currency)) ? DEFAULT_NETWORKS[props?.amount?.currency!] : state.saleItems.networkSymbol;
       return {
         ...state,
         saleItems: {
-          currency: props?.amount?.currency || state?.saleItems?.currency,
-          units: props.amount.units || state?.saleItems?.units,
+          currency: props?.amount?.currency || state.saleItems.currency,
+          units: props?.amount?.units || state.saleItems.units,
+          networkSymbol: props?.amount?.networkSymbol || networkSymbol,
+          network: Networks[props?.amount?.networkSymbol || networkSymbol!],
+          walletAddress: props?.amount?.walletAddress || state.saleItems.walletAddress
         },
       };
     }
@@ -234,11 +235,15 @@ export const appReducer = createReducer<AppState>(
   on(
     AppActions.setPriceItems,
     (state, props): AppState => {
+      const networkSymbol = (props?.amount?.currency && (props?.amount?.currency !== state.priceItems.currency)) ? DEFAULT_NETWORKS[props?.amount?.currency!] : state.priceItems.networkSymbol;
       return {
         ...state,
         priceItems: {
-          currency: props?.amount?.currency || state?.priceItems?.currency,
-          units: props.amount.units || state?.priceItems?.units,
+          currency: props?.amount?.currency || state.priceItems.currency,
+          units: props?.amount?.units || state.priceItems.units,
+          networkSymbol: props?.amount?.networkSymbol || networkSymbol,
+          network: Networks[networkSymbol!],
+          walletAddress: props?.amount?.walletAddress || state.priceItems.walletAddress
         },
       };
     }

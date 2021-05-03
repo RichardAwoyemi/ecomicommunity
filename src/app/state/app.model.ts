@@ -1,4 +1,5 @@
 import { AppTransactionStates, AppTransactionCurrencies } from './app.enums';
+import { Networks, NetworkSymbols } from '../data/currency-settings';
 
 export interface IUser {
   email: string | null | undefined;
@@ -46,6 +47,16 @@ export interface ITransaction {
 }
 
 export interface IAmount {
-  currency?: string;
+  currency?: AppTransactionCurrencies;
   units?: number;
+  network?: Networks,
+  networkSymbol?: NetworkSymbols,
+  walletAddress?: string;
+  fees?: IFees;
+}
+
+export interface IFees {
+  networkFees: number;
+  platformFees: number;
+  totalPostFees: number;
 }

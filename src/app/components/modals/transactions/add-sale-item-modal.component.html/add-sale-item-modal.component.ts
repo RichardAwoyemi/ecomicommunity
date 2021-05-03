@@ -1,55 +1,62 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { DEFAULT_NETWORKS, NETWORK_FEES_PC } from 'src/app/data/currency-settings';
-import { getLoginError, getRememberMe, getSaleItemsCurrency, getSaleItemsUnits } from 'src/app/state';
+import { Networks, NetworkSymbols } from 'src/app/data/currency-settings';
+import {
+  getLoginError,
+  getRememberMe,
+  getSaleItemsCurrency,
+  getSaleItemsUnits,
+} from 'src/app/state';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
 import {
-  AppDropdownState, AppModalStates, AppTransactionCurrencies, AppTransactionItemTypes
+  AppDropdownState,
+  AppModalStates,
+  AppTransactionCurrencies,
+  AppTransactionItemTypes,
 } from '../../../../state/app.enums';
 import { IAmount } from '../../../../state/app.model';
-import { getActiveDropdownTransactionType, getSaleCurrencyNetworkSymbolList } from '../../../../state/index';
+import {
+  getActiveDropdownTransactionType,
+  getSaleCurrencyNetworkSymbolList,
+  getSaleItemsNetwork,
+  getSaleItemsNetworkSymbol,
+} from '../../../../state/index';
 @Component({
   selector: 'ec-add-sale-item-modal',
   templateUrl: './add-sale-item-modal.component.html',
 })
 export class AddSaleItemModalComponent {
   NEW_TRANSACTION_ITEM_TYPE = AppDropdownState.AddNewTransactionItemType;
-  SELL_TRANSACTION_CURRENCY= AppDropdownState.SellTransactionCurrency;
-  username = '';
-  sellingWallet = '';
-  recievingWallet = '';
-  errorMessage$!: Observable<string>;
-  rememberMe$!: Observable<boolean>;
+  SELL_TRANSACTION_CURRENCY = AppDropdownState.SellTransactionCurrency;
+  NETWORK_SYMBOLS = NetworkSymbols;
   activeSaleItemType$!: Observable<string | undefined>;
-  activeSaleItemCurrency$?: Observable<string | undefined>;
+  activeSaleItemCurrency$!: Observable<AppTransactionCurrencies>;
   activeSaleItemUnits$?: Observable<number | undefined>;
-  rememberMe? = false;
   COLLECTIBLE_TYPE = AppTransactionItemTypes.Collectible;
   CURRENCY_TYPE = AppTransactionItemTypes.Currency;
   TRANSACTION_TYPES = Object.keys(AppTransactionItemTypes);
-  TRANSACTION_CURRENCIES = Object.keys(AppTransactionCurrencies);
+  TRANSACTION_CURRENCIES = Object.values(AppTransactionCurrencies);
   quantity = 0;
   currency = AppTransactionCurrencies.GEMS;
-  units = 100;
-  networkList$!: Observable<string[]>;
+  networkSymbolList$!: Observable<NetworkSymbols[]>;
+  networkSymbol$!: Observable<NetworkSymbols>;
+  network$!: Observable<Networks>;
 
   constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
-    this.errorMessage$ = this.store.select(getLoginError);
-    this.rememberMe$ = this.store.select(getRememberMe);
-    this.activeSaleItemType$ = this.store
-      .select(getActiveDropdownTransactionType);
+    this.activeSaleItemType$ = this.store.select(
+      getActiveDropdownTransactionType
+    );
     this.activeSaleItemCurrency$ = this.store.select(getSaleItemsCurrency);
     this.activeSaleItemUnits$ = this.store.select(getSaleItemsUnits);
-    this.networkList$ = this.store.select(getSaleCurrencyNetworkSymbolList);
-  }
-
-  toggleRememberMe(toggle: boolean) {
-    this.rememberMe = toggle;
-    this.store.dispatch(AppActions.toggleRememberMe());
+    this.networkSymbolList$ = this.store.select(
+      getSaleCurrencyNetworkSymbolList
+    );
+    this.networkSymbol$ = this.store.select(getSaleItemsNetworkSymbol);
+    this.network$ = this.store.select(getSaleItemsNetwork);
   }
 
   setSaleItems(amount: IAmount): void {
@@ -57,6 +64,8 @@ export class AddSaleItemModalComponent {
   }
 
   nextModal(): void {
-    this.store.dispatch(AppActions.showModal({ modalState: AppModalStates.PriceItem }));
+    this.store.dispatch(
+      AppActions.showModal({ modalState: AppModalStates.PriceItem })
+    );
   }
 }

@@ -13,8 +13,8 @@ import { IAmount } from '../../state/app.model';
   templateUrl: './text-dropdown-suffix.component.html',
 })
 export class TextDropdownSuffixComponent implements OnInit {
-  @Input() label!: string;
-  @Input() options?: string[];
+  @Input() label!: AppTransactionCurrencies;
+  @Input() options!: AppTransactionCurrencies[];
   @Input() showList!: boolean | null;
   @Input() dropdown!: AppDropdownState;
   @Input() topClass = '';
@@ -39,7 +39,7 @@ export class TextDropdownSuffixComponent implements OnInit {
     );
   }
 
-  valueChange(value: number, option?: string | undefined): void {
+  valueChange(value: number, option: AppTransactionCurrencies = this.label): void {
       this.fieldValue.emit({units: value, currency: option});
   }
 }

@@ -96,6 +96,16 @@ export const getSaleItemsUnits = createSelector(
   (state) => state.units
 );
 
+export const getSaleItemsNetworkSymbol = createSelector(
+  getSaleItems,
+  (state) => state.networkSymbol!
+);
+
+export const getSaleItemsNetwork = createSelector(
+  getSaleItems,
+  (state) => state.network!
+);
+
 export const getPriceItems = createSelector(
   getAppFeatureState,
   (state) => state.priceItems
@@ -103,7 +113,7 @@ export const getPriceItems = createSelector(
 
 export const getPriceItemsCurrency = createSelector(
   getPriceItems,
-  (state) => state.currency
+  (state) => state.currency!
 );
 
 export const getPriceItemsUnits = createSelector(
@@ -111,8 +121,22 @@ export const getPriceItemsUnits = createSelector(
   (state) => state.units
 );
 
+export const getPriceItemsNetworkSymbol = createSelector(
+  getPriceItems,
+  (state) => state.networkSymbol!
+);
+
+export const getPriceItemsNetwork = createSelector(
+  getSaleItems,
+  (state) => state.network!
+);
+
 export const getSaleCurrencyNetworkSymbolList = createSelector(
   getSaleItemsCurrency,
   (state) => NETWORK_FEES_PC[state].map( details => details.symbol )
 )
 
+export const getPriceCurrencyNetworkSymbolList = createSelector(
+  getPriceItemsCurrency,
+  (state) => NETWORK_FEES_PC[state].map( details => details.symbol )
+)

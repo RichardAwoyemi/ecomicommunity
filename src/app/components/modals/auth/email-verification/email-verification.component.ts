@@ -21,7 +21,6 @@ export class EmailVerificationComponent {
   constructor(private store: Store<State>, public authService: AuthService) {}
 
   ngOnInit(): void {
-    this.store.dispatch(AppActions.resetSignupError());
     this.emailConsent$ = this.store.select(getEmailConsent);
   }
 

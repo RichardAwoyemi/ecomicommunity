@@ -1,17 +1,26 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { getActiveDropdownTransactionType, getLoginError, getRememberMe } from 'src/app/state';
+import { Networks, NetworkSymbols } from 'src/app/data/currency-settings';
+import {
+  getActiveDropdownTransactionType,
+  getPriceItemsNetworkSymbol,
+} from 'src/app/state';
 import { IAmount } from 'src/app/state/app.model';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
-import { getPriceItemsCurrency, getPriceItemsUnits } from '../../../../state/index';
 import {
   AppDropdownState,
   AppModalStates,
   AppTransactionCurrencies,
-  AppTransactionItemTypes
+  AppTransactionItemTypes,
 } from '../../../../state/app.enums';
+import {
+  getPriceCurrencyNetworkSymbolList,
+  getPriceItemsCurrency,
+  getPriceItemsNetwork,
+  getPriceItemsUnits,
+} from '../../../../state/index';
 @Component({
   selector: 'ec-add-price-item-modal',
   templateUrl: './add-price-item-modal.component.html',
@@ -19,39 +28,38 @@ import {
 export class AddPriceItemModalComponent {
   NEW_TRANSACTION_ITEM_TYPE = AppDropdownState.AddNewTransactionItemType;
   PRICE_TRANSACTION_CURRENCY = AppDropdownState.PriceTransactionCurrency;
-  username = '';
-  sellingWallet = '';
-  recievingWallet = '';
-  errorMessage$!: Observable<string>;
-  rememberMe$!: Observable<boolean>;
+  NETWORK_SYMBOLS = NetworkSymbols;
   activePriceItemType$!: Observable<string | undefined>;
-  rememberMe? = false;
-  activePriceItemCurrency$?: Observable<string | undefined>;
+  activePriceItemCurrency$?: Observable<AppTransactionCurrencies>;
   activePriceItemUnits$?: Observable<number | undefined>;
   currency = AppTransactionCurrencies.USDT;
   COLLECTIBLE_TYPE = AppTransactionItemTypes.Collectible;
   CURRENCY_TYPE = AppTransactionItemTypes.Currency;
   TRANSACTION_TYPES = Object.keys(AppTransactionItemTypes);
-  TRANSACTION_CURRENCIES = Object.keys(AppTransactionCurrencies);
-  units = 100;
+  TRANSACTION_CURRENCIES = Object.values(AppTransactionCurrencies);
+  networkSymbolList$!: Observable<NetworkSymbols[]>;
+  networkSymbol$!: Observable<NetworkSymbols>;
+  network$!: Observable<Networks>;
 
   constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
-    this.errorMessage$ = this.store.select(getLoginError);
-    this.rememberMe$ = this.store.select(getRememberMe);
-    this.activePriceItemType$ = this.store.select(getActiveDropdownTransactionType);
+    this.activePriceItemType$ = this.store.select(
+      getActiveDropdownTransactionType
+    );
     this.activePriceItemCurrency$ = this.store.select(getPriceItemsCurrency);
     this.activePriceItemUnits$ = this.store.select(getPriceItemsUnits);
-  }
-
-  toggleRememberMe(toggle: boolean) {
-    this.rememberMe = toggle;
-    this.store.dispatch(AppActions.toggleRememberMe());
+    this.networkSymbolList$ = this.store.select(
+      getPriceCurrencyNetworkSymbolList
+    );
+    this.networkSymbol$ = this.store.select(getPriceItemsNetworkSymbol);
+    this.network$ = this.store.select(getPriceItemsNetwork);
   }
 
   nextModal(): void {
-    this.store.dispatch(AppActions.showModal({ modalState: AppModalStates.NewTransactionSummary }));
+    this.store.dispatch(
+      AppActions.showModal({ modalState: AppModalStates.NewTransactionSummary })
+    );
   }
 
   setPriceItems(amount: IAmount): void {
