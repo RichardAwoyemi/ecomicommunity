@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import {
   DEFAULT_NETWORKS,
-  NETWORK_FEES_PC
+  NETWORK_FEES_PC,
 } from 'src/app/data/currency-settings';
 import { Networks, NetworkSymbols } from '../data/currency-settings';
 import { UtilService } from '../services/util.service';
@@ -10,7 +10,7 @@ import {
   AppAuthMessages,
   AppDropdownState,
   AppModalStates,
-  AppTransactionCurrencies
+  AppTransactionCurrencies,
 } from './app.enums';
 import { IAmount, ITransaction, IUser } from './app.model';
 
@@ -34,8 +34,7 @@ const initialState: AppState = {
   registrationErrorMessage: '',
   loginErrorMessage: '',
   user: undefined,
-  // modalState: AppModalStates.Closed,
-  modalState: AppModalStates.SaleItem,
+  modalState: AppModalStates.Closed,
   isNavbarVisible: false,
   emailConsent: false,
   rememberMe: false,
@@ -49,13 +48,13 @@ const initialState: AppState = {
     network: Networks.VEVE,
     networkSymbol: NetworkSymbols.VEVE,
     walletAddress: '',
+    veveUsername: '',
     fees: {
       networkFees: NETWORK_FEES_PC[AppTransactionCurrencies.GEMS][0].fee,
       platformFees: 1000 * 0.05,
       totalPostFees:
-        1000 -
-        NETWORK_FEES_PC[AppTransactionCurrencies.GEMS][0].fee -
-        NETWORK_FEES_PC[AppTransactionCurrencies.GEMS][0].minimum * 0.05,
+        1000 * 0.95 - NETWORK_FEES_PC[AppTransactionCurrencies.GEMS][0].fee,
+
     },
   },
   priceItems: {
@@ -64,13 +63,12 @@ const initialState: AppState = {
     network: Networks.BTC,
     networkSymbol: NetworkSymbols.BTC,
     walletAddress: '',
+    veveUsername: '',
     fees: {
       networkFees: NETWORK_FEES_PC[AppTransactionCurrencies.BTC][0].fee,
       platformFees: 0.125 * 0.05,
       totalPostFees:
-        0.0125 -
-        NETWORK_FEES_PC[AppTransactionCurrencies.BTC][0].fee -
-        NETWORK_FEES_PC[AppTransactionCurrencies.BTC][0].minimum * 0.05,
+        0.0125 * 0.95 - NETWORK_FEES_PC[AppTransactionCurrencies.BTC][0].fee,
     },
   },
 };
@@ -268,8 +266,8 @@ export const appReducer = createReducer<AppState>(
           units: props?.amount?.units || state.saleItems.units!,
           networkSymbol: networkSymbol,
           network: Networks[props?.amount?.networkSymbol || networkSymbol!],
-          walletAddress:
-            props?.amount?.walletAddress || state.saleItems.walletAddress,
+          walletAddress: props?.amount?.walletAddress || state.saleItems.walletAddress,
+          veveUsername: props?.amount?.veveUsername || state.saleItems.veveUsername,
           fees: {
             networkFees: networkFees,
             platformFees: platformFees,
@@ -302,12 +300,12 @@ export const appReducer = createReducer<AppState>(
       return {
         ...state,
         priceItems: {
-          currency: props?.amount?.currency || state.priceItems.currency,
+          currency: currency,
           units: props?.amount?.units || state.priceItems.units,
-          networkSymbol: props?.amount?.networkSymbol || networkSymbol,
-          network: Networks[networkSymbol!],
-          walletAddress:
-            props?.amount?.walletAddress || state.priceItems.walletAddress,
+          networkSymbol: networkSymbol,
+          network: Networks[props?.amount?.networkSymbol || networkSymbol!],
+          walletAddress: props?.amount?.walletAddress || state.priceItems.walletAddress,
+          veveUsername: props?.amount?.veveUsername || state.priceItems.veveUsername,
           fees: {
             networkFees: networkFees,
             platformFees: platformFees,

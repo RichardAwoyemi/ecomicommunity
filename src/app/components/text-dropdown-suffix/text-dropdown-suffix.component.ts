@@ -40,6 +40,6 @@ export class TextDropdownSuffixComponent implements OnInit {
   }
 
   valueChange(value: number, option: AppTransactionCurrencies = this.label): void {
-      this.fieldValue.emit({units: value, currency: option});
+      this.fieldValue.emit({units: +value.toString().replace('/[^0-9.]/g',''), currency: option});
   }
 }

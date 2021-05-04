@@ -111,6 +111,16 @@ export const getSaleItemsFees = createSelector(
   (state) => state.fees!
 );
 
+export const getSalesWalletAddress = createSelector(
+  getSaleItems,
+  (state) => state.walletAddress!
+);
+
+export const getSalesVeveUsername = createSelector(
+  getSaleItems,
+  (state) => state.veveUsername!
+);
+
 export const getPriceItems = createSelector(
   getAppFeatureState,
   (state) => state.priceItems
@@ -137,9 +147,20 @@ export const getPriceItemsFees = createSelector(
 );
 
 export const getPriceItemsNetwork = createSelector(
-  getSaleItems,
+  getPriceItems,
   (state) => state.network!
 );
+
+export const getPriceWalletAddress = createSelector(
+  getPriceItems,
+  (state) => state.walletAddress!
+);
+
+export const getPriceVeveUsername = createSelector(
+  getPriceItems,
+  (state) => state.veveUsername!
+);
+
 
 export const getSaleCurrencyNetworkSymbolList = createSelector(
   getSaleItemsCurrency,

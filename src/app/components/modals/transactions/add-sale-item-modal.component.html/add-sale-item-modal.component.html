@@ -1,5 +1,5 @@
 <div
-  class="m-auto inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left max-h-65vh min-w-20rem overflow-visible shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full sm:p-6">
+  class="m-auto inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left addressmin-w-20rem overflow-visible shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full sm:p-6">
   <ec-close-modal></ec-close-modal>
   <div class="mt-3 text-center sm:mt-5">
     <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
@@ -40,19 +40,11 @@
                   </div>
                 </div>
                 <div class="text-left italic text-gray-500 mt-4 flex text-xs sm:text-sm text-gray-700"
-                  [innerHtml]="'Please ensure you use the correct ' + (network$ | async) + ((networkSymbol$ | async) == NETWORK_SYMBOLS.VEVE ? ' Username' : ' Wallet Address') + ' so we can correctly allocate the source of funds.'">
+                  [innerHtml]="'*Please ensure you use the correct ' + (network$ | async) + ((networkSymbol$ | async) == NETWORK_SYMBOLS.VEVE ? ' Username and ' : ' ') + 'Wallet Address so we can correctly allocate the source of funds.'">
                 </div>
 
-                <div class="mt-2 sm:col-span-2">
-                  <div class="max-w-lg flex rounded-md shadow-sm text-xs sm:text-sm">
-                    <span
-                      [innerHtml]="(networkSymbol$ | async) == NETWORK_SYMBOLS.VEVE ? 'VeVe Username:' : 'Wallet Address:'"
-                      class="inline-flex items-center p-2 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm min-w-sm">
-                    </span>
-                    <input type="text"
-                      class="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300 border px-3">
-                  </div>
-                </div>
+                <ec-prefix-text-input [label]="'Wallet Address:'" [text]="(walletAddress$ | async)!" (newText)="setSaleItems({walletAddress: $event})" ></ec-prefix-text-input>
+                <ec-prefix-text-input *ngIf="(networkSymbol$ | async) == NETWORK_SYMBOLS.VEVE" [label]="'VeVe Username:'" [text]="(veveUsername$ | async)!" (newText)="setSaleItems({veveUsername: $event})" ></ec-prefix-text-input>
 
               </ng-container>
             </ng-container>
@@ -61,7 +53,7 @@
       </div>
     </form>
   </div>
-  <div class="mt-5 sm:mt-6">
+  <div class="my-5 sm:mt-6">
     <button (click)="nextModal()" type="button" [disabled]="false"
       class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm disabled:opacity-50">
       Next

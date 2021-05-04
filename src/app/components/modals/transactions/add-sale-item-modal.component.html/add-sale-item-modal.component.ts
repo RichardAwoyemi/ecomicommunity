@@ -3,10 +3,10 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Networks, NetworkSymbols } from 'src/app/data/currency-settings';
 import {
-  getLoginError,
-  getRememberMe,
   getSaleItemsCurrency,
   getSaleItemsUnits,
+  getSalesVeveUsername,
+  getSalesWalletAddress,
 } from 'src/app/state';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
@@ -43,6 +43,8 @@ export class AddSaleItemModalComponent {
   networkSymbolList$!: Observable<NetworkSymbols[]>;
   networkSymbol$!: Observable<NetworkSymbols>;
   network$!: Observable<Networks>;
+  walletAddress$!: Observable<string>;
+  veveUsername$!: Observable<string>;
 
   constructor(private store: Store<State>) {}
 
@@ -57,6 +59,8 @@ export class AddSaleItemModalComponent {
     );
     this.networkSymbol$ = this.store.select(getSaleItemsNetworkSymbol);
     this.network$ = this.store.select(getSaleItemsNetwork);
+    this.walletAddress$ = this.store.select(getSalesWalletAddress);
+    this.veveUsername$ = this.store.select(getSalesVeveUsername);
   }
 
   setSaleItems(amount: IAmount): void {

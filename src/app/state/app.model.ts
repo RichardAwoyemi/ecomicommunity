@@ -52,6 +52,7 @@ export interface IAmount {
   network?: Networks,
   networkSymbol?: NetworkSymbols,
   walletAddress?: string;
+  veveUsername?: string;
   fees?: IFees;
 }
 

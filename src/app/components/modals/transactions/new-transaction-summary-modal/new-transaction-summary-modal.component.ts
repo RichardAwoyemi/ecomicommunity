@@ -32,6 +32,12 @@ export class NewTransactionSummaryModalComponent {
     this.priceItemFees$ = this.store.select(getPriceItemsFees);
   }
 
+  previousModal(): void {
+    this.store.dispatch(
+      AppActions.showModal({ modalState: AppModalStates.PriceItem })
+    );
+  }
+
   closeModal() {
     this.store.dispatch(
       AppActions.showModal({ modalState: AppModalStates.Closed })

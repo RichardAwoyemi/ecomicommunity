@@ -1,5 +1,5 @@
 <div
-  class="min-w-20rem m-auto inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left max-h-65vh overflow-auto shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full sm:p-6">
+  class="min-w-20rem m-auto inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left addressoverflow-auto shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full sm:p-6">
   <ec-close-modal></ec-close-modal>
   <div>
     <div class="mt-3 text-center sm:mt-5">
@@ -10,17 +10,17 @@
 
     <div class="mt-1 text-center sm:mt-2 border rounded-lg py-2">
       <div [innerHtml]="'Selling'"
-        class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        class="mt-2 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
       </div>
-      <div class="flex justify-center  font-bold my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Total: ' + ((saleItems$ | async)?.units!.toPrecision(10) | number) + ' ' + (saleItems$ | async)?.currency"></div>
+      <div class="flex justify-center  font-bold my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Total: ' + ((saleItems$ | async)?.units!| number:'1.0-10') + ' ' + (saleItems$ | async)?.currency"></div>
       <hr class="my-4">
       <div [innerHtml]="'Recieving'"
         class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
       </div>
       <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Initial Amount: ' + (priceItems$ | async)!.units! + ' ' + (priceItems$ | async)!.currency!"></div>
-      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Platform Fees (5%): ' + ((priceItemFees$ | async)!.platformFees.toPrecision(6) | number) + ' ' + (priceItems$ | async)!.currency!"></div>
-      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Network Fees: ' + ((priceItemFees$ | async)!.networkFees.toPrecision(6) | number) + ' ' + (priceItems$ | async)?.currency"></div>
-      <div class="flex justify-center font-bold my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Total: ' + ((priceItemFees$ | async)!.totalPostFees.toPrecision(6) | number) + ' ' + (priceItems$ | async)?.currency"></div>
+      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Platform Fees (5%): ' + ((priceItemFees$ | async)!.platformFees| number:'1.0-10') + ' ' + (priceItems$ | async)!.currency!"></div>
+      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Network Fees: ' + ((priceItemFees$ | async)!.networkFees| number:'1.0-10') + ' ' + (priceItems$ | async)?.currency"></div>
+      <div class="flex justify-center font-bold my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Total: ' + ((priceItemFees$ | async)!.totalPostFees| number:'1.0-10') + ' ' + (priceItems$ | async)?.currency"></div>
     </div>
 
     <!--

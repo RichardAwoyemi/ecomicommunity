@@ -6,6 +6,7 @@ import {
   getActiveDropdownTransactionType,
   getPriceItemsFees,
   getPriceItemsNetworkSymbol,
+  getPriceVeveUsername
 } from 'src/app/state';
 import { IAmount, IFees } from 'src/app/state/app.model';
 import { State } from 'src/app/state/app.state';
@@ -14,13 +15,13 @@ import {
   AppDropdownState,
   AppModalStates,
   AppTransactionCurrencies,
-  AppTransactionItemTypes,
+  AppTransactionItemTypes
 } from '../../../../state/app.enums';
 import {
   getPriceCurrencyNetworkSymbolList,
   getPriceItemsCurrency,
   getPriceItemsNetwork,
-  getPriceItemsUnits,
+  getPriceItemsUnits, getPriceWalletAddress
 } from '../../../../state/index';
 @Component({
   selector: 'ec-add-price-item-modal',
@@ -42,6 +43,8 @@ export class AddPriceItemModalComponent {
   networkSymbol$!: Observable<NetworkSymbols>;
   network$!: Observable<Networks>;
   priceItemsFees$!: Observable<IFees>;
+  walletAddress$!: Observable<string>;
+  veveUsername$!: Observable<string>;
 
   constructor(private store: Store<State>) {}
 
@@ -57,6 +60,14 @@ export class AddPriceItemModalComponent {
     this.networkSymbol$ = this.store.select(getPriceItemsNetworkSymbol);
     this.network$ = this.store.select(getPriceItemsNetwork);
     this.priceItemsFees$ = this.store.select(getPriceItemsFees);
+    this.walletAddress$ = this.store.select(getPriceWalletAddress);
+    this.veveUsername$ = this.store.select(getPriceVeveUsername);
+  }
+
+  previousModal(): void {
+    this.store.dispatch(
+      AppActions.showModal({ modalState: AppModalStates.SaleItem })
+    );
   }
 
   nextModal(): void {

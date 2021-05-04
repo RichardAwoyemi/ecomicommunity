@@ -36,6 +36,7 @@ import { UtilService } from './services/util.service';
 import { AppEffects } from './state/app.effects';
 import { appReducer } from './state/app.reducer';
 import { HttpClientModule } from '@angular/common/http';
+import { PrefixTextInputComponent } from './components/prefix-text-input/prefix-text-input.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { HttpClientModule } from '@angular/common/http';
     AddTransactionButtonComponent,
     PurchaseSummaryModalComponent,
     ConfirmPurchaseButtonComponent,
-    NewTransactionButtonComponent
+    NewTransactionButtonComponent,
+    PrefixTextInputComponent
   ],
   imports: [
     FormsModule,
