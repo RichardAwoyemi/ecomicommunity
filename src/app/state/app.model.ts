@@ -41,7 +41,8 @@ export interface ITransaction {
   price: IAmount;
   status?: AppTransactionStates;
   datePosted?: string;
-  buyer?: IUser;
+  buyerUid?: string;
+  buyerUsername?: string;
   sellerUid: string;
   sellerUsername: string;
 }

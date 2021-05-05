@@ -1,6 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import {
+  AngularFirestore,
+  AngularFirestoreDocument,
+} from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { HEADERS } from 'functions/src/utils/function.utils';
 import { Observable } from 'rxjs';
@@ -25,14 +28,8 @@ export class TransactionService {
       id: documentId,
       sellerUid: tx.sellerUid,
       sellerUsername: tx.sellerUsername,
-      selling: {
-        currency: tx.selling.currency,
-        units: tx.selling.units,
-      },
-      price: {
-        currency: tx.price.currency,
-        units: tx.price.units,
-      },
+      selling: tx.selling,
+      price: tx.price,
       status: AppTransactionStates.Available,
       datePosted: Date.now().toString(),
     };
@@ -41,13 +38,17 @@ export class TransactionService {
     });
   }
 
-  matchTransaction(transactionId: string, sellerUid: string, user: ExistingUser): Promise<string> {
+  matchTransaction(
+    transactionId: string,
+    sellerUid: string,
+    user: ExistingUser
+  ): Promise<string> {
     const headers = new HttpHeaders({
       Authorization: 'Bearer' + user.secret,
     })
-    .set(HEADERS.X_BUYER_UID, user.uid)
-    .set(HEADERS.X_SELLER_UID, sellerUid)
-    .set(HEADERS.X_TRANSACTION_ID, transactionId);
+      .set(HEADERS.X_BUYER_UID, user.uid)
+      .set(HEADERS.X_SELLER_UID, sellerUid)
+      .set(HEADERS.X_TRANSACTION_ID, transactionId);
 
     const options = { headers, responseType: 'json' as const };
 
@@ -56,10 +57,10 @@ export class TransactionService {
       .toPromise()
       .then((transactionSummary) => {
         console.log(transactionSummary);
-        return "success";
+        return 'success';
       })
       .catch((error) => {
-        throw error
+        throw error;
       });
   }
 
@@ -74,6 +75,6 @@ export class TransactionService {
   confirmPurchase(txn: ITransaction, user: IUser): Promise<void> {
     return this.afs
       .doc(`transactions/${txn.id}`)
-      .update({ status: AppTransactionStates.InProgress });
+      .update({ status: AppTransactionStates.InProgress, buyerUid: user.uid });
   }
 }
