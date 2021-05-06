@@ -10,7 +10,7 @@ import { IAmount, ITransaction, IUser } from '../../../../state/app.model';
 })
 export class ConfirmPurchaseButtonComponent {
   @Input() saleItem!: IAmount;
-  @Input() priceItem!: IAmount;
+  @Input() buyItem!: IAmount;
   @Input() user?: IUser;
   @Input() transaction!: ITransaction | undefined;
 

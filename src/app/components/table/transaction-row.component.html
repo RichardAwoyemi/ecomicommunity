@@ -14,7 +14,7 @@
     </div>
   </td>
   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
-    [innerText]="transaction?.price?.units + ' ' + transaction?.price?.currency"></td>
+    [innerText]="transaction?.buying?.units + ' ' + transaction?.buying?.currency"></td>
   <td class="px-6 py-4 whitespace-nowrap">
     <ng-container [ngSwitch]="transaction?.status">
       <span *ngSwitchCase="AVAILABLE"

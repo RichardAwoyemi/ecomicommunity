@@ -29,7 +29,7 @@ export class TransactionService {
       sellerUid: tx.sellerUid,
       sellerUsername: tx.sellerUsername,
       selling: tx.selling,
-      price: tx.price,
+      buying: tx.buying,
       status: AppTransactionStates.Available,
       datePosted: Date.now().toString(),
     };

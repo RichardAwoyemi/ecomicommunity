@@ -10,7 +10,7 @@
 
     <div class="mt-1 text-center sm:mt-2">
       <h3 class="text-sm leading-6 font-medium text-gray-600" id="modal-title"
-        [innerHtml]="'You are agreeing to purchase ' + (activeTransaction$ | async)?.selling?.units + ' ' + (activeTransaction$ | async)?.selling?.currency + ' for ' + (activeTransaction$ | async)?.price?.units + ' ' + (activeTransaction$ | async)?.price?.currency + '.'">
+        [innerHtml]="'You are agreeing to purchase ' + (activeTransaction$ | async)?.selling?.units + ' ' + (activeTransaction$ | async)?.selling?.currency + ' for ' + (activeTransaction$ | async)?.buying?.units + ' ' + (activeTransaction$ | async)?.buying?.currency + '.'">
       </h3>
       <h3 class="text-sm leading-6 font-medium text-gray-600" id="modal-title"
         [innerHtml]="'Would you like to contiinue?'">

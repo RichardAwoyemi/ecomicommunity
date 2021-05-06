@@ -8,7 +8,7 @@ export enum AppModalStates {
   NewTransactionSummary = 'new-transaction-summary',
   PurchaseSummary = 'purchase-summary',
   SaleItem = 'sale-item',
-  PriceItem = 'price-item',
+  BuyItem = 'buy-item',
 }
 
 export enum AppAuthMessages {
@@ -25,7 +25,7 @@ export enum AppDropdownState {
   Hidden = '',
   AddNewTransactionItemType = 'Add New Transaction Item Type',
   SellTransactionCurrency = 'Sell Transaction Currency',
-  PriceTransactionCurrency = 'Price Transaction Cuurrency'
+  BuyingTransactionCurrency = 'Buying Transaction Cuurrency'
 }
 
 export enum AppTransactionItemTypes {

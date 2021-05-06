@@ -17,15 +17,15 @@
       <div [innerHtml]="'Recieving'"
         class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
       </div>
-      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Initial Amount: ' + (priceItems$ | async)!.units! + ' ' + (priceItems$ | async)!.currency!"></div>
-      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Platform Fees (5%): ' + ((priceItemFees$ | async)!.platformFees| number:'1.0-10') + ' ' + (priceItems$ | async)!.currency!"></div>
-      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Network Fees: ' + ((priceItemFees$ | async)!.networkFees| number:'1.0-10') + ' ' + (priceItems$ | async)?.currency"></div>
-      <div class="flex justify-center font-bold my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Total: ' + ((priceItemFees$ | async)!.totalPostFees| number:'1.0-10') + ' ' + (priceItems$ | async)?.currency"></div>
+      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Initial Amount: ' + (buyItems$ | async)!.units! + ' ' + (buyItems$ | async)!.currency!"></div>
+      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Platform Fees (5%): ' + ((buyItemFees$ | async)!.platformFees| number:'1.0-10') + ' ' + (buyItems$ | async)!.currency!"></div>
+      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Network Fees: ' + ((buyItemFees$ | async)!.networkFees| number:'1.0-10') + ' ' + (buyItems$ | async)?.currency"></div>
+      <div class="flex justify-center font-bold my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Total: ' + ((buyItemFees$ | async)!.totalPostFees| number:'1.0-10') + ' ' + (buyItems$ | async)?.currency"></div>
     </div>
 
     <!--
       <h3 class="text-sm leading-6 font-medium text-gray-600" id="modal-title"
-        [innerHtml]="'You have requested to exchange ' + (saleItems$ | async)?.units + ' ' + (saleItems$ | async)?.currency + ' for ' + (priceItems$ | async)?.units + ' ' + (priceItems$ | async)?.currency + '.'">
+        [innerHtml]="'You have requested to exchange ' + (saleItems$ | async)?.units + ' ' + (saleItems$ | async)?.currency + ' for ' + (buyItems$ | async)?.units + ' ' + (buyItems$ | async)?.currency + '.'">
       </h3>
       <h3 class="text-sm leading-6 font-medium text-gray-600" id="modal-title"
         [innerHtml]="'Would you like to continue?'">
@@ -38,7 +38,7 @@
       Cancel
     </button>
     <ec-add-transaction-button [user]="(user$ | async)" [saleItem]="(saleItems$ | async) || {}"
-      [priceItem]="(priceItems$ | async) || {}" type="button" class="w-full mt-3 sm:mt-0" innerHtml="Confirm">
+      [buyItem]="(buyItems$ | async) || {}" type="button" class="w-full mt-3 sm:mt-0" innerHtml="Confirm">
     </ec-add-transaction-button>
   </div>
 </div>

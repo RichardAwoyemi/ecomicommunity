@@ -6,7 +6,7 @@ export const HEADERS = {
 
 export interface ITransactionSummary {
   id: string,
-  price: {
+  buying: {
     currency: string,
     units: number,
   },

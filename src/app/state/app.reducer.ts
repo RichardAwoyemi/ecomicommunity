@@ -27,7 +27,7 @@ export interface AppState {
   transactions: ITransaction[];
   activeTransaction: ITransaction | undefined;
   saleItems: IAmount;
-  priceItems: IAmount;
+  buyItems: IAmount;
 }
 
 const initialState: AppState = {
@@ -57,7 +57,7 @@ const initialState: AppState = {
 
     },
   },
-  priceItems: {
+  buyItems: {
     currency: AppTransactionCurrencies.BTC,
     units: 0.0125,
     network: Networks.BTC,
@@ -278,16 +278,16 @@ export const appReducer = createReducer<AppState>(
     }
   ),
   on(
-    AppActions.setPriceItems,
+    AppActions.setBuyItems,
     (state, props): AppState => {
       const networkSymbol =
         props?.amount?.networkSymbol ||
         (props?.amount?.currency &&
-        props?.amount?.currency !== state.priceItems.currency
+        props?.amount?.currency !== state.buyItems.currency
           ? DEFAULT_NETWORKS[props?.amount?.currency!]
-          : state.priceItems.networkSymbol);
-      const currency = props?.amount?.currency || state.priceItems.currency;
-      const units = props?.amount?.units || state.priceItems.units!;
+          : state.buyItems.networkSymbol);
+      const currency = props?.amount?.currency || state.buyItems.currency;
+      const units = props?.amount?.units || state.buyItems.units!;
       const networkFees = NETWORK_FEES_PC[currency!].find(
         (network) => network.symbol === networkSymbol
       )!.fee!;
@@ -299,13 +299,13 @@ export const appReducer = createReducer<AppState>(
       );
       return {
         ...state,
-        priceItems: {
+        buyItems: {
           currency: currency,
-          units: props?.amount?.units || state.priceItems.units,
+          units: props?.amount?.units || state.buyItems.units,
           networkSymbol: networkSymbol,
           network: Networks[props?.amount?.networkSymbol || networkSymbol!],
-          walletAddress: props?.amount?.walletAddress || state.priceItems.walletAddress,
-          veveUsername: props?.amount?.veveUsername || state.priceItems.veveUsername,
+          walletAddress: props?.amount?.walletAddress || state.buyItems.walletAddress,
+          veveUsername: props?.amount?.veveUsername || state.buyItems.veveUsername,
           fees: {
             networkFees: networkFees,
             platformFees: platformFees,
@@ -339,7 +339,7 @@ export const appReducer = createReducer<AppState>(
       return {
         ...state,
         saleItems: initialState.saleItems,
-        priceItems: initialState.priceItems,
+        buyItems: initialState.buyItems,
       };
     }
   )

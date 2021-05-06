@@ -19,7 +19,7 @@ import { LogOutModalComponent } from './components/modals/auth/logout/logout.com
 import { RegisterModalComponent } from './components/modals/auth/register/register-modal.component';
 import { CloseModalComponent } from './components/modals/close-modal/close-modal.component';
 import { ModalComponent } from './components/modals/modal.component';
-import { AddPriceItemModalComponent } from './components/modals/transactions/add-price-item-modal.component.html/add-price-item-modal.component';
+import { AddBuyItemModalComponent } from './components/modals/transactions/add-buy-item-modal.component.html/add-buy-item-modal.component';
 import { AddSaleItemModalComponent } from './components/modals/transactions/add-sale-item-modal.component.html/add-sale-item-modal.component';
 import { AddTransactionButtonComponent } from './components/modals/transactions/add-transaction-button/add-transaction-button.component';
 import { ConfirmPurchaseButtonComponent } from './components/modals/transactions/confirm-purchase-button/confirm-purchase-button.component';
@@ -53,7 +53,7 @@ import { PrefixTextInputComponent } from './components/prefix-text-input/prefix-
     NewTransactionModalComponent,
     NewTransactionSummaryModalComponent,
     AddSaleItemModalComponent,
-    AddPriceItemModalComponent,
+    AddBuyItemModalComponent,
     DropdownComponent,
     CloseModalComponent,
     TextDropdownSuffixComponent,

@@ -8,7 +8,7 @@ import { AppModalStates } from '../../../../state/app.enums';
 import { IAmount, ITransaction, IUser } from '../../../../state/app.model';
 import {
   getActiveTransaction,
-  getPriceItems, getSaleItems, getUser
+  getBuyItems, getSaleItems, getUser
 } from '../../../../state/index';
 @Component({
   selector: 'ec-purchase-summary-modal',
@@ -16,7 +16,7 @@ import {
 })
 export class PurchaseSummaryModalComponent {
   saleItems$!: Observable<IAmount>;
-  priceItems$!: Observable<IAmount>;
+  buyItems$!: Observable<IAmount>;
   user$!: Observable<IUser | undefined>;
   activeTransaction$!: Observable<ITransaction | undefined>;
 
@@ -24,7 +24,7 @@ export class PurchaseSummaryModalComponent {
 
   ngOnInit(): void {
     this.saleItems$ = this.store.select(getSaleItems);
-    this.priceItems$ = this.store.select(getPriceItems);
+    this.buyItems$ = this.store.select(getBuyItems);
     this.user$ = this.store.select(getUser);
     this.activeTransaction$ = this.store.select(getActiveTransaction);
   }

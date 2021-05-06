@@ -69,7 +69,7 @@ export class AddSaleItemModalComponent {
 
   nextModal(): void {
     this.store.dispatch(
-      AppActions.showModal({ modalState: AppModalStates.PriceItem })
+      AppActions.showModal({ modalState: AppModalStates.BuyItem })
     );
   }
 }

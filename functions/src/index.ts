@@ -88,9 +88,9 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
                     if (transactionDoc.exists) {
                       const transactionSummary: ITransactionSummary = {
                         id: transactionData?.id,
-                        price: {
-                          currency: transactionData?.price?.currency,
-                          units: transactionData?.price?.units,
+                        buying: {
+                          currency: transactionData?.buying?.currency,
+                          units: transactionData?.buying?.units,
                         },
                         selling: {
                           currency: transactionData?.selling?.currency,

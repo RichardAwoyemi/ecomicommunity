@@ -4,9 +4,9 @@ import { Observable } from 'rxjs';
 import { Networks, NetworkSymbols } from 'src/app/data/currency-settings';
 import {
   getActiveDropdownTransactionType,
-  getPriceItemsFees,
-  getPriceItemsNetworkSymbol,
-  getPriceVeveUsername
+  getBuyItemsFees,
+  getBuyItemsNetworkSymbol,
+  getBuyingVeveUsername
 } from 'src/app/state';
 import { IAmount, IFees } from 'src/app/state/app.model';
 import { State } from 'src/app/state/app.state';
@@ -18,22 +18,22 @@ import {
   AppTransactionItemTypes
 } from '../../../../state/app.enums';
 import {
-  getPriceCurrencyNetworkSymbolList,
-  getPriceItemsCurrency,
-  getPriceItemsNetwork,
-  getPriceItemsUnits, getPriceWalletAddress
+  getBuyingCurrencyNetworkSymbolList,
+  getBuyItemsCurrency,
+  getBuyItemsNetwork,
+  getBuyItemsUnits, getBuyingWalletAddress
 } from '../../../../state/index';
 @Component({
-  selector: 'ec-add-price-item-modal',
-  templateUrl: './add-price-item-modal.component.html',
+  selector: 'ec-add-buy-item-modal',
+  templateUrl: './add-buy-item-modal.component.html',
 })
-export class AddPriceItemModalComponent {
+export class AddBuyItemModalComponent {
   NEW_TRANSACTION_ITEM_TYPE = AppDropdownState.AddNewTransactionItemType;
-  PRICE_TRANSACTION_CURRENCY = AppDropdownState.PriceTransactionCurrency;
+  BUYING_TRANSACTION_CURRENCY = AppDropdownState.BuyingTransactionCurrency;
   NETWORK_SYMBOLS = NetworkSymbols;
-  activePriceItemType$!: Observable<string | undefined>;
-  activePriceItemCurrency$?: Observable<AppTransactionCurrencies>;
-  activePriceItemUnits$?: Observable<number | undefined>;
+  activeBuyItemType$!: Observable<string | undefined>;
+  activeBuyItemCurrency$?: Observable<AppTransactionCurrencies>;
+  activeBuyItemUnits$?: Observable<number | undefined>;
   currency = AppTransactionCurrencies.USDT;
   COLLECTIBLE_TYPE = AppTransactionItemTypes.Collectible;
   CURRENCY_TYPE = AppTransactionItemTypes.Currency;
@@ -42,26 +42,26 @@ export class AddPriceItemModalComponent {
   networkSymbolList$!: Observable<NetworkSymbols[]>;
   networkSymbol$!: Observable<NetworkSymbols>;
   network$!: Observable<Networks>;
-  priceItemsFees$!: Observable<IFees>;
+  buyItemsFees$!: Observable<IFees>;
   walletAddress$!: Observable<string>;
   veveUsername$!: Observable<string>;
 
   constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
-    this.activePriceItemType$ = this.store.select(
+    this.activeBuyItemType$ = this.store.select(
       getActiveDropdownTransactionType
     );
-    this.activePriceItemCurrency$ = this.store.select(getPriceItemsCurrency);
-    this.activePriceItemUnits$ = this.store.select(getPriceItemsUnits);
+    this.activeBuyItemCurrency$ = this.store.select(getBuyItemsCurrency);
+    this.activeBuyItemUnits$ = this.store.select(getBuyItemsUnits);
     this.networkSymbolList$ = this.store.select(
-      getPriceCurrencyNetworkSymbolList
+      getBuyingCurrencyNetworkSymbolList
     );
-    this.networkSymbol$ = this.store.select(getPriceItemsNetworkSymbol);
-    this.network$ = this.store.select(getPriceItemsNetwork);
-    this.priceItemsFees$ = this.store.select(getPriceItemsFees);
-    this.walletAddress$ = this.store.select(getPriceWalletAddress);
-    this.veveUsername$ = this.store.select(getPriceVeveUsername);
+    this.networkSymbol$ = this.store.select(getBuyItemsNetworkSymbol);
+    this.network$ = this.store.select(getBuyItemsNetwork);
+    this.buyItemsFees$ = this.store.select(getBuyItemsFees);
+    this.walletAddress$ = this.store.select(getBuyingWalletAddress);
+    this.veveUsername$ = this.store.select(getBuyingVeveUsername);
   }
 
   previousModal(): void {
@@ -76,7 +76,7 @@ export class AddPriceItemModalComponent {
     );
   }
 
-  setPriceItems(amount: IAmount): void {
-    this.store.dispatch(AppActions.setPriceItems({ amount }));
+  setBuyItems(amount: IAmount): void {
+    this.store.dispatch(AppActions.setBuyItems({ amount }));
   }
 }

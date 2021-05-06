@@ -27,7 +27,7 @@ export enum AppActionTypes {
   ConfirmPurchase = '[App] Confirm Purchase',
   AddTransaction = '[App] [Transactions] Add New Transaction',
   SetSaleItems = '[App] [Transactions] Set Sale Assets',
-  SetPriceItems = '[App] [Transactions] Set Price Assets',
+  SetBuyItems = '[App] [Transactions] Set Buying Assets',
   SetUser = '[App] [Login] Set User',
   GetUser = '[App] [Login] Get User Info',
   ClearUser = '[App] [Login] Clear User Info',
@@ -158,8 +158,8 @@ export const setSaleItems = createAction(
   AppActionTypes.SetSaleItems,
   props<{ amount: IAmount }>()
 );
-export const setPriceItems = createAction(
-  AppActionTypes.SetPriceItems,
+export const setBuyItems = createAction(
+  AppActionTypes.SetBuyItems,
   props<{ amount: IAmount }>()
 );
 export const setActiveTransaction = createAction(

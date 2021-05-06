@@ -10,7 +10,7 @@ import { IAmount, IUser } from '../../../../state/app.model';
 })
 export class AddTransactionButtonComponent {
   @Input() saleItem!: IAmount;
-  @Input() priceItem!: IAmount;
+  @Input() buyItem!: IAmount;
   @Input() user!: IUser | null | undefined;
 
   constructor(private store: Store<State>) {}
@@ -20,7 +20,7 @@ export class AddTransactionButtonComponent {
       AppActions.addTransaction({
         txn: {
           selling: this.saleItem,
-          price: this.priceItem,
+          buying: this.buyItem,
           sellerUid: this.user!.uid!,
           sellerUsername: this.user!.username!,
         },
