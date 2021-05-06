@@ -20,9 +20,7 @@ export class AddTransactionButtonComponent {
       AppActions.addTransaction({
         txn: {
           selling: this.saleItem,
-          buying: this.buyItem,
-          sellerUid: this.user!.uid!,
-          sellerUsername: this.user!.username!,
+          buying: this.buyItem
         },
       }
     ))

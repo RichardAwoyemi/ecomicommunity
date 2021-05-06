@@ -262,6 +262,8 @@ export const appReducer = createReducer<AppState>(
       return {
         ...state,
         saleItems: {
+          useruid: props?.amount.useruid || state.user?.uid,
+          username: props?.amount.username || state.user?.username || '',
           currency: currency,
           units: props?.amount?.units || state.saleItems.units!,
           networkSymbol: networkSymbol,
