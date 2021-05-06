@@ -26,7 +26,6 @@ import { ConfirmPurchaseButtonComponent } from './components/modals/transactions
 import { NewTransactionButtonComponent } from './components/modals/transactions/new-transaction-button/new-transaction-button.component';
 import { NewTransactionModalComponent } from './components/modals/transactions/new-transaction-modal/new-transaction-modal.component';
 import { NewTransactionSummaryModalComponent } from './components/modals/transactions/new-transaction-summary-modal/new-transaction-summary-modal.component';
-import { PurchaseSummaryModalComponent } from './components/modals/transactions/purchase-summary-modal/purchase-summary-modal.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { TransactionRowComponent } from './components/table/transaction-row.component';
 import { TextDropdownSuffixComponent } from './components/text-dropdown-suffix/text-dropdown-suffix.component';
@@ -37,6 +36,8 @@ import { AppEffects } from './state/app.effects';
 import { appReducer } from './state/app.reducer';
 import { HttpClientModule } from '@angular/common/http';
 import { PrefixTextInputComponent } from './components/prefix-text-input/prefix-text-input.component';
+import { PurchaseSummaryModalComponent } from './components/modals/transactions/purchase-summary-modal/purchase-summary-modal.component';
+import { PurchaseModalComponent } from './components/modals/transactions/purchase-modal/purchase-modal.component';
 
 @NgModule({
   declarations: [
@@ -58,10 +59,11 @@ import { PrefixTextInputComponent } from './components/prefix-text-input/prefix-
     CloseModalComponent,
     TextDropdownSuffixComponent,
     AddTransactionButtonComponent,
-    PurchaseSummaryModalComponent,
     ConfirmPurchaseButtonComponent,
     NewTransactionButtonComponent,
-    PrefixTextInputComponent
+    PrefixTextInputComponent,
+    PurchaseSummaryModalComponent,
+    PurchaseModalComponent
   ],
   imports: [
     FormsModule,
