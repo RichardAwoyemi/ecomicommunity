@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
-  AngularFirestoreDocument
+  AngularFirestoreDocument,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import firebase from 'firebase';
@@ -15,6 +15,21 @@ export class UserService {
   constructor(private afs: AngularFirestore, public router: Router) {}
 
   setUser(user: IUser): Promise<void> {
+    var makeid = (length: number) => {
+      var result = [];
+      var characters =
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      var charactersLength = characters.length;
+      for (var i = 0; i < length; i++) {
+        result.push(
+          characters.charAt(Math.floor(Math.random() * charactersLength))
+        );
+      }
+      return result.join('');
+    };
+
+    const secret = makeid(12);
+
     const usersRef: AngularFirestoreDocument = this.afs.doc(
       `users/${user.uid}`
     );
@@ -23,6 +38,7 @@ export class UserService {
       username: user.username,
       email: user.email,
       photoURL: user.photoURL,
+      secret: secret,
     };
     return usersRef.set(userData, {
       merge: true,
