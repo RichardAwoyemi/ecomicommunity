@@ -41,13 +41,11 @@ export interface ITransaction {
   buying: IAmount;
   status?: AppTransactionStates;
   datePosted?: string;
-  buyerUid?: string;
-  buyerUsername?: string;
-  sellerUid: string;
-  sellerUsername: string;
 }
 
 export interface IAmount {
+  useruid?: string;
+  username?: string;
   currency?: AppTransactionCurrencies;
   units?: number;
   network?: Networks,

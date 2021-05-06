@@ -26,8 +26,6 @@ export class TransactionService {
     );
     const transactionData: ITransaction = {
       id: documentId,
-      sellerUid: tx.sellerUid,
-      sellerUsername: tx.sellerUsername,
       selling: tx.selling,
       buying: tx.buying,
       status: AppTransactionStates.Available,

@@ -10,7 +10,6 @@ import { AppModalStates } from '../../../../state/app.enums';
   templateUrl: './new-transaction-modal.component.html',
 })
 export class NewTransactionModalComponent {
-  username = '';
   sellingWallet = '';
   recievingWallet = '';
   errorMessage$!: Observable<string>;
@@ -22,7 +21,7 @@ export class NewTransactionModalComponent {
   ngOnInit(): void {
     this.errorMessage$ = this.store.select(getLoginError);
     this.rememberMe$ = this.store.select(getRememberMe);
-    this.store.dispatch(AppActions.resetNewTransaction())
+    this.store.dispatch(AppActions.resetNewTransaction());
   }
 
   toggleRememberMe(toggle: boolean) {
