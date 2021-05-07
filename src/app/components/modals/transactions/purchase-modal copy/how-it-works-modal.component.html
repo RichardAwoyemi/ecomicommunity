@@ -1,0 +1,38 @@
+<div
+  class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full sm:p-6">
+
+  <ec-close-modal></ec-close-modal>
+
+  <div class="sm:flex sm:items-start">
+    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+      <div class="mt-3 text-center sm:mt-5">
+        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title" [innerHtml]="'How It Works'"></h3>
+      </div>
+      <hr class="my-4">
+
+      <div class="mt-2 space-y-3 text-center">
+        <p class="text-sm text-gray-800">Ecomi Community is the first, transparent, VeVe-specific escrow service. It was
+          built, by and for the community. We openly facilite the P2P exchange of in app currencies and collectibles for
+          alternate cryptocurrencies.</p>
+        <hr>
+
+        <p class="bold">Step 1:</p>
+        <p class="text-sm text-gray-500">Sign up, verify your email and login.</p>
+        <p class="bold">Step 2:</p>
+        <p class="text-sm text-gray-500">Purchase a transaction or create a new one - providing accurate information.
+          (Ecomi Community will not be held liable for loss of funds caused my information inaccuracies)</p>
+        <p class="bold">Step 3:</p>
+        <p class="text-sm text-gray-500">Transfer the exact funds specified in our email within the specified timeframe (usually 24 hours).</p>
+        <p class="bold">Step 4:</p>
+        <p class="text-sm text-gray-500">Once both parties have made the transfers, we will forward the funds (minus
+          platform & network fees) to your receiving wallet. We are increasingly automating the process but this part is
+          manual so please allow 48 hours before getting in contact.</p>
+      </div>
+      <hr class="my-4">
+    </div>
+  </div>
+  <button (click)="closeModal()" type="button"
+    class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm">
+    Cancel
+  </button>
+</div>

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AuthService } from './services/auth.service';
 import * as AppActions from './state/app.actions';
 import { AppModalStates } from './state/app.enums';
 import { State } from './state/app.state';
@@ -19,7 +18,10 @@ export class AppComponent {
   transactions$!: Observable<ITransaction[]>;
   user$!: Observable<IUser | undefined>;
 
-  constructor(private store: Store<State>, public transactionService: TransactionService ) {}
+  constructor(
+    private store: Store<State>,
+    public transactionService: TransactionService
+  ) {}
 
   ngOnInit(): void {
     this.store.dispatch(AppActions.isLoggedIn());
@@ -38,6 +40,12 @@ export class AppComponent {
   showRegistrationModal(): void {
     this.store.dispatch(
       AppActions.showModal({ modalState: AppModalStates.Registration })
+    );
+  }
+
+  showHowItWorksModal(): void {
+    this.store.dispatch(
+      AppActions.showModal({ modalState: AppModalStates.HowItWorks })
     );
   }
 }

@@ -21,6 +21,8 @@ export class ModalComponent {
   ADD_SALE_ITEM_MODAL = AppModalStates.SaleItem;
   ADD_BUYING_ITEM_MODAL = AppModalStates.BuyItem;
   PURCHASE_SUMMARY_MODAL = AppModalStates.PurchaseSummary;
+  PURCHASE_MODAL = AppModalStates.Purchase;
+  HOW_IT_WORKS_MODAL = AppModalStates.HowItWorks;
 
   email = '';
   password = '';

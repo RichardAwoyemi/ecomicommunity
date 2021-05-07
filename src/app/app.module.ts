@@ -38,6 +38,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { PrefixTextInputComponent } from './components/prefix-text-input/prefix-text-input.component';
 import { PurchaseSummaryModalComponent } from './components/modals/transactions/purchase-summary-modal/purchase-summary-modal.component';
 import { PurchaseModalComponent } from './components/modals/transactions/purchase-modal/purchase-modal.component';
+import { HowItWorksModalComponent } from './components/modals/transactions/purchase-modal copy/how-it-works-modal.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { PurchaseModalComponent } from './components/modals/transactions/purchas
     NewTransactionButtonComponent,
     PrefixTextInputComponent,
     PurchaseSummaryModalComponent,
-    PurchaseModalComponent
+    PurchaseModalComponent,
+    HowItWorksModalComponent
   ],
   imports: [
     FormsModule,
