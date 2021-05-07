@@ -83,8 +83,8 @@ function sendNewTransactionEmail(
           "<br> Please send " + units + " " + currency + " to the address: {{Ecomi Wallet Address}}" +
           "<br>" +
           "<br> You will be charged the following fees:" +
-          "<ul><li>Network fees: " + fees.networkFees + " " + networkSymbol + "</li></ul>" +
-          "<ul><li>Platform fees: " + fees.platformFees + " " + networkSymbol + "</li></ul>"+
+          "<ul><li>Network fees: " + fees.networkFees + " " + units + "</li></ul>" +
+          "<ul><li>Platform fees: " + fees.platformFees + " " + units + "</li></ul>"+
           "<br>" +
           "<br> You will send:",
   };
