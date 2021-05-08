@@ -23,7 +23,7 @@
       <span *ngSwitchCase="IN_PROGRESS"
         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full capitalize bg-yellow-100 text-yellow-800"
         [innerText]="transaction?.status"></span>
-      <span *ngSwitchCase="COMPLETE"
+      <span *ngSwitchCase="COMPLETED"
         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full capitalize bg-blue-100 text-blue-800"
         [innerText]="transaction?.status"></span>
     </ng-container>

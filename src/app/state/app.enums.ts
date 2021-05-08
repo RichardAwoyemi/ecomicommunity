@@ -20,7 +20,7 @@ export enum AppAuthMessages {
 export enum AppTransactionStates {
   Available = 'Available',
   InProgress = 'In Progress',
-  Complete = 'Complete',
+  Completed = 'Completed',
 }
 
 export enum AppDropdownState {

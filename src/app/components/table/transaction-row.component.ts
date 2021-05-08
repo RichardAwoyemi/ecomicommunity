@@ -16,7 +16,7 @@ export class TransactionRowComponent {
 
   AVAILABLE = AppTransactionStates.Available;
   IN_PROGRESS = AppTransactionStates.InProgress;
-  COMPLETE = AppTransactionStates.Complete;
+  COMPLETED = AppTransactionStates.Completed;
 
   ngUnsubscribe = new Subject<void>();
 
