@@ -32,7 +32,7 @@ export class TransactionRowComponent {
     this.store.dispatch(
       AppActions.showModal({
         modalState: this.user
-          ? AppModalStates.PurchaseSummary
+          ? AppModalStates.Purchase
           : AppModalStates.Registration,
       })
     );

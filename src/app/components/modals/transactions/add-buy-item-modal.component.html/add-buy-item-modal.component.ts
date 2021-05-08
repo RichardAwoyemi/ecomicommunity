@@ -5,12 +5,12 @@ import { Networks, NetworkSymbols } from 'src/app/data/currency-settings';
 import {
   getActiveDropdownTransactionType,
   getBuyItemsFees,
-  getBuyItemsNetworkSymbol,
   getBuyingVeveUsername
 } from 'src/app/state';
 import { IAmount, IFees } from 'src/app/state/app.model';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
+import { getBuyReceivingWalletNetworkSymbol, getBuyReceivingWalletNetwork, getBuyReceivingWalletAddress } from '../../../../state/index';
 import {
   AppDropdownState,
   AppModalStates,
@@ -20,8 +20,7 @@ import {
 import {
   getBuyingCurrencyNetworkSymbolList,
   getBuyItemsCurrency,
-  getBuyItemsNetwork,
-  getBuyItemsUnits, getBuyingWalletAddress
+  getBuyItemsUnits,
 } from '../../../../state/index';
 @Component({
   selector: 'ec-add-buy-item-modal',
@@ -57,10 +56,10 @@ export class AddBuyItemModalComponent {
     this.networkSymbolList$ = this.store.select(
       getBuyingCurrencyNetworkSymbolList
     );
-    this.networkSymbol$ = this.store.select(getBuyItemsNetworkSymbol);
-    this.network$ = this.store.select(getBuyItemsNetwork);
+    this.networkSymbol$ = this.store.select(getBuyReceivingWalletNetworkSymbol);
+    this.network$ = this.store.select(getBuyReceivingWalletNetwork);
     this.buyItemsFees$ = this.store.select(getBuyItemsFees);
-    this.walletAddress$ = this.store.select(getBuyingWalletAddress);
+    this.walletAddress$ = this.store.select(getBuyReceivingWalletAddress);
     this.veveUsername$ = this.store.select(getBuyingVeveUsername);
   }
 

@@ -45,24 +45,27 @@ const initialState: AppState = {
   saleItems: {
     currency: AppTransactionCurrencies.GEMS,
     units: 1000,
-    network: Networks.VEVE,
-    networkSymbol: NetworkSymbols.VEVE,
-    walletAddress: '',
+    sendingWallet: {
+      network: Networks.VEVE,
+      networkSymbol: NetworkSymbols.VEVE,
+      walletAddress: '',
+    },
     veveUsername: '',
     fees: {
       networkFees: NETWORK_FEES_PC[AppTransactionCurrencies.GEMS][0].fee,
       platformFees: 1000 * 0.05,
       totalPostFees:
         1000 * 0.95 - NETWORK_FEES_PC[AppTransactionCurrencies.GEMS][0].fee,
-
     },
   },
   buyItems: {
     currency: AppTransactionCurrencies.BTC,
     units: 0.0125,
-    network: Networks.BTC,
-    networkSymbol: NetworkSymbols.BTC,
-    walletAddress: '',
+    receivingWallet: {
+      network: Networks.BTC,
+      networkSymbol: NetworkSymbols.BTC,
+      walletAddress: '',
+    },
     veveUsername: '',
     fees: {
       networkFees: NETWORK_FEES_PC[AppTransactionCurrencies.BTC][0].fee,
@@ -243,11 +246,11 @@ export const appReducer = createReducer<AppState>(
     AppActions.setSaleItems,
     (state, props): AppState => {
       const networkSymbol =
-        props?.amount?.networkSymbol ||
+        props?.amount?.sendingWallet?.networkSymbol ||
         (props?.amount?.currency &&
         props?.amount?.currency !== state.saleItems.currency
           ? DEFAULT_NETWORKS[props?.amount?.currency!]
-          : state.saleItems.networkSymbol);
+          : state.saleItems.sendingWallet?.networkSymbol);
       const currency = props?.amount?.currency || state.saleItems.currency;
       const units = props?.amount?.units || state.saleItems.units!;
       const networkFees = NETWORK_FEES_PC[currency!].find(
@@ -266,10 +269,18 @@ export const appReducer = createReducer<AppState>(
           username: props?.amount.username || state.user?.username || '',
           currency: currency,
           units: props?.amount?.units || state.saleItems.units!,
-          networkSymbol: networkSymbol,
-          network: Networks[props?.amount?.networkSymbol || networkSymbol!],
-          walletAddress: props?.amount?.walletAddress || state.saleItems.walletAddress,
-          veveUsername: props?.amount?.veveUsername || state.saleItems.veveUsername,
+          veveUsername:
+            props?.amount?.veveUsername || state.saleItems.veveUsername,
+          sendingWallet: {
+            network:
+              Networks[
+                props?.amount?.sendingWallet?.networkSymbol || networkSymbol!
+              ],
+            networkSymbol: networkSymbol,
+            walletAddress:
+              props?.amount?.sendingWallet?.walletAddress ||
+              state.saleItems.sendingWallet?.walletAddress,
+          },
           fees: {
             networkFees: networkFees,
             platformFees: platformFees,
@@ -283,11 +294,11 @@ export const appReducer = createReducer<AppState>(
     AppActions.setBuyItems,
     (state, props): AppState => {
       const networkSymbol =
-        props?.amount?.networkSymbol ||
+        props?.amount?.receivingWallet?.networkSymbol ||
         (props?.amount?.currency &&
         props?.amount?.currency !== state.buyItems.currency
           ? DEFAULT_NETWORKS[props?.amount?.currency!]
-          : state.buyItems.networkSymbol);
+          : state.buyItems.receivingWallet?.networkSymbol);
       const currency = props?.amount?.currency || state.buyItems.currency;
       const units = props?.amount?.units || state.buyItems.units!;
       const networkFees = NETWORK_FEES_PC[currency!].find(
@@ -304,10 +315,18 @@ export const appReducer = createReducer<AppState>(
         buyItems: {
           currency: currency,
           units: props?.amount?.units || state.buyItems.units,
-          networkSymbol: networkSymbol,
-          network: Networks[props?.amount?.networkSymbol || networkSymbol!],
-          walletAddress: props?.amount?.walletAddress || state.buyItems.walletAddress,
-          veveUsername: props?.amount?.veveUsername || state.buyItems.veveUsername,
+          receivingWallet: {
+            networkSymbol: networkSymbol,
+            network:
+              Networks[
+                props?.amount?.receivingWallet?.networkSymbol || networkSymbol!
+              ],
+            walletAddress:
+              props?.amount?.receivingWallet?.walletAddress ||
+              state.buyItems.receivingWallet?.walletAddress,
+          },
+          veveUsername:
+            props?.amount?.veveUsername || state.buyItems.veveUsername,
           fees: {
             networkFees: networkFees,
             platformFees: platformFees,

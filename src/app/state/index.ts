@@ -96,14 +96,14 @@ export const getSaleItemsUnits = createSelector(
   (state) => state.units
 );
 
-export const getSaleItemsNetworkSymbol = createSelector(
+export const getSaleSendingWalletNetworkSymbol = createSelector(
   getSaleItems,
-  (state) => state.networkSymbol!
+  (state) => state.sendingWallet!.networkSymbol!
 );
 
-export const getSaleItemsNetwork = createSelector(
+export const getSaleSendingWalletNetwork = createSelector(
   getSaleItems,
-  (state) => state.network!
+  (state) => state.sendingWallet!.network!
 );
 
 export const getSaleItemsFees = createSelector(
@@ -111,9 +111,9 @@ export const getSaleItemsFees = createSelector(
   (state) => state.fees!
 );
 
-export const getSalesWalletAddress = createSelector(
+export const getSaleSendingWalletAddress = createSelector(
   getSaleItems,
-  (state) => state.walletAddress!
+  (state) => state.sendingWallet!.walletAddress!
 );
 
 export const getSalesVeveUsername = createSelector(
@@ -136,9 +136,9 @@ export const getBuyItemsUnits = createSelector(
   (state) => state.units
 );
 
-export const getBuyItemsNetworkSymbol = createSelector(
+export const getBuyReceivingWalletNetworkSymbol = createSelector(
   getBuyItems,
-  (state) => state.networkSymbol!
+  (state) => state.receivingWallet!.networkSymbol!
 );
 
 export const getBuyItemsFees = createSelector(
@@ -146,21 +146,20 @@ export const getBuyItemsFees = createSelector(
   (state) => state.fees!
 );
 
-export const getBuyItemsNetwork = createSelector(
+export const getBuyReceivingWalletNetwork = createSelector(
   getBuyItems,
-  (state) => state.network!
+  (state) => state.receivingWallet!.network!
 );
 
-export const getBuyingWalletAddress = createSelector(
+export const getBuyReceivingWalletAddress = createSelector(
   getBuyItems,
-  (state) => state.walletAddress!
+  (state) => state.receivingWallet!.walletAddress!
 );
 
 export const getBuyingVeveUsername = createSelector(
   getBuyItems,
   (state) => state.veveUsername!
 );
-
 
 export const getSaleCurrencyNetworkSymbolList = createSelector(
   getSaleItemsCurrency,

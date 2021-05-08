@@ -11,7 +11,7 @@ import { AppModalStates } from '../../../../state/app.enums';
 })
 export class NewTransactionModalComponent {
   sellingWallet = '';
-  recievingWallet = '';
+  receivingWallet = '';
   errorMessage$!: Observable<string>;
   rememberMe$!: Observable<boolean>;
   rememberMe? = false;

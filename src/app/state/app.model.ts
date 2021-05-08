@@ -48,11 +48,16 @@ export interface IAmount {
   username?: string;
   currency?: AppTransactionCurrencies;
   units?: number;
+  sendingWallet?: IWallet;
+  receivingWallet?: IWallet;
+  veveUsername?: string;
+  fees?: IFees;
+}
+
+export interface IWallet {
   network?: Networks,
   networkSymbol?: NetworkSymbols,
   walletAddress?: string;
-  veveUsername?: string;
-  fees?: IFees;
 }
 
 export interface IFees {

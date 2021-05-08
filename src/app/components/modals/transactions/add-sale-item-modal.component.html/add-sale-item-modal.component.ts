@@ -6,7 +6,6 @@ import {
   getSaleItemsCurrency,
   getSaleItemsUnits,
   getSalesVeveUsername,
-  getSalesWalletAddress,
 } from 'src/app/state';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
@@ -18,10 +17,13 @@ import {
 } from '../../../../state/app.enums';
 import { IAmount } from '../../../../state/app.model';
 import {
+  getSaleSendingWalletNetworkSymbol,
+  getSaleSendingWalletNetwork,
+  getSaleSendingWalletAddress,
+} from '../../../../state/index';
+import {
   getActiveDropdownTransactionType,
   getSaleCurrencyNetworkSymbolList,
-  getSaleItemsNetwork,
-  getSaleItemsNetworkSymbol,
 } from '../../../../state/index';
 @Component({
   selector: 'ec-add-sale-item-modal',
@@ -57,9 +59,9 @@ export class AddSaleItemModalComponent {
     this.networkSymbolList$ = this.store.select(
       getSaleCurrencyNetworkSymbolList
     );
-    this.networkSymbol$ = this.store.select(getSaleItemsNetworkSymbol);
-    this.network$ = this.store.select(getSaleItemsNetwork);
-    this.walletAddress$ = this.store.select(getSalesWalletAddress);
+    this.networkSymbol$ = this.store.select(getSaleSendingWalletNetworkSymbol);
+    this.network$ = this.store.select(getSaleSendingWalletNetwork);
+    this.walletAddress$ = this.store.select(getSaleSendingWalletAddress);
     this.veveUsername$ = this.store.select(getSalesVeveUsername);
   }
 
