@@ -29,13 +29,16 @@ export class TransactionRowComponent {
   }
 
   openPurchaseSummaryModal() {
-    this.store.dispatch(
-      AppActions.showModal({
-        modalState: this.user
-          ? AppModalStates.Purchase
-          : AppModalStates.Registration,
-      })
-    );
+    if (this.user) {
+      this.store.dispatch(AppActions.resetPurchaseModal());
+      this.store.dispatch(
+        AppActions.showModal({ modalState: AppModalStates.PurchasePayment })
+      );
+    } else {
+      this.store.dispatch(
+        AppActions.showModal({ modalState: AppModalStates.Registration })
+      );
+    }
   }
 
   cancelActiveTransaction() {

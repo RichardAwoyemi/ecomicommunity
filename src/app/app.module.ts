@@ -1,4 +1,4 @@
-import { HttpClient, HttpHandler } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
@@ -18,6 +18,7 @@ import { LoginModalComponent } from './components/modals/auth/login/login-modal.
 import { LogOutModalComponent } from './components/modals/auth/logout/logout.component';
 import { RegisterModalComponent } from './components/modals/auth/register/register-modal.component';
 import { CloseModalComponent } from './components/modals/close-modal/close-modal.component';
+import { HowItWorksModalComponent } from './components/modals/how-it-works-modal/how-it-works-modal.component';
 import { ModalComponent } from './components/modals/modal.component';
 import { AddBuyItemModalComponent } from './components/modals/transactions/add-buy-item-modal.component.html/add-buy-item-modal.component';
 import { AddSaleItemModalComponent } from './components/modals/transactions/add-sale-item-modal.component.html/add-sale-item-modal.component';
@@ -26,7 +27,10 @@ import { ConfirmPurchaseButtonComponent } from './components/modals/transactions
 import { NewTransactionButtonComponent } from './components/modals/transactions/new-transaction-button/new-transaction-button.component';
 import { NewTransactionModalComponent } from './components/modals/transactions/new-transaction-modal/new-transaction-modal.component';
 import { NewTransactionSummaryModalComponent } from './components/modals/transactions/new-transaction-summary-modal/new-transaction-summary-modal.component';
+import { PurchasePaymentModalComponent } from './components/modals/transactions/purchase-payment-modal/purchase-payment-modal.component';
+import { PurchaseSummaryModalComponent } from './components/modals/transactions/purchase-summary-modal/purchase-summary-modal.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { PrefixTextInputComponent } from './components/prefix-text-input/prefix-text-input.component';
 import { TransactionRowComponent } from './components/table/transaction-row.component';
 import { TextDropdownSuffixComponent } from './components/text-dropdown-suffix/text-dropdown-suffix.component';
 import { TransactionService } from './services/transaction.service';
@@ -34,11 +38,7 @@ import { UserService } from './services/user.service';
 import { UtilService } from './services/util.service';
 import { AppEffects } from './state/app.effects';
 import { appReducer } from './state/app.reducer';
-import { HttpClientModule } from '@angular/common/http';
-import { PrefixTextInputComponent } from './components/prefix-text-input/prefix-text-input.component';
-import { PurchaseSummaryModalComponent } from './components/modals/transactions/purchase-summary-modal/purchase-summary-modal.component';
-import { PurchaseModalComponent } from './components/modals/transactions/purchase-modal/purchase-modal.component';
-import { HowItWorksModalComponent } from './components/modals/how-it-works-modal/how-it-works-modal.component';
+import { PurchaseReceivingModalComponent } from './components/modals/transactions/purchase-receiving-modal/purchase-receiving-modal.component';
 
 @NgModule({
   declarations: [
@@ -64,8 +64,9 @@ import { HowItWorksModalComponent } from './components/modals/how-it-works-modal
     NewTransactionButtonComponent,
     PrefixTextInputComponent,
     PurchaseSummaryModalComponent,
-    PurchaseModalComponent,
+    PurchasePaymentModalComponent,
     HowItWorksModalComponent,
+    PurchaseReceivingModalComponent,
   ],
   imports: [
     FormsModule,

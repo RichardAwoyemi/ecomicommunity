@@ -47,7 +47,7 @@
                   (newText)="setSaleItems({ sendingWallet: {walletAddress: $event}})"></ec-prefix-text-input>
                 <ec-prefix-text-input *ngIf="(networkSymbol$ | async) == NETWORK_SYMBOLS.VEVE"
                   [label]="'VeVe Username:'" [text]="(veveUsername$ | async)!"
-                  (newText)="setSaleItems({veveUsername: $event})"></ec-prefix-text-input>
+                  (newText)="setSaleItems({sendingWallet: {veveUsername: $event}})"></ec-prefix-text-input>
 
               </ng-container>
             </ng-container>

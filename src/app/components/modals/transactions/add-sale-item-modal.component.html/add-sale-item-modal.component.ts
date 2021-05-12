@@ -5,7 +5,6 @@ import { Networks, NetworkSymbols } from 'src/app/data/currency-settings';
 import {
   getSaleItemsCurrency,
   getSaleItemsUnits,
-  getSalesVeveUsername,
 } from 'src/app/state';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
@@ -16,6 +15,7 @@ import {
   AppTransactionItemTypes,
 } from '../../../../state/app.enums';
 import { IAmount } from '../../../../state/app.model';
+import { getSaleSendingVeveUsername } from '../../../../state/index';
 import {
   getSaleSendingWalletNetworkSymbol,
   getSaleSendingWalletNetwork,
@@ -62,7 +62,7 @@ export class AddSaleItemModalComponent {
     this.networkSymbol$ = this.store.select(getSaleSendingWalletNetworkSymbol);
     this.network$ = this.store.select(getSaleSendingWalletNetwork);
     this.walletAddress$ = this.store.select(getSaleSendingWalletAddress);
-    this.veveUsername$ = this.store.select(getSalesVeveUsername);
+    this.veveUsername$ = this.store.select(getSaleSendingVeveUsername);
   }
 
   setSaleItems(amount: IAmount): void {

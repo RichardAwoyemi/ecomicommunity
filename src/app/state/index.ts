@@ -35,15 +35,9 @@ export const getUser = createSelector(
   (state) => state.user
 );
 
-export const getUID = createSelector(
-  getUser,
-  (state) => state?.uid
-);
+export const getUID = createSelector(getUser, (state) => state?.uid);
 
-export const getUsername = createSelector(
-  getUser,
-  (state) => state?.username
-);
+export const getUsername = createSelector(getUser, (state) => state?.username);
 
 export const getLoginError = createSelector(
   getAppFeatureState,
@@ -79,7 +73,7 @@ export const getTransactions = createSelector(
 export const getActiveTransaction = createSelector(
   getAppFeatureState,
   (state) => state.activeTransaction
-)
+);
 
 export const getSaleItems = createSelector(
   getAppFeatureState,
@@ -89,6 +83,26 @@ export const getSaleItems = createSelector(
 export const getSaleItemsCurrency = createSelector(
   getSaleItems,
   (state) => state.currency!
+);
+
+export const getActiveSaleItemsCurrency = createSelector(
+  getActiveTransaction,
+  (state) => state?.selling.currency!
+);
+
+export const getActiveBuyItemsCurrency = createSelector(
+  getActiveTransaction,
+  (state) => state?.buying.currency!
+);
+
+export const getActiveTransactionBuyNetworkSymbols = createSelector(
+  getActiveBuyItemsCurrency,
+  (state) => NETWORK_FEES_PC[state].map((item) => item.symbol)
+);
+
+export const getActiveTransactionSellNetworkSymbols = createSelector(
+  getActiveSaleItemsCurrency,
+  (state) => NETWORK_FEES_PC[state].map((item) => item.symbol)
 );
 
 export const getSaleItemsUnits = createSelector(
@@ -106,6 +120,16 @@ export const getSaleSendingWalletNetwork = createSelector(
   (state) => state.sendingWallet!.network!
 );
 
+export const getSaleReceivingWalletNetworkSymbol = createSelector(
+  getSaleItems,
+  (state) => state.sendingWallet!.networkSymbol!
+);
+
+export const getSaleReceivingWalletNetwork = createSelector(
+  getSaleItems,
+  (state) => state.sendingWallet!.network!
+);
+
 export const getSaleItemsFees = createSelector(
   getSaleItems,
   (state) => state.fees!
@@ -116,9 +140,19 @@ export const getSaleSendingWalletAddress = createSelector(
   (state) => state.sendingWallet!.walletAddress!
 );
 
-export const getSalesVeveUsername = createSelector(
+export const getSaleReceivingWalletAddress = createSelector(
   getSaleItems,
-  (state) => state.veveUsername!
+  (state) => state.receivingWallet!.walletAddress!
+);
+
+export const getSaleReceivingVeveUsername = createSelector(
+  getSaleItems,
+  (state) => state.receivingWallet?.veveUsername!
+);
+
+export const getSaleSendingVeveUsername = createSelector(
+  getSaleItems,
+  (state) => state.sendingWallet!.veveUsername!
 );
 
 export const getBuyItems = createSelector(
@@ -141,9 +175,9 @@ export const getBuyReceivingWalletNetworkSymbol = createSelector(
   (state) => state.receivingWallet!.networkSymbol!
 );
 
-export const getBuyItemsFees = createSelector(
+export const getBuySendingWalletNetworkSymbol = createSelector(
   getBuyItems,
-  (state) => state.fees!
+  (state) => state.sendingWallet?.networkSymbol!
 );
 
 export const getBuyReceivingWalletNetwork = createSelector(
@@ -151,22 +185,42 @@ export const getBuyReceivingWalletNetwork = createSelector(
   (state) => state.receivingWallet!.network!
 );
 
+export const getBuySendingWalletNetwork = createSelector(
+  getBuyItems,
+  (state) => state.sendingWallet?.network!
+);
+
 export const getBuyReceivingWalletAddress = createSelector(
   getBuyItems,
   (state) => state.receivingWallet!.walletAddress!
 );
 
-export const getBuyingVeveUsername = createSelector(
+export const getBuyingSendingWalletAddress = createSelector(
   getBuyItems,
-  (state) => state.veveUsername!
+  (state) => state.sendingWallet?.walletAddress!
+);
+
+export const getBuyItemsFees = createSelector(
+  getBuyItems,
+  (state) => state.fees!
+);
+
+export const getBuyReceivingVeveUsername = createSelector(
+  getBuyItems,
+  (state) => state.receivingWallet!.veveUsername!
+);
+
+export const getBuySendingVeveUsername = createSelector(
+  getBuyItems,
+  (state) => state.sendingWallet?.veveUsername!
 );
 
 export const getSaleCurrencyNetworkSymbolList = createSelector(
   getSaleItemsCurrency,
-  (state) => NETWORK_FEES_PC[state].map( details => details.symbol )
-)
+  (state) => NETWORK_FEES_PC[state].map((details) => details.symbol)
+);
 
-export const getBuyingCurrencyNetworkSymbolList = createSelector(
+export const getBuyCurrencyNetworkSymbolList = createSelector(
   getBuyItemsCurrency,
-  (state) => NETWORK_FEES_PC[state].map( details => details.symbol )
-)
+  (state) => NETWORK_FEES_PC[state].map((details) => details.symbol)
+);

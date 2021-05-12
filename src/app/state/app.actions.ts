@@ -37,6 +37,7 @@ export enum AppActionTypes {
   ToggleNavbar = '[App] Toggle Navbar',
   ToggleEmailConsent = '[App] Toggle Email Consent',
   ToggleRememberMe = '[App] Toggle Remember Me',
+  ResetPurchaseModal = '[App] [Transaction] [Purchase] Reset Purchase Modal'
 }
 
 export const isLoggedIn = createAction(AppActionTypes.IsLoggedIn);
@@ -170,4 +171,6 @@ export const resetNewTransaction = createAction(
   AppActionTypes.ResetNewTransaction
 );
 
-
+export const resetPurchaseModal = createAction(
+  AppActionTypes.ResetPurchaseModal
+)

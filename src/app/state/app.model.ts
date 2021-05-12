@@ -50,7 +50,6 @@ export interface IAmount {
   units?: number;
   sendingWallet?: IWallet;
   receivingWallet?: IWallet;
-  veveUsername?: string;
   fees?: IFees;
 }
 
@@ -58,6 +57,7 @@ export interface IWallet {
   network?: Networks,
   networkSymbol?: NetworkSymbols,
   walletAddress?: string;
+  veveUsername?: string;
 }
 
 export interface IFees {
