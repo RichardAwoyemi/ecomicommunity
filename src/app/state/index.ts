@@ -87,12 +87,12 @@ export const getSaleItemsCurrency = createSelector(
 
 export const getActiveSaleItemsCurrency = createSelector(
   getActiveTransaction,
-  (state) => state?.selling.currency!
+  (state) => state?.creator.currency!
 );
 
 export const getActiveBuyItemsCurrency = createSelector(
   getActiveTransaction,
-  (state) => state?.buying.currency!
+  (state) => state?.purchasor.currency!
 );
 
 export const getActiveTransactionBuyNetworkSymbols = createSelector(

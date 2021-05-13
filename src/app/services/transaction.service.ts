@@ -26,8 +26,8 @@ export class TransactionService {
     );
     const transactionData: ITransaction = {
       id: documentId,
-      selling: tx.selling,
-      buying: tx.buying,
+      creator: tx.creator,
+      purchasor: tx.purchasor,
       status: AppTransactionStates.Available,
       datePosted: Date.now().toString(),
     };

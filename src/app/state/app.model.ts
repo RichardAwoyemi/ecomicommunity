@@ -37,8 +37,8 @@ export interface Credentials {
 
 export interface ITransaction {
   id?: string;
-  selling: IAmount;
-  buying: IAmount;
+  creator: IAmount;
+  purchasor: IAmount;
   status?: AppTransactionStates;
   datePosted?: string;
 }

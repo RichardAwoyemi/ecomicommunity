@@ -19,8 +19,8 @@ export class AddTransactionButtonComponent {
     this.store.dispatch(
       AppActions.addTransaction({
         txn: {
-          selling: this.saleItem,
-          buying: this.buyItem
+          creator: this.saleItem,
+          purchasor: this.buyItem
         },
       }
     ))

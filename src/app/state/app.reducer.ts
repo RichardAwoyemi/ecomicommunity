@@ -439,25 +439,25 @@ export const appReducer = createReducer<AppState>(
       return {
         ...state,
         buyItems: {
-          ...state.activeTransaction?.buying,
+          ...state.activeTransaction?.purchasor,
           username: state.user?.username!,
           useruid: state.user?.uid!,
           sendingWallet: {
             walletAddress: '',
             veveUsername: '',
-            network: state.activeTransaction?.buying.receivingWallet?.network,
+            network: state.activeTransaction?.purchasor.receivingWallet?.network,
             networkSymbol:
-              state.activeTransaction?.buying.receivingWallet?.networkSymbol,
+              state.activeTransaction?.purchasor.receivingWallet?.networkSymbol,
           },
         },
         saleItems: {
-          ...state.activeTransaction?.selling,
+          ...state.activeTransaction?.creator,
           sendingWallet: {
             walletAddress: '',
             veveUsername: '',
-            network: state.activeTransaction?.selling.sendingWallet?.network,
+            network: state.activeTransaction?.creator.sendingWallet?.network,
             networkSymbol:
-              state.activeTransaction?.selling.sendingWallet?.networkSymbol,
+              state.activeTransaction?.creator.sendingWallet?.networkSymbol,
           },
         },
       };
