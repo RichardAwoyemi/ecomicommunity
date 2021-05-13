@@ -18,8 +18,8 @@ export class ModalComponent {
   EMAIL_VERIFICATION_MODAL = AppModalStates.EmailVerification;
   NEW_TRANSACTION_MODAL = AppModalStates.NewTransaction;
   NEW_TRANSACTION_SUMMARY_MODAL = AppModalStates.NewTransactionSummary;
-  ADD_SALE_ITEM_MODAL = AppModalStates.SaleItem;
-  ADD_BUYING_ITEM_MODAL = AppModalStates.BuyItem;
+  ADD_CREATOR_ITEM_MODAL = AppModalStates.CreatorItem;
+  ADD_PURCHASOR_ITEM_MODAL = AppModalStates.PurchasorItem;
   PURCHASE_SUMMARY_MODAL = AppModalStates.PurchaseSummary;
   PURCHASE_PAYMENT_MODAL = AppModalStates.PurchasePayment;
   PURCHASE_RECEIVING_MODAL = AppModalStates.PurchaseReceiving;

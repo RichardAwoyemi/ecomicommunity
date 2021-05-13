@@ -26,8 +26,8 @@ export interface AppState {
   activeDropdownOptions: { [AppDropdownState: string]: string }[];
   transactions: ITransaction[];
   activeTransaction: ITransaction | undefined;
-  saleItems: IAmount;
-  buyItems: IAmount;
+  creatorItems: IAmount;
+  purchasorItems: IAmount;
 }
 
 const initialState: AppState = {
@@ -42,7 +42,7 @@ const initialState: AppState = {
   activeDropdownOptions: [],
   transactions: [],
   activeTransaction: undefined,
-  saleItems: {
+  creatorItems: {
     currency: AppTransactionCurrencies.GEMS,
     units: 1000,
     sendingWallet: {
@@ -58,7 +58,7 @@ const initialState: AppState = {
         1000 * 0.95 - NETWORK_FEES_PC[AppTransactionCurrencies.GEMS][0].fee,
     },
   },
-  buyItems: {
+  purchasorItems: {
     username: '',
     useruid: '',
     currency: AppTransactionCurrencies.BTC,
@@ -245,22 +245,22 @@ export const appReducer = createReducer<AppState>(
     }
   ),
   on(
-    AppActions.setSaleItems,
+    AppActions.setCreatorItems,
     (state, props): AppState => {
       const networkSymbolReceiving =
         props?.amount?.receivingWallet?.networkSymbol ||
         (props?.amount?.currency &&
-        props?.amount?.currency !== state.saleItems.currency
+        props?.amount?.currency !== state.creatorItems.currency
           ? DEFAULT_NETWORKS[props?.amount?.currency!]
-          : state.saleItems.receivingWallet?.networkSymbol);
+          : state.creatorItems.receivingWallet?.networkSymbol);
       const networkSymbolSending =
         props?.amount?.sendingWallet?.networkSymbol ||
         (props?.amount?.currency &&
-        props?.amount?.currency !== state.saleItems.currency
+        props?.amount?.currency !== state.creatorItems.currency
           ? DEFAULT_NETWORKS[props?.amount?.currency!]
-          : state.saleItems.sendingWallet?.networkSymbol);
-      const currency = props?.amount?.currency || state.saleItems.currency;
-      const units = props?.amount?.units || state.saleItems.units!;
+          : state.creatorItems.sendingWallet?.networkSymbol);
+      const currency = props?.amount?.currency || state.creatorItems.currency;
+      const units = props?.amount?.units || state.creatorItems.units!;
       const networkFees =
         NETWORK_FEES_PC[currency!].find(
               (network) => network.symbol === (networkSymbolReceiving || networkSymbolSending)
@@ -275,15 +275,15 @@ export const appReducer = createReducer<AppState>(
         : 999;
       return {
         ...state,
-        saleItems: {
+        creatorItems: {
           useruid:
-            props?.amount.useruid || state.saleItems.useruid || state.user!.uid,
+            props?.amount.useruid || state.creatorItems.useruid || state.user!.uid,
           username:
             props?.amount.username ||
-            state.saleItems.username ||
+            state.creatorItems.username ||
             state.user!.username!,
           currency: currency,
-          units: props?.amount?.units || state.saleItems.units!,
+          units: props?.amount?.units || state.creatorItems.units!,
           sendingWallet: {
             network:
               Networks[
@@ -293,12 +293,12 @@ export const appReducer = createReducer<AppState>(
             networkSymbol: networkSymbolSending,
             walletAddress:
               props?.amount?.sendingWallet?.walletAddress ||
-              state.saleItems.sendingWallet?.walletAddress,
+              state.creatorItems.sendingWallet?.walletAddress,
             veveUsername:
               currency !== AppTransactionCurrencies.GEMS
                 ? ''
                 : props?.amount?.sendingWallet?.veveUsername ||
-                  state.saleItems.sendingWallet?.veveUsername,
+                  state.creatorItems.sendingWallet?.veveUsername,
           },
           receivingWallet: {
             network:
@@ -309,13 +309,13 @@ export const appReducer = createReducer<AppState>(
             networkSymbol: networkSymbolReceiving || networkSymbolSending,
             walletAddress:
               props?.amount?.receivingWallet?.walletAddress ||
-              state.saleItems.receivingWallet?.walletAddress ||
+              state.creatorItems.receivingWallet?.walletAddress ||
               '',
             veveUsername:
               currency !== AppTransactionCurrencies.GEMS
                 ? ''
                 : props?.amount?.receivingWallet?.veveUsername ||
-                  state.saleItems.receivingWallet?.veveUsername ||
+                  state.creatorItems.receivingWallet?.veveUsername ||
                   '',
           },
           fees: {
@@ -328,22 +328,22 @@ export const appReducer = createReducer<AppState>(
     }
   ),
   on(
-    AppActions.setBuyItems,
+    AppActions.setPurchasorItems,
     (state, props): AppState => {
       const networkSymbolReceiving =
         props?.amount?.receivingWallet?.networkSymbol ||
         (props?.amount?.currency &&
-        props?.amount?.currency !== state.buyItems.currency
+        props?.amount?.currency !== state.purchasorItems.currency
           ? DEFAULT_NETWORKS[props?.amount?.currency!]
-          : state.buyItems.receivingWallet?.networkSymbol);
+          : state.purchasorItems.receivingWallet?.networkSymbol);
       const networkSymbolSending =
         props?.amount?.sendingWallet?.networkSymbol ||
         (props?.amount?.currency &&
-        props?.amount?.currency !== state.buyItems.currency
+        props?.amount?.currency !== state.purchasorItems.currency
           ? DEFAULT_NETWORKS[props?.amount?.currency!]
-          : state.buyItems.sendingWallet?.networkSymbol);
-      const currency = props?.amount?.currency || state.buyItems.currency;
-      const units = props?.amount?.units || state.buyItems.units!;
+          : state.purchasorItems.sendingWallet?.networkSymbol);
+      const currency = props?.amount?.currency || state.purchasorItems.currency;
+      const units = props?.amount?.units || state.purchasorItems.units!;
       const networkFees = NETWORK_FEES_PC[currency!].find(
         (network) => network.symbol === networkSymbolReceiving
       )!.fee!;
@@ -355,11 +355,11 @@ export const appReducer = createReducer<AppState>(
       );
       return {
         ...state,
-        buyItems: {
-          useruid: props?.amount.useruid || state.buyItems.useruid,
-          username: props?.amount.username || state.buyItems.username || '',
+        purchasorItems: {
+          useruid: props?.amount.useruid || state.purchasorItems.useruid,
+          username: props?.amount.username || state.purchasorItems.username || '',
           currency: currency,
-          units: props?.amount?.units || state.buyItems.units,
+          units: props?.amount?.units || state.purchasorItems.units,
           receivingWallet: {
             networkSymbol: networkSymbolReceiving,
             network:
@@ -369,13 +369,13 @@ export const appReducer = createReducer<AppState>(
               ],
             walletAddress:
               props?.amount?.receivingWallet?.walletAddress ||
-              state.buyItems.receivingWallet?.walletAddress ||
+              state.purchasorItems.receivingWallet?.walletAddress ||
               '',
             veveUsername:
               currency !== AppTransactionCurrencies.GEMS
                 ? ''
                 : props?.amount?.receivingWallet?.veveUsername ||
-                  state.buyItems.receivingWallet?.veveUsername ||
+                  state.purchasorItems.receivingWallet?.veveUsername ||
                   '',
           },
           sendingWallet: {
@@ -387,13 +387,13 @@ export const appReducer = createReducer<AppState>(
               ],
             walletAddress:
               props?.amount?.sendingWallet?.walletAddress ||
-              state.buyItems.sendingWallet?.walletAddress ||
+              state.purchasorItems.sendingWallet?.walletAddress ||
               '',
             veveUsername:
               currency !== AppTransactionCurrencies.GEMS
                 ? ''
                 : props?.amount?.sendingWallet?.veveUsername ||
-                  state.buyItems.sendingWallet?.veveUsername ||
+                  state.purchasorItems.sendingWallet?.veveUsername ||
                   '',
           },
           fees: {
@@ -428,8 +428,8 @@ export const appReducer = createReducer<AppState>(
     (state): AppState => {
       return {
         ...state,
-        saleItems: initialState.saleItems,
-        buyItems: initialState.buyItems,
+        creatorItems: initialState.creatorItems,
+        purchasorItems: initialState.purchasorItems,
       };
     }
   ),
@@ -438,7 +438,7 @@ export const appReducer = createReducer<AppState>(
     (state): AppState => {
       return {
         ...state,
-        buyItems: {
+        purchasorItems: {
           ...state.activeTransaction?.purchasor,
           username: state.user?.username!,
           useruid: state.user?.uid!,
@@ -450,7 +450,7 @@ export const appReducer = createReducer<AppState>(
               state.activeTransaction?.purchasor.receivingWallet?.networkSymbol,
           },
         },
-        saleItems: {
+        creatorItems: {
           ...state.activeTransaction?.creator,
           sendingWallet: {
             walletAddress: '',

@@ -4,12 +4,12 @@ import { Observable } from 'rxjs';
 import { Networks, NetworkSymbols } from 'src/app/data/currency-settings';
 import {
   getActiveDropdownTransactionType,
-  getBuyItemsFees,
+  getPurchasorItemsFees,
 } from 'src/app/state';
 import { IAmount, IFees } from 'src/app/state/app.model';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
-import { getBuyReceivingWalletNetworkSymbol, getBuyReceivingWalletNetwork, getBuyReceivingWalletAddress, getBuyReceivingVeveUsername } from '../../../../state/index';
+import { getPurchasorReceivingWalletNetworkSymbol, getPurchasorReceivingWalletNetwork, getPurchasorReceivingWalletAddress, getPurchasorReceivingVeveUsername } from '../../../../state/index';
 import {
   AppDropdownState,
   AppModalStates,
@@ -17,21 +17,21 @@ import {
   AppTransactionItemTypes
 } from '../../../../state/app.enums';
 import {
-  getBuyCurrencyNetworkSymbolList,
-  getBuyItemsCurrency,
-  getBuyItemsUnits,
+  getPurchasorCurrencyNetworkSymbolList,
+  getPurchasorItemsCurrency,
+  getPurchasorItemsUnits,
 } from '../../../../state/index';
 @Component({
-  selector: 'ec-add-buy-item-modal',
-  templateUrl: './add-buy-item-modal.component.html',
+  selector: 'ec-add-purchasor-item-modal',
+  templateUrl: './add-purchasor-item-modal.component.html',
 })
-export class AddBuyItemModalComponent {
+export class AddPurchasorItemModalComponent {
   NEW_TRANSACTION_ITEM_TYPE = AppDropdownState.AddNewTransactionItemType;
   BUYING_TRANSACTION_CURRENCY = AppDropdownState.BuyingTransactionCurrency;
   NETWORK_SYMBOLS = NetworkSymbols;
-  activeBuyItemType$!: Observable<string | undefined>;
-  activeBuyItemCurrency$?: Observable<AppTransactionCurrencies>;
-  activeBuyItemUnits$?: Observable<number | undefined>;
+  activePurchaseItemType$!: Observable<string | undefined>;
+  activePurchaseItemCurrency$?: Observable<AppTransactionCurrencies>;
+  activePurchaseItemUnits$?: Observable<number | undefined>;
   currency = AppTransactionCurrencies.USDT;
   COLLECTIBLE_TYPE = AppTransactionItemTypes.Collectible;
   CURRENCY_TYPE = AppTransactionItemTypes.Currency;
@@ -40,31 +40,31 @@ export class AddBuyItemModalComponent {
   networkSymbolList$!: Observable<NetworkSymbols[]>;
   networkSymbol$!: Observable<NetworkSymbols>;
   network$!: Observable<Networks>;
-  buyItemsFees$!: Observable<IFees>;
+  purchaseItemsFees$!: Observable<IFees>;
   walletAddress$!: Observable<string>;
   veveUsername$!: Observable<string>;
 
   constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
-    this.activeBuyItemType$ = this.store.select(
+    this.activePurchaseItemType$ = this.store.select(
       getActiveDropdownTransactionType
     );
-    this.activeBuyItemCurrency$ = this.store.select(getBuyItemsCurrency);
-    this.activeBuyItemUnits$ = this.store.select(getBuyItemsUnits);
+    this.activePurchaseItemCurrency$ = this.store.select(getPurchasorItemsCurrency);
+    this.activePurchaseItemUnits$ = this.store.select(getPurchasorItemsUnits);
     this.networkSymbolList$ = this.store.select(
-      getBuyCurrencyNetworkSymbolList
+      getPurchasorCurrencyNetworkSymbolList
     );
-    this.networkSymbol$ = this.store.select(getBuyReceivingWalletNetworkSymbol);
-    this.network$ = this.store.select(getBuyReceivingWalletNetwork);
-    this.buyItemsFees$ = this.store.select(getBuyItemsFees);
-    this.walletAddress$ = this.store.select(getBuyReceivingWalletAddress);
-    this.veveUsername$ = this.store.select(getBuyReceivingVeveUsername);
+    this.networkSymbol$ = this.store.select(getPurchasorReceivingWalletNetworkSymbol);
+    this.network$ = this.store.select(getPurchasorReceivingWalletNetwork);
+    this.purchaseItemsFees$ = this.store.select(getPurchasorItemsFees);
+    this.walletAddress$ = this.store.select(getPurchasorReceivingWalletAddress);
+    this.veveUsername$ = this.store.select(getPurchasorReceivingVeveUsername);
   }
 
   previousModal(): void {
     this.store.dispatch(
-      AppActions.showModal({ modalState: AppModalStates.SaleItem })
+      AppActions.showModal({ modalState: AppModalStates.CreatorItem })
     );
   }
 
@@ -74,7 +74,7 @@ export class AddBuyItemModalComponent {
     );
   }
 
-  setBuyItems(amount: IAmount): void {
-    this.store.dispatch(AppActions.setBuyItems({ amount }));
+  setPurchasorItems(amount: IAmount): void {
+    this.store.dispatch(AppActions.setPurchasorItems({ amount }));
   }
 }

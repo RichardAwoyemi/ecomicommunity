@@ -20,8 +20,8 @@ import { RegisterModalComponent } from './components/modals/auth/register/regist
 import { CloseModalComponent } from './components/modals/close-modal/close-modal.component';
 import { HowItWorksModalComponent } from './components/modals/how-it-works-modal/how-it-works-modal.component';
 import { ModalComponent } from './components/modals/modal.component';
-import { AddBuyItemModalComponent } from './components/modals/transactions/add-buy-item-modal.component.html/add-buy-item-modal.component';
-import { AddSaleItemModalComponent } from './components/modals/transactions/add-sale-item-modal.component.html/add-sale-item-modal.component';
+import { AddPurchasorItemModalComponent } from './components/modals/transactions/add-purchasor-item-modal/add-purchasor-item-modal.component';
+import { AddCreatorItemModalComponent } from './components/modals/transactions/add-creator-item-modal/add-creator-item-modal.component';
 import { AddTransactionButtonComponent } from './components/modals/transactions/add-transaction-button/add-transaction-button.component';
 import { ConfirmPurchaseButtonComponent } from './components/modals/transactions/confirm-purchase-button/confirm-purchase-button.component';
 import { NewTransactionButtonComponent } from './components/modals/transactions/new-transaction-button/new-transaction-button.component';
@@ -54,8 +54,8 @@ import { PurchaseReceivingModalComponent } from './components/modals/transaction
     TransactionRowComponent,
     NewTransactionModalComponent,
     NewTransactionSummaryModalComponent,
-    AddSaleItemModalComponent,
-    AddBuyItemModalComponent,
+    AddPurchasorItemModalComponent,
+    AddCreatorItemModalComponent,
     DropdownComponent,
     CloseModalComponent,
     TextDropdownSuffixComponent,

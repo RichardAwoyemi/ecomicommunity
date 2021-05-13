@@ -7,15 +7,15 @@ import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
 import { AppModalStates, AppTransactionCurrencies } from '../../../../state/app.enums';
 import { IAmount, IFees, ITransaction, IUser } from '../../../../state/app.model';
-import { getSaleReceivingWalletNetworkSymbol, getSaleItemsFees, getSaleItemsCurrency } from '../../../../state/index';
+import { getCreatorReceivingWalletNetworkSymbol, getCreatorItemsFees, getCreatorItemsCurrency } from '../../../../state/index';
 import {
   getActiveTransaction,
-  getBuyItems,
-  getSaleCurrencyNetworkSymbolList,
-  getSaleItems,
-  getSaleReceivingVeveUsername,
-  getSaleReceivingWalletAddress,
-  getSaleReceivingWalletNetwork,
+  getPurchasorItems,
+  getCreatorCurrencyNetworkSymbolList,
+  getCreatorItems,
+  getCreatorReceivingVeveUsername,
+  getCreatorReceivingWalletAddress,
+  getCreatorReceivingWalletNetwork,
   getUser,
 } from '../../../../state/index';
 @Component({
@@ -23,8 +23,8 @@ import {
   templateUrl: './purchase-receiving-modal.component.html',
 })
 export class PurchaseReceivingModalComponent {
-  saleItems$!: Observable<IAmount>;
-  buyItems$!: Observable<IAmount>;
+  creatorItems$!: Observable<IAmount>;
+  purchaseItems$!: Observable<IAmount>;
   user$!: Observable<IUser | undefined>;
   activeTransaction$!: Observable<ITransaction | undefined>;
   NETWORK_SYMBOLS = NetworkSymbols;
@@ -39,25 +39,25 @@ export class PurchaseReceivingModalComponent {
   constructor(private store: Store<State>, public authService: AuthService) {}
 
   ngOnInit(): void {
-    this.saleItems$ = this.store.select(getSaleItems);
-    this.buyItems$ = this.store.select(getBuyItems);
+    this.creatorItems$ = this.store.select(getCreatorItems);
+    this.purchaseItems$ = this.store.select(getPurchasorItems);
     this.user$ = this.store.select(getUser);
     this.activeTransaction$ = this.store.select(getActiveTransaction);
     this.networkSymbolList$ = this.store.select(
-      getSaleCurrencyNetworkSymbolList
+      getCreatorCurrencyNetworkSymbolList
     );
     this.networkSymbol$ = this.store.select(
-      getSaleReceivingWalletNetworkSymbol
+      getCreatorReceivingWalletNetworkSymbol
     );
-    this.network$ = this.store.select(getSaleReceivingWalletNetwork);
-    this.walletAddress$ = this.store.select(getSaleReceivingWalletAddress);
-    this.veveUsername$ = this.store.select(getSaleReceivingVeveUsername);
-    this.fees$ = this.store.select(getSaleItemsFees);
-    this.currency$ = this.store.select(getSaleItemsCurrency);
+    this.network$ = this.store.select(getCreatorReceivingWalletNetwork);
+    this.walletAddress$ = this.store.select(getCreatorReceivingWalletAddress);
+    this.veveUsername$ = this.store.select(getCreatorReceivingVeveUsername);
+    this.fees$ = this.store.select(getCreatorItemsFees);
+    this.currency$ = this.store.select(getCreatorItemsCurrency);
   }
 
-  setSaleItems(amount: IAmount): void {
-    this.store.dispatch(AppActions.setSaleItems({ amount }));
+  setCreatorItems(amount: IAmount): void {
+    this.store.dispatch(AppActions.setCreatorItems({ amount }));
   }
 
   nextModal(): void {

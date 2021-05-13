@@ -9,13 +9,13 @@ import { AppModalStates } from '../../../../state/app.enums';
 import { IAmount, ITransaction, IUser } from '../../../../state/app.model';
 import {
   getActiveTransaction,
-  getBuyCurrencyNetworkSymbolList,
-  getBuyingSendingWalletAddress,
-  getBuyItems,
-  getBuySendingVeveUsername,
-  getBuySendingWalletNetwork,
-  getBuySendingWalletNetworkSymbol,
-  getSaleItems,
+  getPurchasorCurrencyNetworkSymbolList,
+  getPurchasoringSendingWalletAddress,
+  getPurchasorItems,
+  getPurchasorSendingVeveUsername,
+  getPurchasorSendingWalletNetwork,
+  getPurchasorSendingWalletNetworkSymbol,
+  getCreatorItems,
   getUser,
 } from '../../../../state/index';
 @Component({
@@ -23,8 +23,8 @@ import {
   templateUrl: './purchase-payment-modal.component.html',
 })
 export class PurchasePaymentModalComponent {
-  saleItems$!: Observable<IAmount>;
-  buyItems$!: Observable<IAmount>;
+  creatorItems$!: Observable<IAmount>;
+  purchaseItems$!: Observable<IAmount>;
   user$!: Observable<IUser | undefined>;
   activeTransaction$!: Observable<ITransaction | undefined>;
   NETWORK_SYMBOLS = NetworkSymbols;
@@ -37,19 +37,19 @@ export class PurchasePaymentModalComponent {
   constructor(private store: Store<State>, public authService: AuthService) {}
 
   ngOnInit(): void {
-    this.saleItems$ = this.store.select(getSaleItems);
-    this.buyItems$ = this.store.select(getBuyItems);
+    this.creatorItems$ = this.store.select(getCreatorItems);
+    this.purchaseItems$ = this.store.select(getPurchasorItems);
     this.user$ = this.store.select(getUser);
     this.activeTransaction$ = this.store.select(getActiveTransaction);
-    this.networkSymbolList$ = this.store.select(getBuyCurrencyNetworkSymbolList);
-    this.networkSymbol$ = this.store.select(getBuySendingWalletNetworkSymbol);
-    this.network$ = this.store.select(getBuySendingWalletNetwork);
-    this.walletAddress$ = this.store.select(getBuyingSendingWalletAddress);
-    this.veveUsername$ = this.store.select(getBuySendingVeveUsername);
+    this.networkSymbolList$ = this.store.select(getPurchasorCurrencyNetworkSymbolList);
+    this.networkSymbol$ = this.store.select(getPurchasorSendingWalletNetworkSymbol);
+    this.network$ = this.store.select(getPurchasorSendingWalletNetwork);
+    this.walletAddress$ = this.store.select(getPurchasoringSendingWalletAddress);
+    this.veveUsername$ = this.store.select(getPurchasorSendingVeveUsername);
   }
 
-  setBuyItems(amount: IAmount): void {
-    this.store.dispatch(AppActions.setBuyItems({ amount }));
+  setPurchaseItems(amount: IAmount): void {
+    this.store.dispatch(AppActions.setPurchasorItems({ amount }));
   }
 
   nextModal(): void {

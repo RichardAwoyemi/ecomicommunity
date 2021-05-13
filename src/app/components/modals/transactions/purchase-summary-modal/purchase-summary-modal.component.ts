@@ -8,23 +8,23 @@ import { AppModalStates } from '../../../../state/app.enums';
 import { IAmount, ITransaction, IUser } from '../../../../state/app.model';
 import {
   getActiveTransaction,
-  getBuyItems, getSaleItems, getUser
+  getCreatorItems, getPurchasorItems, getUser
 } from '../../../../state/index';
 @Component({
   selector: 'ec-purchase-summary-modal',
   templateUrl: './purchase-summary-modal.component.html',
 })
 export class PurchaseSummaryModalComponent {
-  saleItems$!: Observable<IAmount>;
-  buyItems$!: Observable<IAmount>;
+  creatorItems$!: Observable<IAmount>;
+  purchasorItems$!: Observable<IAmount>;
   user$!: Observable<IUser | undefined>;
   activeTransaction$!: Observable<ITransaction | undefined>;
 
   constructor(private store: Store<State>, public authService: AuthService) {}
 
   ngOnInit(): void {
-    this.saleItems$ = this.store.select(getSaleItems);
-    this.buyItems$ = this.store.select(getBuyItems);
+    this.creatorItems$ = this.store.select(getCreatorItems);
+    this.purchasorItems$ = this.store.select(getPurchasorItems);
     this.user$ = this.store.select(getUser);
     this.activeTransaction$ = this.store.select(getActiveTransaction);
   }

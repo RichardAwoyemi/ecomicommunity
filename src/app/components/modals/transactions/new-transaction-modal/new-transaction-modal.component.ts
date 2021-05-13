@@ -29,8 +29,8 @@ export class NewTransactionModalComponent {
     this.store.dispatch(AppActions.toggleRememberMe());
   }
 
-  showAddSaleItemModal(): void {
-    this.store.dispatch(AppActions.showModal({ modalState: AppModalStates.SaleItem }));
+  showAddCreatorItemModal(): void {
+    this.store.dispatch(AppActions.showModal({ modalState: AppModalStates.CreatorItem }));
   }
 
   hideModal(): void {

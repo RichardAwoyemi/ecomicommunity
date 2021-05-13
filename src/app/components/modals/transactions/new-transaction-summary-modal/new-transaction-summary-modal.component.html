@@ -12,20 +12,20 @@
       <div [innerHtml]="'Selling'"
         class="mt-2 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
       </div>
-      <div class="flex justify-center  font-bold my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Total: ' + ((saleItems$ | async)?.units!| number:'1.0-10') + ' ' + (saleItems$ | async)?.currency"></div>
+      <div class="flex justify-center  font-bold my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Total: ' + ((creatorItems$ | async)?.units!| number:'1.0-10') + ' ' + (creatorItems$ | async)?.currency"></div>
       <hr class="my-4">
       <div [innerHtml]="'Recieving'"
         class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
       </div>
-      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Initial Amount: ' + (buyItems$ | async)!.units! + ' ' + (buyItems$ | async)!.currency!"></div>
-      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Platform Fees (5%): ' + ((buyItemFees$ | async)!.platformFees| number:'1.0-10') + ' ' + (buyItems$ | async)!.currency!"></div>
-      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Network Fees: ' + ((buyItemFees$ | async)!.networkFees| number:'1.0-10') + ' ' + (buyItems$ | async)?.currency"></div>
-      <div class="flex justify-center font-bold my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Total: ' + ((buyItemFees$ | async)!.totalPostFees| number:'1.0-10') + ' ' + (buyItems$ | async)?.currency"></div>
+      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Initial Amount: ' + (purchaseItems$ | async)!.units! + ' ' + (purchaseItems$ | async)!.currency!"></div>
+      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Platform Fees (5%): ' + ((purchaseItemFees$ | async)!.platformFees| number:'1.0-10') + ' ' + (purchaseItems$ | async)!.currency!"></div>
+      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Network Fees: ' + ((purchaseItemFees$ | async)!.networkFees| number:'1.0-10') + ' ' + (purchaseItems$ | async)?.currency"></div>
+      <div class="flex justify-center font-bold my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Total: ' + ((purchaseItemFees$ | async)!.totalPostFees| number:'1.0-10') + ' ' + (purchaseItems$ | async)?.currency"></div>
     </div>
 
     <!--
       <h3 class="text-sm leading-6 font-medium text-gray-600" id="modal-title"
-        [innerHtml]="'You have requested to exchange ' + (saleItems$ | async)?.units + ' ' + (saleItems$ | async)?.currency + ' for ' + (buyItems$ | async)?.units + ' ' + (buyItems$ | async)?.currency + '.'">
+        [innerHtml]="'You have requested to exchange ' + (creatorItems$ | async)?.units + ' ' + (creatorItems$ | async)?.currency + ' for ' + (purchaseItems$ | async)?.units + ' ' + (purchaseItems$ | async)?.currency + '.'">
       </h3>
       <h3 class="text-sm leading-6 font-medium text-gray-600" id="modal-title"
         [innerHtml]="'Would you like to continue?'">
@@ -37,8 +37,8 @@
       class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm">
       Cancel
     </button>
-    <ec-add-transaction-button [user]="(user$ | async)" [saleItem]="(saleItems$ | async) || {}"
-      [buyItem]="(buyItems$ | async) || {}" type="button" class="w-full mt-3 sm:mt-0" innerHtml="Confirm">
+    <ec-add-transaction-button [user]="(user$ | async)" [creatorItem]="(creatorItems$ | async) || {}"
+      [purchaseItem]="(purchaseItems$ | async) || {}" type="button" class="w-full mt-3 sm:mt-0" innerHtml="Confirm">
     </ec-add-transaction-button>
   </div>
 </div>

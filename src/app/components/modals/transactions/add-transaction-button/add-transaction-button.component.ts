@@ -9,8 +9,8 @@ import { IAmount, IUser } from '../../../../state/app.model';
   templateUrl: './add-transaction-button.component.html',
 })
 export class AddTransactionButtonComponent {
-  @Input() saleItem!: IAmount;
-  @Input() buyItem!: IAmount;
+  @Input() creatorItem!: IAmount;
+  @Input() purchaseItem!: IAmount;
   @Input() user!: IUser | null | undefined;
 
   constructor(private store: Store<State>) {}
@@ -19,8 +19,8 @@ export class AddTransactionButtonComponent {
     this.store.dispatch(
       AppActions.addTransaction({
         txn: {
-          creator: this.saleItem,
-          purchasor: this.buyItem
+          creator: this.creatorItem,
+          purchasor: this.purchaseItem
         },
       }
     ))

@@ -13,7 +13,7 @@
               [options]="TRANSACTION_TYPES">
             </ec-dropdown>
 
-            <ng-container [ngSwitch]="(activeSaleItemType$ | async)">
+            <ng-container [ngSwitch]="(activeCreatorItemType$ | async)">
               <!-- Collectibles -->
               <ng-container *ngSwitchCase="COLLECTIBLE_TYPE">
                 <div class="mt-4 text-sm text-gray-700" [innerHtml]="'Coming Soon...'"></div>
@@ -21,8 +21,8 @@
 
               <!-- Currencies -->
               <ng-container *ngSwitchCase="CURRENCY_TYPE">
-                <ec-text-dropdown-suffix (fieldValue)="setSaleItems($event)" [inputType]="'number'"
-                  [textField]='(activeSaleItemUnits$ | async)!' [label]="(activeSaleItemCurrency$ | async) || currency"
+                <ec-text-dropdown-suffix (fieldValue)="setCreatorItems($event)" [inputType]="'number'"
+                  [textField]='(activeCreatorItemUnits$ | async)!' [label]="(activeCreatorItemCurrency$ | async) || currency"
                   [dropdown]="SELL_TRANSACTION_CURRENCY" [options]="TRANSACTION_CURRENCIES"></ec-text-dropdown-suffix>
 
                 <!-- Wallet Details -->
@@ -33,7 +33,7 @@
 
                   <div class="flex">
                     <button *ngFor="let symbol of (networkSymbolList$ | async)" [innerHtml]="symbol" type="button"
-                      (click)="setSaleItems({ sendingWallet: {networkSymbol: symbol}})"
+                      (click)="setCreatorItems({ sendingWallet: {networkSymbol: symbol}})"
                       [ngClass]="(networkSymbol$ | async) == symbol ? 'ring-2 ring-offset-2 ring-indigo-500 bg-gray-50' : ''"
                       class="flex ml-2 items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     </button>
@@ -44,10 +44,10 @@
                 </div>
 
                 <ec-prefix-text-input [label]="'Wallet Address:'" [text]="(walletAddress$ | async)!"
-                  (newText)="setSaleItems({ sendingWallet: {walletAddress: $event}})"></ec-prefix-text-input>
+                  (newText)="setCreatorItems({ sendingWallet: {walletAddress: $event}})"></ec-prefix-text-input>
                 <ec-prefix-text-input *ngIf="(networkSymbol$ | async) == NETWORK_SYMBOLS.VEVE"
                   [label]="'VeVe Username:'" [text]="(veveUsername$ | async)!"
-                  (newText)="setSaleItems({sendingWallet: {veveUsername: $event}})"></ec-prefix-text-input>
+                  (newText)="setCreatorItems({sendingWallet: {veveUsername: $event}})"></ec-prefix-text-input>
 
               </ng-container>
             </ng-container>

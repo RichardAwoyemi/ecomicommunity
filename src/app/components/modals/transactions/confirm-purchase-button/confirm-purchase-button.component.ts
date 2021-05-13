@@ -9,8 +9,8 @@ import { IAmount, ITransaction, IUser } from '../../../../state/app.model';
   templateUrl: './confirm-purchase-button.component.html',
 })
 export class ConfirmPurchaseButtonComponent {
-  @Input() saleItem!: IAmount;
-  @Input() buyItem!: IAmount;
+  @Input() creatorItem!: IAmount;
+  @Input() purchaseItem!: IAmount;
   @Input() user?: IUser;
   @Input() transaction!: ITransaction | undefined;
 

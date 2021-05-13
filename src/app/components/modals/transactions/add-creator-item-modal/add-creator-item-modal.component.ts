@@ -3,8 +3,8 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Networks, NetworkSymbols } from 'src/app/data/currency-settings';
 import {
-  getSaleItemsCurrency,
-  getSaleItemsUnits,
+  getCreatorItemsCurrency,
+  getCreatorItemsUnits,
 } from 'src/app/state';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
@@ -15,27 +15,27 @@ import {
   AppTransactionItemTypes,
 } from '../../../../state/app.enums';
 import { IAmount } from '../../../../state/app.model';
-import { getSaleSendingVeveUsername } from '../../../../state/index';
+import { getCreatorSendingVeveUsername } from '../../../../state/index';
 import {
-  getSaleSendingWalletNetworkSymbol,
-  getSaleSendingWalletNetwork,
-  getSaleSendingWalletAddress,
+  getCreatorSendingWalletNetworkSymbol,
+  getCreatorSendingWalletNetwork,
+  getCreatorSendingWalletAddress,
 } from '../../../../state/index';
 import {
   getActiveDropdownTransactionType,
-  getSaleCurrencyNetworkSymbolList,
+  getCreatorCurrencyNetworkSymbolList,
 } from '../../../../state/index';
 @Component({
-  selector: 'ec-add-sale-item-modal',
-  templateUrl: './add-sale-item-modal.component.html',
+  selector: 'ec-add-creator-item-modal',
+  templateUrl: './add-creator-item-modal.component.html',
 })
-export class AddSaleItemModalComponent {
+export class AddCreatorItemModalComponent {
   NEW_TRANSACTION_ITEM_TYPE = AppDropdownState.AddNewTransactionItemType;
   SELL_TRANSACTION_CURRENCY = AppDropdownState.SellTransactionCurrency;
   NETWORK_SYMBOLS = NetworkSymbols;
-  activeSaleItemType$!: Observable<string | undefined>;
-  activeSaleItemCurrency$!: Observable<AppTransactionCurrencies>;
-  activeSaleItemUnits$?: Observable<number | undefined>;
+  activeCreatorItemType$!: Observable<string | undefined>;
+  activeCreatorItemCurrency$!: Observable<AppTransactionCurrencies>;
+  activeCreatorItemUnits$?: Observable<number | undefined>;
   COLLECTIBLE_TYPE = AppTransactionItemTypes.Collectible;
   CURRENCY_TYPE = AppTransactionItemTypes.Currency;
   TRANSACTION_TYPES = Object.keys(AppTransactionItemTypes);
@@ -51,27 +51,27 @@ export class AddSaleItemModalComponent {
   constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
-    this.activeSaleItemType$ = this.store.select(
+    this.activeCreatorItemType$ = this.store.select(
       getActiveDropdownTransactionType
     );
-    this.activeSaleItemCurrency$ = this.store.select(getSaleItemsCurrency);
-    this.activeSaleItemUnits$ = this.store.select(getSaleItemsUnits);
+    this.activeCreatorItemCurrency$ = this.store.select(getCreatorItemsCurrency);
+    this.activeCreatorItemUnits$ = this.store.select(getCreatorItemsUnits);
     this.networkSymbolList$ = this.store.select(
-      getSaleCurrencyNetworkSymbolList
+      getCreatorCurrencyNetworkSymbolList
     );
-    this.networkSymbol$ = this.store.select(getSaleSendingWalletNetworkSymbol);
-    this.network$ = this.store.select(getSaleSendingWalletNetwork);
-    this.walletAddress$ = this.store.select(getSaleSendingWalletAddress);
-    this.veveUsername$ = this.store.select(getSaleSendingVeveUsername);
+    this.networkSymbol$ = this.store.select(getCreatorSendingWalletNetworkSymbol);
+    this.network$ = this.store.select(getCreatorSendingWalletNetwork);
+    this.walletAddress$ = this.store.select(getCreatorSendingWalletAddress);
+    this.veveUsername$ = this.store.select(getCreatorSendingVeveUsername);
   }
 
-  setSaleItems(amount: IAmount): void {
-    this.store.dispatch(AppActions.setSaleItems({ amount }));
+  setCreatorItems(amount: IAmount): void {
+    this.store.dispatch(AppActions.setCreatorItems({ amount }));
   }
 
   nextModal(): void {
     this.store.dispatch(
-      AppActions.showModal({ modalState: AppModalStates.BuyItem })
+      AppActions.showModal({ modalState: AppModalStates.PurchasorItem })
     );
   }
 }

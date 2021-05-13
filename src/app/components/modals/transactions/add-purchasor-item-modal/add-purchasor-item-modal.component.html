@@ -13,31 +13,31 @@
               [options]="TRANSACTION_TYPES">
             </ec-dropdown>
 
-            <ng-container [ngSwitch]="(activeBuyItemType$ | async)">
+            <ng-container [ngSwitch]="(activePurchaseItemType$ | async)">
               <ng-container *ngSwitchCase="COLLECTIBLE_TYPE">
                 <div class="mt-4 text-sm text-gray-700" [innerHtml]="'Coming Soon...'"></div>
               </ng-container>
               <ng-container *ngSwitchCase="CURRENCY_TYPE">
 
-                <ec-text-dropdown-suffix (fieldValue)="setBuyItems($event)" [textField]='(activeBuyItemUnits$ | async)!'
-                  [inputType]="'number'" [label]="(activeBuyItemCurrency$ | async) || currency"
+                <ec-text-dropdown-suffix (fieldValue)="setPurchasorItems($event)" [textField]='(activePurchaseItemUnits$ | async)!'
+                  [inputType]="'number'" [label]="(activePurchaseItemCurrency$ | async) || currency"
                   [dropdown]="BUYING_TRANSACTION_CURRENCY" [options]="TRANSACTION_CURRENCIES"></ec-text-dropdown-suffix>
 
                 <div class="my-4">
                   <div class="justify-between flex">
                     <div class="flex text-xs sm:text-sm text-gray-700" [innerHtml]="'Network Fees: '"></div>
                     <div class="flex text-xs sm:text-sm text-gray-700"
-                      [innerHtml]="(buyItemsFees$ | async)!.networkFees | number:'1.0-10'"></div>
+                      [innerHtml]="(purchaseItemsFees$ | async)!.networkFees | number:'1.0-10'"></div>
                   </div>
                   <div class="justify-between flex">
                     <div class="flex text-xs sm:text-sm text-gray-700" [innerHtml]="'Platform Fees: '"></div>
                     <div class="flex text-xs sm:text-sm text-gray-700"
-                      [innerHtml]="(buyItemsFees$ | async)!.platformFees | number:'1.0-10'"></div>
+                      [innerHtml]="(purchaseItemsFees$ | async)!.platformFees | number:'1.0-10'"></div>
                   </div>
                   <div class="justify-between flex">
                     <div class="flex text-xs sm:text-sm text-gray-700" [innerHtml]="'Total Received: '"></div>
                     <div class="flex text-xs sm:text-sm text-gray-700"
-                      [innerHtml]="(buyItemsFees$ | async)!.totalPostFees | number:'1.0-10'"></div>
+                      [innerHtml]="(purchaseItemsFees$ | async)!.totalPostFees | number:'1.0-10'"></div>
                   </div>
                 </div>
 
@@ -49,7 +49,7 @@
 
                   <div class="flex">
                     <button *ngFor="let symbol of (networkSymbolList$ | async)" [innerHtml]="symbol" type="button"
-                      (click)="setBuyItems({receivingWallet: {networkSymbol: symbol}})"
+                      (click)="setPurchasorItems({receivingWallet: {networkSymbol: symbol}})"
                       [ngClass]="(networkSymbol$ | async) == symbol ? 'ring-2 ring-offset-2 ring-indigo-500 bg-gray-50' : ''"
                       class="flex ml-2 items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     </button>
@@ -61,10 +61,10 @@
 
 
                 <ec-prefix-text-input [label]="'Wallet Address:'" [text]="(walletAddress$ | async)!"
-                  (newText)="setBuyItems({receivingWallet:{walletAddress: $event}})"></ec-prefix-text-input>
+                  (newText)="setPurchasorItems({receivingWallet:{walletAddress: $event}})"></ec-prefix-text-input>
                 <ec-prefix-text-input *ngIf="(networkSymbol$ | async) == NETWORK_SYMBOLS.VEVE"
                   [label]="'VeVe Username:'" [text]="(veveUsername$ | async)!"
-                  (newText)="setBuyItems({receivingWallet: {veveUsername: $event}})"></ec-prefix-text-input>
+                  (newText)="setPurchasorItems({receivingWallet: {veveUsername: $event}})"></ec-prefix-text-input>
 
               </ng-container>
             </ng-container>

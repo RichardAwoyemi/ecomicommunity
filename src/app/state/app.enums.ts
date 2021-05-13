@@ -9,8 +9,8 @@ export enum AppModalStates {
   PurchasePayment = 'purchase-payment',
   PurchaseReceiving = 'purchase-recieving',
   PurchaseSummary = 'purchase-summary',
-  SaleItem = 'sale-item',
-  BuyItem = 'buy-item',
+  CreatorItem = 'creator-item',
+  PurchasorItem = 'purchasor-item',
   HowItWorks = 'how-it-works'
 }
 

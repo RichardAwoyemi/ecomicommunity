@@ -7,34 +7,30 @@ import * as AppActions from '../../../../state/app.actions';
 import { AppModalStates } from '../../../../state/app.enums';
 import { IAmount, IFees, IUser } from '../../../../state/app.model';
 import {
-  getBuyItems, getBuyItemsFees, getSaleItems,
-
-  getUID,
-  getUser,
-  getUsername
+  getPurchasorItems, getPurchasorItemsFees, getCreatorItems, getUser,
 } from '../../../../state/index';
 @Component({
   selector: 'ec-new-transaction-summary-modal',
   templateUrl: './new-transaction-summary-modal.component.html',
 })
 export class NewTransactionSummaryModalComponent {
-  saleItems$!: Observable<IAmount>;
-  buyItems$!: Observable<IAmount>;
+  creatorItems$!: Observable<IAmount>;
+  purchaseItems$!: Observable<IAmount>;
   user$!: Observable<IUser | undefined>;
-  buyItemFees$!: Observable<IFees>;
+  purchaseItemFees$!: Observable<IFees>;
 
   constructor(private store: Store<State>, public authService: AuthService) {}
 
   ngOnInit(): void {
-    this.saleItems$ = this.store.select(getSaleItems);
-    this.buyItems$ = this.store.select(getBuyItems);
+    this.creatorItems$ = this.store.select(getCreatorItems);
+    this.purchaseItems$ = this.store.select(getPurchasorItems);
     this.user$ = this.store.select(getUser);
-    this.buyItemFees$ = this.store.select(getBuyItemsFees);
+    this.purchaseItemFees$ = this.store.select(getPurchasorItemsFees);
   }
 
   previousModal(): void {
     this.store.dispatch(
-      AppActions.showModal({ modalState: AppModalStates.BuyItem })
+      AppActions.showModal({ modalState: AppModalStates.PurchasorItem })
     );
   }
 
