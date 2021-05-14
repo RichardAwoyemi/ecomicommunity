@@ -1,8 +1,10 @@
 /* NgRx */
 import { createAction, props } from '@ngrx/store';
 import firebase from 'firebase/app';
-import { IUser, ITransaction, IAmount } from './app.model';
-import { AppModalStates, AppDropdownState } from './app.enums';
+import { IUser, ITransaction, IAmount, IWallet } from './app.model';
+import { AppModalStates, AppDropdownState, AppTransactionCurrencies } from './app.enums';
+import { NetworkSymbols } from '../data/currency-settings';
+import { IFees } from 'functions/src/utils/function.utils';
 
 export enum AppActionTypes {
   IsLoggedIn = '[App] Is Logged In',
@@ -26,6 +28,29 @@ export enum AppActionTypes {
   ResetNewTransaction = '[App] [Transaction] Reset New Transaction',
   ConfirmPurchase = '[App] Confirm Purchase',
   AddTransaction = '[App] [Transactions] Add New Transaction',
+
+  SetCreatorUserDetails = '[App] [Transactions] Set Creator User Details',
+  SetCreatorSendingAmount = '[App] [Transactions] Set Creator Sending Amount',
+  SetCreatorSendingNetworkVeveUsername = '[App] [Transactions] Set Creator Sending Network Username',
+  SetCreatorSendingNetworkWalletAddress = '[App] [Transactions] Set Creator Sending Network Wallet Address',
+  SetCreatorSendingNetworkSymbol = '[App] [Transactions] Set Creator Sending Network Symbol',
+  SetCreatorSendingCurrency = '[App] [Transactions] Set Creator Sending Currency',
+  SetCreatorReceivingNetworkVeveUsername = '[App] [Transactions] Set Creator Receiving Network Username',
+  SetCreatorReceivingNetworkWalletAddress = '[App] [Transactions] Set Creator Receiving Network Wallet Address',
+  SetCreatorReceivingNetworkSymbol = '[App] [Transactions] Set Creator Receiving Network Symbol',
+  SetCreatorReceivingFees = '[App] [Transactions] Set Creator Receiving Fees',
+
+  SetPurchasorUserDetails = '[App] [Transactions] Set Purchasor User Details',
+  SetPurchasorSendingAmount = '[App] [Transactions] Set Purchasor Sending Amount',
+  SetPurchasorSendingNetworkVeveUsername = '[App] [Transactions] Set Purchasor Sending Network Username',
+  SetPurchasorSendingNetworkWalletAddress = '[App] [Transactions] Set Purchasor Sending Network Wallet Address',
+  SetPurchasorSendingNetworkSymbol = '[App] [Transactions] Set Purchasor Sending Network Symbol',
+  SetPurchasorSendingCurrency = '[App] [Transactions] Set Purchasor Sending Currency',
+  SetPurchasorReceivingNetworkVeveUsername = '[App] [Transactions] Set Purchasor Receiving Network Username',
+  SetPurchasorReceivingNetworkWalletAddress = '[App] [Transactions] Set Purchasor Receiving Network Wallet Address',
+  SetPurchasorReceivingNetworkSymbol = '[App] [Transactions] Set Purchasor Receiving Network Symbol',
+  SetPurchasorReceivingFees = '[App] [Transactions] Set Purchasor Receiving Fees',
+
   SetCreatorItems = '[App] [Transactions] Set Creator Assets',
   SetPurchasorItems = '[App] [Transactions] Set Purchasor Assets',
   SetUser = '[App] [Login] Set User',
@@ -154,6 +179,75 @@ export const deleteTransaction = createAction(
   props<{ id: string }>()
 );
 
+export const setCreatorUserDetails = createAction(
+  AppActionTypes.SetCreatorUserDetails,
+);
+export const setCreatorSendingNetworkWalletAddress = createAction(
+  AppActionTypes.SetCreatorSendingNetworkWalletAddress,
+  props<{ walletAddress: string }>()
+);
+export const setCreatorSendingNetworkVeveUsername = createAction(
+  AppActionTypes.SetCreatorSendingNetworkVeveUsername,
+  props<{ veveUsername: string }>()
+);
+export const setCreatorSendingNetworkSymbol = createAction(
+  AppActionTypes.SetCreatorSendingNetworkSymbol,
+  props<{ symbol: NetworkSymbols }>()
+);
+export const setCreatorSendingAmount = createAction(
+  AppActionTypes.SetCreatorSendingAmount,
+  props<{ amount: IAmount }>()
+);
+export const setCreatorReceivingNetworkWalletAddress = createAction(
+  AppActionTypes.SetCreatorReceivingNetworkWalletAddress,
+  props<{ walletAddress: string }>()
+);
+export const setCreatorReceivingNetworkVeveUsername = createAction(
+  AppActionTypes.SetCreatorReceivingNetworkVeveUsername,
+  props<{ veveUsername: string }>()
+);
+export const setCreatorReceivingNetworkSymbol = createAction(
+  AppActionTypes.SetCreatorReceivingNetworkSymbol,
+  props<{ symbol: NetworkSymbols }>()
+);
+export const setCreatorReceivingFees = createAction(
+  AppActionTypes.SetCreatorReceivingFees
+);
+
+export const setPurchasorUserDetails = createAction(
+  AppActionTypes.SetPurchasorUserDetails,
+);
+export const setPurchasorSendingNetworkWalletAddress = createAction(
+  AppActionTypes.SetPurchasorSendingNetworkWalletAddress,
+  props<{ walletAddress: string }>()
+);
+export const setPurchasorSendingNetworkVeveUsername = createAction(
+  AppActionTypes.SetPurchasorSendingNetworkVeveUsername,
+  props<{ veveUsername: string }>()
+);
+export const setPurchasorSendingNetworkSymbol = createAction(
+  AppActionTypes.SetPurchasorSendingNetworkSymbol,
+  props<{ symbol: NetworkSymbols }>()
+);
+export const setPurchasorSendingAmount = createAction(
+  AppActionTypes.SetPurchasorSendingAmount,
+  props<{ amount: IAmount }>()
+);
+export const setPurchasorReceivingNetworkWalletAddress = createAction(
+  AppActionTypes.SetPurchasorReceivingNetworkWalletAddress,
+  props<{ walletAddress: string }>()
+);
+export const setPurchasorReceivingNetworkVeveUsername = createAction(
+  AppActionTypes.SetCreatorReceivingNetworkVeveUsername,
+  props<{ veveUsername: string }>()
+);
+export const setPurchasorReceivingNetworkSymbol = createAction(
+  AppActionTypes.SetPurchasorReceivingNetworkSymbol,
+  props<{ symbol: NetworkSymbols }>()
+);
+export const setPurchasorReceivingFees = createAction(
+  AppActionTypes.SetPurchasorReceivingFees
+);
 
 export const setCreatorItems = createAction(
   AppActionTypes.SetCreatorItems,

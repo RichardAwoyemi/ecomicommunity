@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { Networks, NetworkSymbols } from 'src/app/data/currency-settings';
+import { DEFAULT_NETWORKS, Networks, NetworkSymbols } from 'src/app/data/currency-settings';
 import {
   getActiveDropdownTransactionType,
-  getPurchasorItemsFees,
+  getCreatorItemsFees,
 } from 'src/app/state';
 import { IAmount, IFees } from 'src/app/state/app.model';
 import { State } from 'src/app/state/app.state';
@@ -40,9 +40,10 @@ export class AddPurchasorItemModalComponent {
   networkSymbolList$!: Observable<NetworkSymbols[]>;
   networkSymbol$!: Observable<NetworkSymbols>;
   network$!: Observable<Networks>;
-  purchaseItemsFees$!: Observable<IFees>;
+  creatorItemsFees$!: Observable<IFees>;
   walletAddress$!: Observable<string>;
   veveUsername$!: Observable<string>;
+  selectedPurchasorNetworkSymbol = NetworkSymbols.BTC;
 
   constructor(private store: Store<State>) {}
 
@@ -57,9 +58,33 @@ export class AddPurchasorItemModalComponent {
     );
     this.networkSymbol$ = this.store.select(getPurchasorReceivingWalletNetworkSymbol);
     this.network$ = this.store.select(getPurchasorReceivingWalletNetwork);
-    this.purchaseItemsFees$ = this.store.select(getPurchasorItemsFees);
+    this.creatorItemsFees$ = this.store.select(getCreatorItemsFees);
     this.walletAddress$ = this.store.select(getPurchasorReceivingWalletAddress);
     this.veveUsername$ = this.store.select(getPurchasorReceivingVeveUsername);
+  }
+
+  setPurchasorSendingUnitsAndCurrency(amount: IAmount): void {
+    const currency = amount.currency;
+    this.selectedPurchasorNetworkSymbol = DEFAULT_NETWORKS[currency || AppTransactionCurrencies.BTC];
+    this.store.dispatch(AppActions.setPurchasorSendingAmount({ amount: { currency: amount.currency, units: amount.units }}));
+    this.store.dispatch(AppActions.setPurchasorSendingNetworkSymbol({ symbol: this.selectedPurchasorNetworkSymbol }));
+    this.store.dispatch(AppActions.setCreatorReceivingNetworkSymbol({ symbol: this.selectedPurchasorNetworkSymbol }));
+    this.store.dispatch(AppActions.setCreatorReceivingFees());
+  }
+
+  setPurchasorSendingNetworkSymbol(symbol: NetworkSymbols): void {
+    this.selectedPurchasorNetworkSymbol = symbol;
+    console.log(this.selectedPurchasorNetworkSymbol);
+    this.store.dispatch(AppActions.setPurchasorSendingNetworkSymbol({ symbol: symbol }));
+    this.store.dispatch(AppActions.setCreatorReceivingNetworkSymbol({ symbol: symbol }));
+  }
+
+  setCreatorReceivingNetworkWalletAddress(walletAddress: string): void {
+    this.store.dispatch(AppActions.setCreatorReceivingNetworkWalletAddress({ walletAddress: walletAddress }));
+  }
+
+  setCreatorReceivingNetworkVeveUsername(veveUsername: string): void {
+    this.store.dispatch(AppActions.setCreatorReceivingNetworkVeveUsername({ veveUsername: veveUsername}));
   }
 
   previousModal(): void {
@@ -74,7 +99,4 @@ export class AddPurchasorItemModalComponent {
     );
   }
 
-  setPurchasorItems(amount: IAmount): void {
-    this.store.dispatch(AppActions.setPurchasorItems({ amount }));
-  }
 }

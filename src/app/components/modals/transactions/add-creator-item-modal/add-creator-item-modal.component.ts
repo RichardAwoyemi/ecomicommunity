@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { Networks, NetworkSymbols } from 'src/app/data/currency-settings';
+import { DEFAULT_NETWORKS, Networks, NetworkSymbols } from 'src/app/data/currency-settings';
 import {
   getCreatorItemsCurrency,
   getCreatorItemsUnits,
@@ -41,6 +41,7 @@ export class AddCreatorItemModalComponent {
   TRANSACTION_TYPES = Object.keys(AppTransactionItemTypes);
   TRANSACTION_CURRENCIES = Object.values(AppTransactionCurrencies);
   quantity = 0;
+  selectedCreatorNetworkSymbol = NetworkSymbols.VEVE;
   currency = AppTransactionCurrencies.GEMS;
   networkSymbolList$!: Observable<NetworkSymbols[]>;
   networkSymbol$!: Observable<NetworkSymbols>;
@@ -56,17 +57,35 @@ export class AddCreatorItemModalComponent {
     );
     this.activeCreatorItemCurrency$ = this.store.select(getCreatorItemsCurrency);
     this.activeCreatorItemUnits$ = this.store.select(getCreatorItemsUnits);
-    this.networkSymbolList$ = this.store.select(
-      getCreatorCurrencyNetworkSymbolList
-    );
+    this.networkSymbolList$ = this.store.select(getCreatorCurrencyNetworkSymbolList);
     this.networkSymbol$ = this.store.select(getCreatorSendingWalletNetworkSymbol);
     this.network$ = this.store.select(getCreatorSendingWalletNetwork);
     this.walletAddress$ = this.store.select(getCreatorSendingWalletAddress);
     this.veveUsername$ = this.store.select(getCreatorSendingVeveUsername);
+    this.store.dispatch(AppActions.setCreatorUserDetails());
   }
 
-  setCreatorItems(amount: IAmount): void {
-    this.store.dispatch(AppActions.setCreatorItems({ amount }));
+  setCreatorSendingUnitsAndCurrency(amount: IAmount): void {
+    const currency = amount.currency;
+    this.selectedCreatorNetworkSymbol = DEFAULT_NETWORKS[currency || AppTransactionCurrencies.GEMS];
+    this.store.dispatch(AppActions.setCreatorSendingAmount({ amount: { currency: amount.currency, units: amount.units }}));
+    this.store.dispatch(AppActions.setCreatorSendingNetworkSymbol({ symbol: this.selectedCreatorNetworkSymbol }));
+    this.store.dispatch(AppActions.setPurchasorReceivingNetworkSymbol({ symbol: this.selectedCreatorNetworkSymbol }));
+    this.store.dispatch(AppActions.setPurchasorReceivingFees());
+  }
+
+  setCreatorSendingNetworkSymbol(symbol: NetworkSymbols): void {
+    this.selectedCreatorNetworkSymbol = symbol;
+    this.store.dispatch(AppActions.setCreatorSendingNetworkSymbol({ symbol: symbol }));
+    this.store.dispatch(AppActions.setPurchasorReceivingNetworkSymbol({ symbol: symbol }));
+  }
+
+  setCreatorSendingNetworkWalletAddress(walletAddress: string): void {
+    this.store.dispatch(AppActions.setCreatorSendingNetworkWalletAddress({ walletAddress: walletAddress }));
+  }
+
+  setCreatorSendingNetworkVeveUsername(veveUsername: string): void {
+    this.store.dispatch(AppActions.setCreatorSendingNetworkVeveUsername({ veveUsername: veveUsername}));
   }
 
   nextModal(): void {

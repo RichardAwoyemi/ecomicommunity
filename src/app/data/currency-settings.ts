@@ -6,6 +6,7 @@ export enum Networks {
   BTC = 'Bitcoin (BTC)',
   GO = 'GoChain (GO)',
   VEVE = 'VeVe App',
+  NULL = 'NULL'
 }
 
 export enum NetworkSymbols {
@@ -13,7 +14,7 @@ export enum NetworkSymbols {
   BEP20 = 'BEP20',
   BTC = 'BTC',
   GO = 'GO',
-  VEVE = 'VEVE',
+  VEVE = 'VEVE'
 }
 
 interface INetworkFees {
@@ -34,7 +35,7 @@ export const DEFAULT_NETWORKS = {
   [AppTransactionCurrencies.GEMS]: NetworkSymbols.VEVE,
   [AppTransactionCurrencies.OMI]: NetworkSymbols.GO,
   [AppTransactionCurrencies.USDC]: NetworkSymbols.BEP20,
-  [AppTransactionCurrencies.USDT]: NetworkSymbols.BEP20,
+  [AppTransactionCurrencies.USDT]: NetworkSymbols.BEP20
 };
 
 export const NETWORK_FEES_PC: INetworkFees = {
