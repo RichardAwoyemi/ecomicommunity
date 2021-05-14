@@ -19,7 +19,10 @@
               </ng-container>
               <ng-container *ngSwitchCase="CURRENCY_TYPE">
 
-                <ec-text-dropdown-suffix (fieldValue)="setPurchasorSendingUnitsAndCurrency($event)" [textField]='(activePurchaseItemUnits$ | async)!'
+                <ec-text-dropdown-suffix 
+                  (dropDownValue)="setPurchasorSendingCurrency($event)"
+                  (inputValue)="setPurchasorSendingUnits($event)"  
+                  [textField]='(activePurchaseItemUnits$ | async)!'
                   [inputType]="'number'" [label]="(activePurchaseItemCurrency$ | async) || currency"
                   [dropdown]="BUYING_TRANSACTION_CURRENCY" [options]="TRANSACTION_CURRENCIES"></ec-text-dropdown-suffix>
 

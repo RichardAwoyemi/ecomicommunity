@@ -65,10 +65,14 @@ export class AddCreatorItemModalComponent {
     this.store.dispatch(AppActions.setCreatorUserDetails());
   }
 
-  setCreatorSendingUnitsAndCurrency(amount: IAmount): void {
-    const currency = amount.currency;
+  setCreatorSendingUnits(units: number): void {
+    this.store.dispatch(AppActions.setCreatorSendingAmountUnits({ units: units }));
+    this.store.dispatch(AppActions.setPurchasorReceivingFees());
+  }
+
+  setCreatorSendingCurrency(currency: AppTransactionCurrencies): void {
     this.selectedCreatorNetworkSymbol = DEFAULT_NETWORKS[currency || AppTransactionCurrencies.GEMS];
-    this.store.dispatch(AppActions.setCreatorSendingAmount({ amount: { currency: amount.currency, units: amount.units }}));
+    this.store.dispatch(AppActions.setCreatorSendingAmountCurrency({ currency: currency }));
     this.store.dispatch(AppActions.setCreatorSendingNetworkSymbol({ symbol: this.selectedCreatorNetworkSymbol }));
     this.store.dispatch(AppActions.setPurchasorReceivingNetworkSymbol({ symbol: this.selectedCreatorNetworkSymbol }));
     this.store.dispatch(AppActions.setPurchasorReceivingFees());

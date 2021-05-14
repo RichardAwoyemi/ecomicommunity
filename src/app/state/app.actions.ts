@@ -30,7 +30,8 @@ export enum AppActionTypes {
   AddTransaction = '[App] [Transactions] Add New Transaction',
 
   SetCreatorUserDetails = '[App] [Transactions] Set Creator User Details',
-  SetCreatorSendingAmount = '[App] [Transactions] Set Creator Sending Amount',
+  SetCreatorSendingAmountUnits = '[App] [Transactions] Set Creator Sending Amount Units',
+  SetCreatorSendingAmountCurrency = '[App] [Transactions] Set Creator Sending Amount Currency',
   SetCreatorSendingNetworkVeveUsername = '[App] [Transactions] Set Creator Sending Network Username',
   SetCreatorSendingNetworkWalletAddress = '[App] [Transactions] Set Creator Sending Network Wallet Address',
   SetCreatorSendingNetworkSymbol = '[App] [Transactions] Set Creator Sending Network Symbol',
@@ -41,7 +42,8 @@ export enum AppActionTypes {
   SetCreatorReceivingFees = '[App] [Transactions] Set Creator Receiving Fees',
 
   SetPurchasorUserDetails = '[App] [Transactions] Set Purchasor User Details',
-  SetPurchasorSendingAmount = '[App] [Transactions] Set Purchasor Sending Amount',
+  SetPurchasorSendingAmountUnits = '[App] [Transactions] Set Purchasor Sending Amount Units',
+  SetPurchasorSendingAmountCurrency = '[App] [Transactions] Set Purchasor Sending Amount Currency',
   SetPurchasorSendingNetworkVeveUsername = '[App] [Transactions] Set Purchasor Sending Network Username',
   SetPurchasorSendingNetworkWalletAddress = '[App] [Transactions] Set Purchasor Sending Network Wallet Address',
   SetPurchasorSendingNetworkSymbol = '[App] [Transactions] Set Purchasor Sending Network Symbol',
@@ -194,9 +196,13 @@ export const setCreatorSendingNetworkSymbol = createAction(
   AppActionTypes.SetCreatorSendingNetworkSymbol,
   props<{ symbol: NetworkSymbols }>()
 );
-export const setCreatorSendingAmount = createAction(
-  AppActionTypes.SetCreatorSendingAmount,
-  props<{ amount: IAmount }>()
+export const setCreatorSendingAmountUnits = createAction(
+  AppActionTypes.SetCreatorSendingAmountUnits,
+  props<{ units: number }>()
+);
+export const setCreatorSendingAmountCurrency = createAction(
+  AppActionTypes.SetCreatorSendingAmountCurrency ,
+  props<{ currency: AppTransactionCurrencies }>()
 );
 export const setCreatorReceivingNetworkWalletAddress = createAction(
   AppActionTypes.SetCreatorReceivingNetworkWalletAddress,
@@ -229,9 +235,13 @@ export const setPurchasorSendingNetworkSymbol = createAction(
   AppActionTypes.SetPurchasorSendingNetworkSymbol,
   props<{ symbol: NetworkSymbols }>()
 );
-export const setPurchasorSendingAmount = createAction(
-  AppActionTypes.SetPurchasorSendingAmount,
-  props<{ amount: IAmount }>()
+export const setPurchasorSendingAmountUnits = createAction(
+  AppActionTypes.SetPurchasorSendingAmountUnits,
+  props<{ units: number }>()
+);
+export const setPurchasorSendingAmountCurrency = createAction(
+  AppActionTypes.SetPurchasorSendingAmountCurrency,
+  props<{ currency: AppTransactionCurrencies }>()
 );
 export const setPurchasorReceivingNetworkWalletAddress = createAction(
   AppActionTypes.SetPurchasorReceivingNetworkWalletAddress,

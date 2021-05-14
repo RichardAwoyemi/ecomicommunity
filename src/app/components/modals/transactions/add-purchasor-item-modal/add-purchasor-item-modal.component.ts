@@ -63,10 +63,14 @@ export class AddPurchasorItemModalComponent {
     this.veveUsername$ = this.store.select(getPurchasorReceivingVeveUsername);
   }
 
-  setPurchasorSendingUnitsAndCurrency(amount: IAmount): void {
-    const currency = amount.currency;
+  setPurchasorSendingUnits(units: number): void {
+    this.store.dispatch(AppActions.setPurchasorSendingAmountUnits({ units: units }));
+    this.store.dispatch(AppActions.setCreatorReceivingFees());
+  }
+
+  setPurchasorSendingCurrency(currency: AppTransactionCurrencies): void {
     this.selectedPurchasorNetworkSymbol = DEFAULT_NETWORKS[currency || AppTransactionCurrencies.BTC];
-    this.store.dispatch(AppActions.setPurchasorSendingAmount({ amount: { currency: amount.currency, units: amount.units }}));
+    this.store.dispatch(AppActions.setPurchasorSendingAmountCurrency({ currency: currency }));
     this.store.dispatch(AppActions.setPurchasorSendingNetworkSymbol({ symbol: this.selectedPurchasorNetworkSymbol }));
     this.store.dispatch(AppActions.setCreatorReceivingNetworkSymbol({ symbol: this.selectedPurchasorNetworkSymbol }));
     this.store.dispatch(AppActions.setCreatorReceivingFees());
@@ -98,5 +102,4 @@ export class AddPurchasorItemModalComponent {
       AppActions.showModal({ modalState: AppModalStates.NewTransactionSummary })
     );
   }
-
 }

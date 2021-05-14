@@ -23,7 +23,8 @@ export class TextDropdownSuffixComponent implements OnInit {
   toggleDropdown$!: Observable<string>;
   activeDropdownOptions$!: Observable<string>;
 
-  @Output() fieldValue = new EventEmitter<IAmount>();
+  @Output() inputValue = new EventEmitter<number>();
+  @Output() dropDownValue = new EventEmitter<AppTransactionCurrencies>();
 
   constructor(private store: Store<State>) {}
 
@@ -39,7 +40,11 @@ export class TextDropdownSuffixComponent implements OnInit {
     );
   }
 
-  valueChange(value: number, option: AppTransactionCurrencies = this.label): void {
-      this.fieldValue.emit({units: +value.toString().replace('/[^0-9.]/g',''), currency: option});
+  inputValueChange(value: number): void {
+    this.inputValue.emit(+value.toString().replace('/[^0-9.]/g',''));
+  }
+
+  dropDownValueChange(option: AppTransactionCurrencies = this.label): void {
+    this.dropDownValue.emit(option);
   }
 }

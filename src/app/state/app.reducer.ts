@@ -230,13 +230,21 @@ export const appReducer = createReducer<AppState>(
       }
     }
   }),
-  on(AppActions.setCreatorSendingAmount, (state, props): AppState => {
+  on(AppActions.setCreatorSendingAmountUnits, (state, props): AppState => {
     return {
       ...state,
       creatorItems: {
         ...state.creatorItems,
-        units: props?.amount.units || state.creatorItems.units!,
-        currency: props?.amount.currency || state.creatorItems.currency!,
+        units: props?.units || state.creatorItems.units!,
+      }
+    }
+  }),
+  on(AppActions.setCreatorSendingAmountCurrency, (state, props): AppState => {
+    return {
+      ...state,
+      creatorItems: {
+        ...state.creatorItems,
+        currency: props?.currency || state.creatorItems.currency!,
       }
     }
   }),
@@ -337,13 +345,21 @@ export const appReducer = createReducer<AppState>(
       }
     }
   }),
-  on(AppActions.setPurchasorSendingAmount, (state, props): AppState => {
+  on(AppActions.setPurchasorSendingAmountUnits, (state, props): AppState => {
     return {
       ...state,
       purchasorItems: {
         ...state.purchasorItems,
-        units: props?.amount.units || state.purchasorItems.units!,
-        currency: props?.amount.currency || state.purchasorItems.currency!,
+        units: props?.units || state.purchasorItems.units!
+      }
+    }
+  }),
+  on(AppActions.setPurchasorSendingAmountCurrency, (state, props): AppState => {
+    return {
+      ...state,
+      purchasorItems: {
+        ...state.purchasorItems,
+        currency: props.currency || state.purchasorItems.currency!,
       }
     }
   }),
