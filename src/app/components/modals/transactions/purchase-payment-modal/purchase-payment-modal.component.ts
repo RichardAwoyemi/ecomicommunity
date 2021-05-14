@@ -10,7 +10,7 @@ import { IAmount, ITransaction, IUser } from '../../../../state/app.model';
 import {
   getActiveTransaction,
   getPurchasorCurrencyNetworkSymbolList,
-  getPurchasoringSendingWalletAddress,
+  getPurchasorSendingWalletAddress,
   getPurchasorItems,
   getPurchasorSendingVeveUsername,
   getPurchasorSendingWalletNetwork,
@@ -44,7 +44,7 @@ export class PurchasePaymentModalComponent {
     this.networkSymbolList$ = this.store.select(getPurchasorCurrencyNetworkSymbolList);
     this.networkSymbol$ = this.store.select(getPurchasorSendingWalletNetworkSymbol);
     this.network$ = this.store.select(getPurchasorSendingWalletNetwork);
-    this.walletAddress$ = this.store.select(getPurchasoringSendingWalletAddress);
+    this.walletAddress$ = this.store.select(getPurchasorSendingWalletAddress);
     this.veveUsername$ = this.store.select(getPurchasorSendingVeveUsername);
   }
 

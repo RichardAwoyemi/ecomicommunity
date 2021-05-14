@@ -31,21 +31,21 @@
                     <div class="flex text-xs sm:text-sm text-gray-700" [innerHtml]="'Network Fees: '"></div>
                     <div class="flex text-xs sm:text-sm text-gray-700">
                       <span [innerHtml]="(creatorItemsFees$ | async)!.networkFees | number:'1.0-10'"></span>&nbsp;
-                      <span [innerHtml]="selectedPurchasorNetworkSymbol"></span>
+                      <span [innerHtml]="(activePurchaseItemCurrency$ | async)"></span>
                     </div>
                   </div>
                   <div class="justify-between flex">
                     <div class="flex text-xs sm:text-sm text-gray-700" [innerHtml]="'Platform Fees: '"></div>
                     <div class="flex text-xs sm:text-sm text-gray-700" >
                       <span [innerHtml]="(creatorItemsFees$ | async)!.platformFees | number:'1.0-10'"></span>&nbsp;
-                      <span [innerHtml]="selectedPurchasorNetworkSymbol"></span>
+                      <span [innerHtml]="(activePurchaseItemCurrency$ | async)"></span>
                     </div>
                   </div>
                   <div class="justify-between flex">
                     <div class="flex text-xs sm:text-sm text-gray-700" [innerHtml]="'Total Received: '"></div>
                     <div class="flex text-xs sm:text-sm text-gray-700">
                       <span [innerHtml]="(creatorItemsFees$ | async)!.totalPostFees | number:'1.0-10'"></span>&nbsp;
-                      <span [innerHtml]="selectedPurchasorNetworkSymbol"></span>
+                      <span [innerHtml]="(activePurchaseItemCurrency$ | async)"></span>
                     </div>
                   </div>
                 </div>

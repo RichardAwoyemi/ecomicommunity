@@ -195,7 +195,7 @@ export const getPurchasorReceivingWalletAddress = createSelector(
   (state) => state.receivingWallet!.walletAddress!
 );
 
-export const getPurchasoringSendingWalletAddress = createSelector(
+export const getPurchasorSendingWalletAddress = createSelector(
   getPurchasorItems,
   (state) => state.sendingWallet?.walletAddress!
 );

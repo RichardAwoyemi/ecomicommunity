@@ -6,10 +6,10 @@ import {
   getActiveDropdownTransactionType,
   getCreatorItemsFees,
 } from 'src/app/state';
-import { IAmount, IFees } from 'src/app/state/app.model';
+import { IFees } from 'src/app/state/app.model';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
-import { getPurchasorReceivingWalletNetworkSymbol, getPurchasorReceivingWalletNetwork, getPurchasorReceivingWalletAddress, getPurchasorReceivingVeveUsername } from '../../../../state/index';
+import { getPurchasorSendingWalletNetworkSymbol, getPurchasorSendingWalletNetwork, getCreatorReceivingWalletAddress, getCreatorReceivingVeveUsername } from '../../../../state/index';
 import {
   AppDropdownState,
   AppModalStates,
@@ -56,11 +56,11 @@ export class AddPurchasorItemModalComponent {
     this.networkSymbolList$ = this.store.select(
       getPurchasorCurrencyNetworkSymbolList
     );
-    this.networkSymbol$ = this.store.select(getPurchasorReceivingWalletNetworkSymbol);
-    this.network$ = this.store.select(getPurchasorReceivingWalletNetwork);
+    this.networkSymbol$ = this.store.select(getPurchasorSendingWalletNetworkSymbol);
+    this.network$ = this.store.select(getPurchasorSendingWalletNetwork);
     this.creatorItemsFees$ = this.store.select(getCreatorItemsFees);
-    this.walletAddress$ = this.store.select(getPurchasorReceivingWalletAddress);
-    this.veveUsername$ = this.store.select(getPurchasorReceivingVeveUsername);
+    this.walletAddress$ = this.store.select(getCreatorReceivingWalletAddress);
+    this.veveUsername$ = this.store.select(getCreatorReceivingVeveUsername);
   }
 
   setPurchasorSendingUnits(units: number): void {

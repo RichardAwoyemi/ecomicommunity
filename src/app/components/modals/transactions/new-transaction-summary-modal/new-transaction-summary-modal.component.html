@@ -18,9 +18,9 @@
         class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
       </div>
       <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Initial Amount: ' + (purchaseItems$ | async)!.units! + ' ' + (purchaseItems$ | async)!.currency!"></div>
-      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Platform Fees (5%): ' + ((purchaseItemFees$ | async)!.platformFees| number:'1.0-10') + ' ' + (purchaseItems$ | async)!.currency!"></div>
-      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Network Fees: ' + ((purchaseItemFees$ | async)!.networkFees| number:'1.0-10') + ' ' + (purchaseItems$ | async)?.currency"></div>
-      <div class="flex justify-center font-bold my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Total: ' + ((purchaseItemFees$ | async)!.totalPostFees| number:'1.0-10') + ' ' + (purchaseItems$ | async)?.currency"></div>
+      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Platform Fees (5%): ' + ((creatorItemFees$ | async)!.platformFees| number:'1.0-10') + ' ' + (purchaseItems$ | async)!.currency!"></div>
+      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Network Fees: ' + ((creatorItemFees$ | async)!.networkFees| number:'1.0-10') + ' ' + (purchaseItems$ | async)?.currency"></div>
+      <div class="flex justify-center font-bold my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Total: ' + ((creatorItemFees$ | async)!.totalPostFees| number:'1.0-10') + ' ' + (purchaseItems$ | async)?.currency"></div>
     </div>
 
     <!--

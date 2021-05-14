@@ -7,7 +7,7 @@ import * as AppActions from '../../../../state/app.actions';
 import { AppModalStates } from '../../../../state/app.enums';
 import { IAmount, IFees, IUser } from '../../../../state/app.model';
 import {
-  getPurchasorItems, getPurchasorItemsFees, getCreatorItems, getUser,
+  getPurchasorItems, getCreatorItemsFees, getCreatorItems, getUser,
 } from '../../../../state/index';
 @Component({
   selector: 'ec-new-transaction-summary-modal',
@@ -17,7 +17,7 @@ export class NewTransactionSummaryModalComponent {
   creatorItems$!: Observable<IAmount>;
   purchaseItems$!: Observable<IAmount>;
   user$!: Observable<IUser | undefined>;
-  purchaseItemFees$!: Observable<IFees>;
+  creatorItemFees$!: Observable<IFees>;
 
   constructor(private store: Store<State>, public authService: AuthService) {}
 
@@ -25,7 +25,7 @@ export class NewTransactionSummaryModalComponent {
     this.creatorItems$ = this.store.select(getCreatorItems);
     this.purchaseItems$ = this.store.select(getPurchasorItems);
     this.user$ = this.store.select(getUser);
-    this.purchaseItemFees$ = this.store.select(getPurchasorItemsFees);
+    this.creatorItemFees$ = this.store.select(getCreatorItemsFees);
   }
 
   previousModal(): void {
