@@ -11,7 +11,6 @@ import { IAmount, IUser } from '../../../../state/app.model';
 export class AddTransactionButtonComponent {
   @Input() creatorItem!: IAmount;
   @Input() purchaseItem!: IAmount;
-  @Input() user!: IUser | null | undefined;
 
   constructor(private store: Store<State>) {}
 

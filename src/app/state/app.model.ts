@@ -1,4 +1,4 @@
-import { AppTransactionStates, AppTransactionCurrencies } from './app.enums';
+import { AppTransactionStates, AppTransactionCurrencies, AppTransactionItemTypes } from './app.enums';
 import { Networks, NetworkSymbols } from '../data/currency-settings';
 
 export interface IUser {
@@ -46,6 +46,7 @@ export interface ITransaction {
 export interface IAmount {
   useruid?: string;
   username?: string;
+  itemType?: AppTransactionItemTypes;
   currency?: AppTransactionCurrencies;
   units?: number;
   sendingWallet?: IWallet;

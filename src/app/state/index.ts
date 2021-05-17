@@ -95,16 +95,6 @@ export const getActivePurchaseItemsCurrency = createSelector(
   (state) => state?.purchasor.currency!
 );
 
-export const getActiveTransactionBuyNetworkSymbols = createSelector(
-  getActivePurchaseItemsCurrency,
-  (state) => NETWORK_FEES_PC[state].map((item) => item.symbol)
-);
-
-export const getActiveTransactionSellNetworkSymbols = createSelector(
-  getActiveCreatorItemsCurrency,
-  (state) => NETWORK_FEES_PC[state].map((item) => item.symbol)
-);
-
 export const getCreatorItemsUnits = createSelector(
   getCreatorItems,
   (state) => state.units

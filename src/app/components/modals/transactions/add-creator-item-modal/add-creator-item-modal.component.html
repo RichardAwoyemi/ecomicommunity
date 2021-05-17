@@ -21,9 +21,9 @@
 
               <!-- Currencies -->
               <ng-container *ngSwitchCase="CURRENCY_TYPE">
-                <ec-text-dropdown-suffix 
-                  (dropDownValue)="setCreatorSendingCurrency($event)" 
-                  (inputValue)="setCreatorSendingUnits($event)" 
+                <ec-text-dropdown-suffix
+                  (dropDownValue)="setCreatorSendingCurrency($event)"
+                  (inputValue)="setCreatorSendingUnits($event)"
                   [inputType]="'number'"
                   [textField]='(activeCreatorItemUnits$ | async)!' [label]="(activeCreatorItemCurrency$ | async) || currency"
                   [dropdown]="SELL_TRANSACTION_CURRENCY" [options]="TRANSACTION_CURRENCIES"></ec-text-dropdown-suffix>

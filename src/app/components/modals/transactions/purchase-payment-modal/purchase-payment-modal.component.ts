@@ -2,21 +2,15 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Networks, NetworkSymbols } from 'src/app/data/currency-settings';
-import { AuthService } from 'src/app/services/auth.service';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
 import { AppModalStates } from '../../../../state/app.enums';
-import { IAmount, ITransaction, IUser } from '../../../../state/app.model';
 import {
-  getActiveTransaction,
-  getCreatorItems,
   getPurchasorCurrencyNetworkSymbolList,
-  getPurchasorItems,
   getPurchasorSendingVeveUsername,
   getPurchasorSendingWalletAddress,
   getPurchasorSendingWalletNetwork,
   getPurchasorSendingWalletNetworkSymbol,
-  getUser,
 } from '../../../../state/index';
 @Component({
   selector: 'ec-purchase-payment-modal',
