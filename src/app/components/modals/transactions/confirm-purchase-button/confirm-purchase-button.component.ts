@@ -12,7 +12,7 @@ export class ConfirmPurchaseButtonComponent {
   @Input() creatorItem!: IAmount;
   @Input() purchaseItem!: IAmount;
   @Input() user?: IUser;
-  @Input() transaction!: ITransaction | undefined;
+  @Input() activeTransactionId!: string;
 
   constructor(private store: Store<State>) {}
 
@@ -20,7 +20,7 @@ export class ConfirmPurchaseButtonComponent {
     this.store.dispatch(
       AppActions.confirmPurchase({
         user: this.user!,
-        txn: this.transaction!,
+        txn: { id: this.activeTransactionId, creator: this.creatorItem!, purchasor: this.purchaseItem! },
       })
     );
   }

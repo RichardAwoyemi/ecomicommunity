@@ -26,12 +26,13 @@ export interface AppState {
   dropdownState: AppDropdownState;
   activeDropdownOptions: { [AppDropdownState: string]: string }[];
   transactions: ITransaction[];
-  activeTransaction: ITransaction | undefined;
   creatorItems: IAmount;
   purchasorItems: IAmount;
+  activeTransaction: string;
 }
 
 const initialState: AppState = {
+  activeTransaction: '',
   registrationErrorMessage: '',
   loginErrorMessage: '',
   user: undefined,
@@ -47,7 +48,6 @@ const initialState: AppState = {
     },
   ],
   transactions: [],
-  activeTransaction: undefined,
   creatorItems: {
     currency: AppTransactionCurrencies.GEMS,
     units: 1000,
@@ -579,42 +579,20 @@ export const appReducer = createReducer<AppState>(
   }),
 
   on(AppActions.setActiveTransaction, (state, props): AppState => {
-    return { ...state, activeTransaction: props.txn };
-  }),
-
-  on(AppActions.resetNewTransaction, (state): AppState => {
     return {
       ...state,
+      purchasorItems: props.txn!.purchasor!,
+      creatorItems: props.txn!.creator!,
+      activeTransaction: props.txn?.id!
+    };
+  }),
+
+  on(AppActions.resetTransaction, (state): AppState => {
+    return {
+      ...state,
+      activeTransaction: initialState.activeTransaction,
       creatorItems: initialState.creatorItems,
       purchasorItems: initialState.purchasorItems,
     };
   }),
-
-  on(AppActions.resetPurchaseModal, (state): AppState => {
-    return {
-      ...state,
-      purchasorItems: {
-        ...state.activeTransaction?.purchasor,
-        username: state.user?.username!,
-        useruid: state.user?.uid!,
-        sendingWallet: {
-          walletAddress: '',
-          veveUsername: '',
-          network: state.activeTransaction?.purchasor.receivingWallet?.network,
-          networkSymbol:
-            state.activeTransaction?.purchasor.receivingWallet?.networkSymbol,
-        },
-      },
-      creatorItems: {
-        ...state.activeTransaction?.creator,
-        sendingWallet: {
-          walletAddress: '',
-          veveUsername: '',
-          network: state.activeTransaction?.creator.sendingWallet?.network,
-          networkSymbol:
-            state.activeTransaction?.creator.sendingWallet?.networkSymbol,
-        },
-      },
-    };
-  })
 );

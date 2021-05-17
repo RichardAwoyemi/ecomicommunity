@@ -16,7 +16,7 @@ export class NewTransactionButtonComponent {
 
   showNewTransactionModal(): void {
     if (this.user) {
-      this.store.dispatch(AppActions.resetNewTransaction());
+      this.store.dispatch(AppActions.resetTransaction());
       this.store.dispatch(
         AppActions.showModal({ modalState: AppModalStates.CreatorItem })
       );

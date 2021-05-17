@@ -5,7 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
 import { AppModalStates } from '../../../../state/app.enums';
-import { IAmount, ITransaction, IUser } from '../../../../state/app.model';
+import { IAmount, IUser } from '../../../../state/app.model';
 import {
   getActiveTransaction,
   getCreatorItems, getPurchasorItems, getUser
@@ -18,15 +18,15 @@ export class PurchaseSummaryModalComponent {
   creatorItems$!: Observable<IAmount>;
   purchasorItems$!: Observable<IAmount>;
   user$!: Observable<IUser | undefined>;
-  activeTransaction$!: Observable<ITransaction | undefined>;
+  activeTransactionId$!: Observable<string>;
 
   constructor(private store: Store<State>, public authService: AuthService) {}
 
   ngOnInit(): void {
     this.creatorItems$ = this.store.select(getCreatorItems);
     this.purchasorItems$ = this.store.select(getPurchasorItems);
+    this.activeTransactionId$ = this.store.select(getActiveTransaction);
     this.user$ = this.store.select(getUser);
-    this.activeTransaction$ = this.store.select(getActiveTransaction);
   }
 
   closeModal() {

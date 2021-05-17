@@ -23,14 +23,14 @@ export class TransactionRowComponent {
   constructor(private store: Store<State>) {}
 
   setActiveTransaction() {
-    this.store.dispatch(
+      this.store.dispatch(AppActions.resetPurchaseModal());
+      this.store.dispatch(
       AppActions.setActiveTransaction({ txn: this.transaction })
     );
   }
 
   openPurchaseSummaryModal() {
     if (this.user) {
-      this.store.dispatch(AppActions.resetPurchaseModal());
       this.store.dispatch(
         AppActions.showModal({ modalState: AppModalStates.PurchasePayment })
       );

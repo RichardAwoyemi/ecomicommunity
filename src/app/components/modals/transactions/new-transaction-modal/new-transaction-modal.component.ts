@@ -21,7 +21,7 @@ export class NewTransactionModalComponent {
   ngOnInit(): void {
     this.errorMessage$ = this.store.select(getLoginError);
     this.rememberMe$ = this.store.select(getRememberMe);
-    this.store.dispatch(AppActions.resetNewTransaction());
+    this.store.dispatch(AppActions.resetTransaction());
   }
 
   toggleRememberMe(toggle: boolean) {

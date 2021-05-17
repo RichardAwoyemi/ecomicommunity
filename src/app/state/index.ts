@@ -85,16 +85,6 @@ export const getCreatorItemsCurrency = createSelector(
   (state) => state.currency!
 );
 
-export const getActiveCreatorItemsCurrency = createSelector(
-  getActiveTransaction,
-  (state) => state?.creator.currency!
-);
-
-export const getActivePurchaseItemsCurrency = createSelector(
-  getActiveTransaction,
-  (state) => state?.purchasor.currency!
-);
-
 export const getCreatorItemsUnits = createSelector(
   getCreatorItems,
   (state) => state.units
