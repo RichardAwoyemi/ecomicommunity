@@ -23,8 +23,8 @@ export class TransactionRowComponent {
   constructor(private store: Store<State>) {}
 
   setActiveTransaction() {
-      this.store.dispatch(AppActions.resetPurchaseModal());
-      this.store.dispatch(
+    this.store.dispatch(AppActions.resetTransaction());
+    this.store.dispatch(
       AppActions.setActiveTransaction({ txn: this.transaction })
     );
   }

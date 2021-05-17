@@ -2,7 +2,11 @@
 import { createAction, props } from '@ngrx/store';
 import firebase from 'firebase/app';
 import { IUser, ITransaction, IAmount, IWallet } from './app.model';
-import { AppModalStates, AppDropdownState, AppTransactionCurrencies } from './app.enums';
+import {
+  AppModalStates,
+  AppDropdownState,
+  AppTransactionCurrencies,
+} from './app.enums';
 import { NetworkSymbols } from '../data/currency-settings';
 import { IFees } from 'functions/src/utils/function.utils';
 
@@ -53,18 +57,15 @@ export enum AppActionTypes {
   SetPurchasorReceivingNetworkSymbol = '[App] [Transactions] Set Purchasor Receiving Network Symbol',
   SetPurchasorReceivingFees = '[App] [Transactions] Set Purchasor Receiving Fees',
 
-  SetCreatorItems = '[App] [Transactions] Set Creator Assets',
-  SetPurchasorItems = '[App] [Transactions] Set Purchasor Assets',
   SetUser = '[App] [Login] Set User',
   GetUser = '[App] [Login] Get User Info',
   ClearUser = '[App] [Login] Clear User Info',
-  SetEmailVerificationFailMessage = "[App] [Login] Email Verification Failed",
-  EmailVerificationFailure = "[App] [Login] Email Verification Failure",
+  SetEmailVerificationFailMessage = '[App] [Login] Email Verification Failed',
+  EmailVerificationFailure = '[App] [Login] Email Verification Failure',
   PersistUser = '[App] [Register] Perist User',
   ToggleNavbar = '[App] Toggle Navbar',
   ToggleEmailConsent = '[App] Toggle Email Consent',
   ToggleRememberMe = '[App] Toggle Remember Me',
-  ResetPurchaseModal = '[App] [Transaction] [Purchase] Reset Purchase Modal'
 }
 
 export const isLoggedIn = createAction(AppActionTypes.IsLoggedIn);
@@ -148,11 +149,11 @@ export const persistUser = createAction(
 );
 
 export const setEmailVerificationFailMessage = createAction(
-  AppActionTypes.SetEmailVerificationFailMessage,
+  AppActionTypes.SetEmailVerificationFailMessage
 );
 
 export const emailVerificationFailure = createAction(
-  AppActionTypes.EmailVerificationFailure,
+  AppActionTypes.EmailVerificationFailure
 );
 
 export const getUser = createAction(
@@ -173,16 +174,14 @@ export const addTransaction = createAction(
 
 export const confirmPurchase = createAction(
   AppActionTypes.ConfirmPurchase,
-  props<{ txn: ITransaction, user: IUser }>()
+  props<{ txn: ITransaction; user: IUser }>()
 );
-
 export const deleteTransaction = createAction(
   AppActionTypes.DeleteTransaction,
   props<{ id: string }>()
 );
-
 export const setCreatorUserDetails = createAction(
-  AppActionTypes.SetCreatorUserDetails,
+  AppActionTypes.SetCreatorUserDetails
 );
 export const setCreatorSendingNetworkWalletAddress = createAction(
   AppActionTypes.SetCreatorSendingNetworkWalletAddress,
@@ -201,7 +200,7 @@ export const setCreatorSendingAmountUnits = createAction(
   props<{ units: number }>()
 );
 export const setCreatorSendingAmountCurrency = createAction(
-  AppActionTypes.SetCreatorSendingAmountCurrency ,
+  AppActionTypes.SetCreatorSendingAmountCurrency,
   props<{ currency: AppTransactionCurrencies }>()
 );
 export const setCreatorReceivingNetworkWalletAddress = createAction(
@@ -219,9 +218,8 @@ export const setCreatorReceivingNetworkSymbol = createAction(
 export const setCreatorReceivingFees = createAction(
   AppActionTypes.SetCreatorReceivingFees
 );
-
 export const setPurchasorUserDetails = createAction(
-  AppActionTypes.SetPurchasorUserDetails,
+  AppActionTypes.SetPurchasorUserDetails
 );
 export const setPurchasorSendingNetworkWalletAddress = createAction(
   AppActionTypes.SetPurchasorSendingNetworkWalletAddress,
@@ -258,18 +256,8 @@ export const setPurchasorReceivingNetworkSymbol = createAction(
 export const setPurchasorReceivingFees = createAction(
   AppActionTypes.SetPurchasorReceivingFees
 );
-export const setPurchasorItems = createAction(
-  AppActionTypes.SetPurchasorItems,
-  props<{ amount: IAmount }>()
-);
 export const setActiveTransaction = createAction(
   AppActionTypes.SetActiveTransaction,
   props<{ txn?: ITransaction }>()
 );
-export const resetTransaction = createAction(
-  AppActionTypes.resetTransaction
-);
-
-export const resetPurchaseModal = createAction(
-  AppActionTypes.ResetPurchaseModal
-)
+export const resetTransaction = createAction(AppActionTypes.resetTransaction);
