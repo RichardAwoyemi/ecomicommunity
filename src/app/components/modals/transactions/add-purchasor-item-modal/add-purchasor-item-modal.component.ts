@@ -78,7 +78,6 @@ export class AddPurchasorItemModalComponent {
 
   setPurchasorSendingNetworkSymbol(symbol: NetworkSymbols): void {
     this.selectedPurchasorNetworkSymbol = symbol;
-    console.log(this.selectedPurchasorNetworkSymbol);
     this.store.dispatch(AppActions.setPurchasorSendingNetworkSymbol({ symbol: symbol }));
     this.store.dispatch(AppActions.setCreatorReceivingNetworkSymbol({ symbol: symbol }));
   }

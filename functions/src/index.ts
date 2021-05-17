@@ -185,8 +185,8 @@ function createEmailContentForTransactionMatch(
   "<br> Please send " + person.units + " " + person.currency + " to the address: {{Ecomi Wallet Address}}" +
   "<br>" +
   "<br> You will be charged the following fees:" +
-  "<ul><li>Network fees: " + person.fees.networkFees + " " + person.networkSymbol + "</li></ul>" +
-  "<ul><li>Platform fees: " + person.fees.platformFees + " " + person.networkSymbol + "</li></ul>"+
+  "<ul><li>Network fees: " + person.fees.networkFees + " " + person.currency + "</li></ul>" +
+  "<ul><li>Platform fees (5%): " + person.fees.platformFees + " " + person.currency + "</li></ul>"+
   "<br>" +
   "<br> You will send:";
 }
@@ -199,7 +199,7 @@ function createEmailContentForTransactionCompleted(
   "<br>" +
   "<br> Your transaction to buy " + person.units + " " + person.currency + " has been completed!" +
   "<br>" +
-  "<br> Please wait up to 48hrs to recieve your funds in your wallet ";
+  "<br> Please allow up to 12hrs to recieve your funds in your wallet before getting in contact.";
 }
 
 function sendEmailToPerson(

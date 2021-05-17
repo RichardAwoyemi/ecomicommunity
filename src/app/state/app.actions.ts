@@ -258,11 +258,6 @@ export const setPurchasorReceivingNetworkSymbol = createAction(
 export const setPurchasorReceivingFees = createAction(
   AppActionTypes.SetPurchasorReceivingFees
 );
-
-export const setCreatorItems = createAction(
-  AppActionTypes.SetCreatorItems,
-  props<{ amount: IAmount }>()
-);
 export const setPurchasorItems = createAction(
   AppActionTypes.SetPurchasorItems,
   props<{ amount: IAmount }>()
