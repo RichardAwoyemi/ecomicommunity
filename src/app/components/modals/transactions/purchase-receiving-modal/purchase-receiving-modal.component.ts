@@ -7,9 +7,9 @@ import * as AppActions from '../../../../state/app.actions';
 import { AppModalStates, AppTransactionCurrencies } from '../../../../state/app.enums';
 import { IFees } from '../../../../state/app.model';
 import {
-  getCreatorCurrencyNetworkSymbolList, getCreatorItemsCurrency, getCreatorItemsFees, getCreatorReceivingVeveUsername,
-  getCreatorReceivingWalletAddress,
-  getCreatorReceivingWalletNetwork, getCreatorReceivingWalletNetworkSymbol
+  getPurchasorCurrencyNetworkSymbolList, getPurchasorItemsCurrency, getPurchasorItemsFees, getPurchasorReceivingVeveUsername,
+  getPurchasorReceivingWalletAddress,
+  getPurchasorReceivingWalletNetwork, getPurchasorReceivingWalletNetworkSymbol
 } from '../../../../state/index';
 @Component({
   selector: 'ec-purchase-receiving-modal',
@@ -29,16 +29,16 @@ export class PurchaseReceivingModalComponent {
 
   ngOnInit(): void {
     this.networkSymbolList$ = this.store.select(
-      getCreatorCurrencyNetworkSymbolList
+      getPurchasorCurrencyNetworkSymbolList
     );
     this.networkSymbol$ = this.store.select(
-      getCreatorReceivingWalletNetworkSymbol
+      getPurchasorReceivingWalletNetworkSymbol
     );
-    this.network$ = this.store.select(getCreatorReceivingWalletNetwork);
-    this.walletAddress$ = this.store.select(getCreatorReceivingWalletAddress);
-    this.veveUsername$ = this.store.select(getCreatorReceivingVeveUsername);
-    this.fees$ = this.store.select(getCreatorItemsFees);
-    this.currency$ = this.store.select(getCreatorItemsCurrency);
+    this.network$ = this.store.select(getPurchasorReceivingWalletNetwork);
+    this.walletAddress$ = this.store.select(getPurchasorReceivingWalletAddress);
+    this.veveUsername$ = this.store.select(getPurchasorReceivingVeveUsername);
+    this.fees$ = this.store.select(getPurchasorItemsFees);
+    this.currency$ = this.store.select(getPurchasorItemsCurrency);
   }
 
   setNetworkSymbol(symbol: NetworkSymbols): void {

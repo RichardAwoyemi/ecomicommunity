@@ -14,7 +14,7 @@
       </div>
       <div class="flex justify-center  font-bold my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Total: ' + ((creatorItems$ | async)?.units!| number:'1.0-10') + ' ' + (creatorItems$ | async)?.currency"></div>
       <hr class="my-4">
-      <div [innerHtml]="'Recieving'"
+      <div [innerHtml]="'Receiving'"
         class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
       </div>
       <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Initial Amount: ' + (purchaseItems$ | async)!.units! + ' ' + (purchaseItems$ | async)!.currency!"></div>

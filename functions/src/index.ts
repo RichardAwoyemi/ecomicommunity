@@ -199,7 +199,7 @@ function createEmailContentForTransactionCompleted(
   "<br>" +
   "<br> Your transaction to buy " + person.units + " " + person.currency + " has been completed!" +
   "<br>" +
-  "<br> Please allow up to 12hrs to recieve your funds in your wallet before getting in contact.";
+  "<br> Please allow up to 12hrs to receive your funds in your wallet before getting in contact.";
 }
 
 function sendEmailToPerson(
