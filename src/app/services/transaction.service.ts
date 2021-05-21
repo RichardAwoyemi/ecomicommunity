@@ -63,10 +63,10 @@ export class TransactionService {
       .set(HEADERS.X_CREATOR_RECEIVING_VEVE_USERNAME, creatorReceivingVeveUsername)
       .set(HEADERS.X_PURCHASOR_SENDING_WALLET_ADDRESS, purchasorSendingWalletAddress)
       .set(HEADERS.X_PURCHASOR_SENDING_VEVE_USERNAME, purchasorSendingVeveUsername)
-      .set(HEADERS.X_ECOMI_CREATOR_SENDING_WALLET_ADDRESS, ecomiCreatorSendingWalletAddress)
-      .set(HEADERS.X_ECOMI_CREATOR_SENDING_VEVE_USERNAME, ecomiCreatorSendingVeveUsername)
-      .set(HEADERS.X_ECOMI_PURCHASOR_RECEIVING_WALLET_ADDRESS, ecomiPurchasorReceivingWalletAddress)
-      .set(HEADERS.X_ECOMI_PURCHASOR_RECEIVING_VEVE_USERNAME, ecomiPurchasorReceivingVeveUsername);
+      .set(HEADERS.X_ECOMI_RECEIVING_CREATOR_WALLET_ADDRESS, ecomiCreatorSendingWalletAddress)
+      .set(HEADERS.X_ECOMI_RECEIVING_CREATOR_VEVE_USERNAME, ecomiCreatorSendingVeveUsername)
+      .set(HEADERS.X_ECOMI_RECEIVING_PURCHASOR_WALLET_ADDRESS, ecomiPurchasorReceivingWalletAddress)
+      .set(HEADERS.X_ECOMI_RECEIVING_PURCHASOR_VEVE_USERNAME, ecomiPurchasorReceivingVeveUsername);
 
     const options = { headers, responseType: 'json' as const };
 
