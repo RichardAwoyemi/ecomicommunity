@@ -17,54 +17,81 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
 
       corsHandler(request, response, () => {
         const transactionId = request.get(HEADERS.X_TRANSACTION_ID);
-        const sellerUid = request.get(HEADERS.X_SELLER_UID);
-        const buyerUid = request.get(HEADERS.X_BUYER_UID);
-        const buyerWalletAddress = request.get(HEADERS.X_BUYER_WALLET_ADDRESS);
-        const buyerVeveUsername = request.get(HEADERS.X_BUYER_VEVE_USERNAME);
+        const creatorUid = request.get(HEADERS.X_CREATOR_UID);
+        const purchasorUid = request.get(HEADERS.X_PURCHASOR_UID);
+        const creatorReceivingWalletAddress = request.get(HEADERS.X_CREATOR_RECEIVING_WALLET_ADDRESS);
+        const creatorReceivingVeveUsername = request.get(HEADERS.X_CREATOR_RECEIVING_VEVE_USERNAME);
+        const purchasorSendingWalletAddress = request.get(HEADERS.X_PURCHASOR_SENDING_WALLET_ADDRESS);
+        const purchasorSendingVeveUsername = request.get(HEADERS.X_PURCHASOR_SENDING_VEVE_USERNAME);
+        const ecomiCreatorSendingWalletAddress = request.get(HEADERS.X_ECOMI_CREATOR_SENDING_WALLET_ADDRESS);
+        const ecomiCreatorSendingVeveUsername = request.get(HEADERS.X_ECOMI_CREATOR_SENDING_VEVE_USERNAME);
+        const ecomiPurchasorReceivingWalletAddress = request.get(HEADERS.X_ECOMI_PURCHASOR_RECEIVING_WALLET_ADDRESS);
+        const ecomiPurchasorReceivingVeveUsername = request.get(HEADERS.X_ECOMI_PURCHASOR_RECEIVING_VEVE_USERNAME);
 
-        // functions.logger.log(`Buyer Uid: ${buyerUid}, Seller Uid, ${sellerUid}, Transaction Id: ${transactionId}`);
+        // functions.logger.log(`Buyer Uid: ${creatorUid}, Seller Uid, ${purchasorUid}, Transaction Id: ${transactionId}`);
 
         if (transactionId !== undefined &&
-        sellerUid !== undefined &&
-        buyerUid !== undefined &&
-        buyerWalletAddress!= undefined) {
+        purchasorUid !== undefined &&
+        creatorUid !== undefined &&
+        creatorReceivingWalletAddress != undefined &&
+        purchasorSendingWalletAddress != undefined &&
+        ecomiCreatorSendingWalletAddress != undefined &&
+        ecomiPurchasorReceivingWalletAddress != undefined) {
         // functions.logger.log(`Preparing documents for user: ${userUid}`);
-          const buyerDocRef: admin.firestore.DocumentReference = admin
+          const creatorDocRef: admin.firestore.DocumentReference = admin
               .firestore()
               .collection("users")
-              .doc(buyerUid);
+              .doc(creatorUid);
 
           const transactionDocRef: admin.firestore.DocumentReference = admin
               .firestore()
               .collection("transactions")
               .doc(transactionId);
 
-          const sellerDocRef: admin.firestore.DocumentReference = admin
+          const purchasorDocRef: admin.firestore.DocumentReference = admin
               .firestore()
               .collection("users")
-              .doc(sellerUid);
+              .doc(purchasorUid);
 
           return admin
               .firestore()
               .runTransaction(async (transaction: admin.firestore.Transaction) => {
-                const buyerDoc: admin.firestore.DocumentSnapshot = await transaction.get(buyerDocRef);
+                const purchasorDoc: admin.firestore.DocumentSnapshot = await transaction.get(purchasorDocRef);
 
-                // Check that the buyer creating the request is authorised
-                if (isAuthorised(request, buyerDoc)) {
+                // Check that the creator creating the request is authorised
+                if (isAuthorised(request, purchasorDoc)) {
                   const transactionDoc: admin.firestore.DocumentSnapshot = await transaction.get(transactionDocRef);
-                  const sellerDoc: admin.firestore.DocumentSnapshot = await transaction.get(sellerDocRef);
+                  const creatorDoc: admin.firestore.DocumentSnapshot = await transaction.get(creatorDocRef);
 
                   // Check that the transaction is Available before updating it
                   if (transactionDoc.get("status") == "Available") {
                   // functions.logger.log("Validated transaction status");
-                  // Update the status and the buyerUid if it's a valid and available transaction
+                  // Update the status and the creatorUid if it's a valid and available transaction
                     transaction.set(transactionDocRef, {
                       status: "In Progress",
-                      buying: {
-                        useruid: buyerDoc.get("uid"),
-                        username: buyerDoc.get("username"),
-                        walletAddress: buyerWalletAddress,
-                        veveUsername: buyerVeveUsername,
+                      creator: {
+                        useruid: creatorUid,
+                        username: creatorDoc.get("username"),
+                        receivingWallet: {
+                          walletAddress: creatorReceivingWalletAddress,
+                          veveUsername: creatorReceivingVeveUsername,
+                        },
+                        sendingWallet: {
+                          walletAddress: ecomiCreatorSendingWalletAddress,
+                          veveUsername: ecomiCreatorSendingVeveUsername,
+                        },
+                      },
+                      purchasor: {
+                        useruid: purchasorUid,
+                        username: purchasorDoc.get("username"),
+                        receivingWallet: {
+                          walletAddress: ecomiPurchasorReceivingWalletAddress,
+                          veveUsername: ecomiPurchasorReceivingVeveUsername,
+                        },
+                        sendingWallet: {
+                          walletAddress: purchasorSendingWalletAddress,
+                          veveUsername: purchasorSendingVeveUsername,
+                        },
                       },
                     }, {merge: true});
 
@@ -72,7 +99,7 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
 
                     const transactionData: FirebaseFirestore.DocumentData | undefined = transactionDoc.data();
                     if (transactionDoc.exists) {
-                      const transactionSummary = setTransactionSummary(transactionData, buyerDoc, sellerDoc);
+                      const transactionSummary = setTransactionSummary(transactionData, creatorDoc, purchasorDoc);
                       console.log(transactionSummary);
                       return transactionSummary;
                     } else {
@@ -98,7 +125,7 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
                 return sendMatchedEmails(transactionSummary);
               })
               .then(() => {
-                response.status(200).send({message: "transactions added and first email sent to buyer and seller"});
+                response.status(200).send({message: "transactions added and first email sent to creator and purchasor"});
               })
               .catch((error: CustomError) => errorHandler(error, response));
         } else {
@@ -113,24 +140,24 @@ exports.sendTransactionCompleteEmail = functions.region("europe-west2").firestor
   const transactionData = change.after.data();
   const beforeStatus = change.before.data().status;
   const afterStatus = transactionData.status;
-  functions.logger.log("status before: '" + beforeStatus + "', status after: '", afterStatus + "'");
+  // functions.logger.log("status before: '" + beforeStatus + "', status after: '", afterStatus + "'");
 
   if (beforeStatus == "In Progress" && afterStatus == "Completed") {
-    const sellerDocRef: admin.firestore.DocumentReference = admin
+    const purchasorDocRef: admin.firestore.DocumentReference = admin
         .firestore()
         .collection("users")
-        .doc(transactionData.selling.useruid);
-    const buyerDocRef: admin.firestore.DocumentReference = admin
+        .doc(transactionData.purchasor.useruid);
+    const creatorDocRef: admin.firestore.DocumentReference = admin
         .firestore()
         .collection("users")
-        .doc(transactionData.buying.useruid);
+        .doc(transactionData.creator.useruid);
 
     return admin
         .firestore()
         .runTransaction(async (transaction: admin.firestore.Transaction) => {
-          const buyerDoc: admin.firestore.DocumentSnapshot = await transaction.get(buyerDocRef);
-          const sellerDoc: admin.firestore.DocumentSnapshot = await transaction.get(sellerDocRef);
-          const transactionSummary = setTransactionSummary(transactionData, buyerDoc, sellerDoc);
+          const creatorDoc: admin.firestore.DocumentSnapshot = await transaction.get(creatorDocRef);
+          const purchasorDoc: admin.firestore.DocumentSnapshot = await transaction.get(purchasorDocRef);
+          const transactionSummary = setTransactionSummary(transactionData, creatorDoc, purchasorDoc);
 
           return transactionSummary;
         })
@@ -218,57 +245,57 @@ function sendEmailToPerson(
 async function sendMatchedEmails(transactionSummary: ITransactionSummary) {
   const subject = "Your transaction has been matched";
   await sendEmailToPerson(
-      transactionSummary.buying.userEmail,
+      transactionSummary.creator.userEmail,
       subject,
-      createEmailContentForTransactionMatch(transactionSummary.buying)
+      createEmailContentForTransactionMatch(transactionSummary.creator)
   );
   await sendEmailToPerson(
-      transactionSummary.selling.userEmail,
+      transactionSummary.purchasor.userEmail,
       subject,
-      createEmailContentForTransactionMatch(transactionSummary.selling)
+      createEmailContentForTransactionMatch(transactionSummary.purchasor)
   );
 }
 
 async function sendCompletedEmails(transactionSummary: ITransactionSummary) {
   const subject = "Your transaction has been completed";
   await sendEmailToPerson(
-      transactionSummary.buying.userEmail,
+      transactionSummary.creator.userEmail,
       subject,
-      createEmailContentForTransactionCompleted(transactionSummary.buying)
+      createEmailContentForTransactionCompleted(transactionSummary.creator)
   );
   await sendEmailToPerson(
-      transactionSummary.selling.userEmail,
+      transactionSummary.purchasor.userEmail,
       subject,
-      createEmailContentForTransactionCompleted(transactionSummary.selling)
+      createEmailContentForTransactionCompleted(transactionSummary.purchasor)
   );
 }
 
 function setTransactionSummary(
     transactionData: FirebaseFirestore.DocumentData | undefined,
-    buyerDoc: admin.firestore.DocumentSnapshot,
-    sellerDoc: admin.firestore.DocumentSnapshot
+    creatorDoc: admin.firestore.DocumentSnapshot,
+    purchasorDoc: admin.firestore.DocumentSnapshot
 ): ITransactionSummary {
   const transactionSummary: ITransactionSummary = {
     id: transactionData?.id,
-    buying: {
-      currency: transactionData?.buying?.currency,
-      units: transactionData?.buying?.units,
-      userEmail: buyerDoc.get("email"),
-      username: transactionData?.buying?.username || buyerDoc.get("username"),
-      networkSymbol: transactionData?.buying?.networkSymbol,
-      walletAddress: transactionData?.buying?.walletAddress,
-      veveUsername: transactionData?.buying?.veveUsername,
-      fees: transactionData?.buying?.fees,
+    creator: {
+      currency: transactionData?.creator?.currency,
+      units: transactionData?.creator?.units,
+      userEmail: creatorDoc.get("email"),
+      username: transactionData?.creator?.username || creatorDoc.get("username"),
+      networkSymbol: transactionData?.creator?.networkSymbol,
+      receivingWallet: transactionData?.creator?.receivingWallet,
+      sendingWallet: transactionData?.creator?.sendingWallet,
+      fees: transactionData?.creator?.fees,
     },
-    selling: {
-      currency: transactionData?.selling?.currency,
-      units: transactionData?.selling?.units,
-      userEmail: sellerDoc.get("email"),
-      username: transactionData?.selling?.username || sellerDoc.get("username"),
-      networkSymbol: transactionData?.selling?.networkSymbol,
-      walletAddress: transactionData?.selling?.walletAddress,
-      veveUsername: transactionData?.selling?.veveUsername,
-      fees: transactionData?.selling?.fees,
+    purchasor: {
+      currency: transactionData?.purchasor?.currency,
+      units: transactionData?.purchasor?.units,
+      userEmail: purchasorDoc.get("email"),
+      username: transactionData?.purchasor?.username || purchasorDoc.get("username"),
+      networkSymbol: transactionData?.purchasor?.networkSymbol,
+      receivingWallet: transactionData?.purchasor?.receivingWallet,
+      sendingWallet: transactionData?.purchasor?.sendingWallet,
+      fees: transactionData?.purchasor?.fees,
     },
   };
   return transactionSummary;

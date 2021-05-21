@@ -1,15 +1,22 @@
+/* eslint-disable max-len */
 export const HEADERS = {
   X_TRANSACTION_ID: "x-transaction-id",
-  X_BUYER_UID: "x-buyer-uid",
-  X_SELLER_UID: "x-seller-uid",
-  X_BUYER_WALLET_ADDRESS: "x-buyer-wallet-address",
-  X_BUYER_VEVE_USERNAME: "x-buyer-veve-username",
+  X_CREATOR_UID: "x-buyer-uid",
+  X_PURCHASOR_UID: "x-purchasor-uid",
+  X_CREATOR_RECEIVING_WALLET_ADDRESS: "x-creator-receiving-wallet-address",
+  X_CREATOR_RECEIVING_VEVE_USERNAME: "x-creator-receiving-veve-username",
+  X_PURCHASOR_SENDING_WALLET_ADDRESS: "x-purchasor-sending-wallet-address",
+  X_PURCHASOR_SENDING_VEVE_USERNAME: "x-purchasor-sending-veve-username",
+  X_ECOMI_CREATOR_SENDING_WALLET_ADDRESS: "x-ecomi-creator-sending-wallet-address",
+  X_ECOMI_CREATOR_SENDING_VEVE_USERNAME: "x-ecomi-creator-sending-veve-username",
+  X_ECOMI_PURCHASOR_RECEIVING_WALLET_ADDRESS: "x-ecomi-purchasor-receiving-wallet-address",
+  X_ECOMI_PURCHASOR_RECEIVING_VEVE_USERNAME: "x-ecomi-purchasor-receiving-veve-username",
 };
 
 export interface ITransactionSummary {
   id: string,
-  buying: IAmount
-  selling: IAmount
+  creator: IAmount
+  purchasor: IAmount
 }
 
 export interface IAmount {
@@ -18,9 +25,16 @@ export interface IAmount {
   currency: string;
   units: number;
   networkSymbol: string,
-  walletAddress: string;
-  veveUsername?: string;
+  sendingWallet?: IWallet;
+  receivingWallet?: IWallet;
   fees: IFees;
+}
+
+export interface IWallet {
+  network?: string,
+  networkSymbol?: string,
+  walletAddress?: string;
+  veveUsername?: string;
 }
 
 export interface IFees {

@@ -9,7 +9,7 @@ import { HEADERS } from 'functions/src/utils/function.utils';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AppTransactionStates } from '../state/app.enums';
-import { ExistingUser, ITransaction, IUser } from '../state/app.model';
+import { ExistingUser, IAmount, ITransaction, IUser } from '../state/app.model';
 
 @Injectable()
 export class TransactionService {
@@ -37,16 +37,36 @@ export class TransactionService {
   }
 
   matchTransaction(
-    transactionId: string,
-    sellerUid: string,
-    user: ExistingUser
+    purchasorUser: ExistingUser,
+    transaction: ITransaction,
   ): Promise<string> {
+
+    const creatorUid = this.setString(transaction.creator.useruid); 
+    const purchasorUid = this.setString(transaction.purchasor.useruid); 
+    const transactionId = this.setString(transaction.id); 
+    const creatorReceivingWalletAddress = this.setString(transaction.creator?.receivingWallet?.walletAddress);
+    const creatorReceivingVeveUsername = this.setString(transaction.creator?.receivingWallet?.veveUsername);
+    const purchasorSendingWalletAddress = this.setString(transaction.purchasor?.sendingWallet?.walletAddress);
+    const purchasorSendingVeveUsername = this.setString(transaction.purchasor?.sendingWallet?.veveUsername);
+    const ecomiCreatorSendingWalletAddress = this.setString(transaction.creator.sendingWallet?.walletAddress);
+    const ecomiCreatorSendingVeveUsername = this.setString(transaction.creator.sendingWallet?.veveUsername);
+    const ecomiPurchasorReceivingWalletAddress = this.setString(transaction.purchasor.receivingWallet?.walletAddress);
+    const ecomiPurchasorReceivingVeveUsername = this.setString(transaction.purchasor.receivingWallet?.veveUsername);
+
     const headers = new HttpHeaders({
-      Authorization: 'Bearer' + user.secret,
+      Authorization: 'Bearer' + purchasorUser.secret,
     })
-      .set(HEADERS.X_BUYER_UID, user.uid)
-      .set(HEADERS.X_SELLER_UID, sellerUid)
-      .set(HEADERS.X_TRANSACTION_ID, transactionId);
+      .set(HEADERS.X_CREATOR_UID, creatorUid)
+      .set(HEADERS.X_PURCHASOR_UID, purchasorUid)
+      .set(HEADERS.X_TRANSACTION_ID, transactionId)      
+      .set(HEADERS.X_CREATOR_RECEIVING_WALLET_ADDRESS, creatorReceivingWalletAddress)
+      .set(HEADERS.X_CREATOR_RECEIVING_VEVE_USERNAME, creatorReceivingVeveUsername)
+      .set(HEADERS.X_PURCHASOR_SENDING_WALLET_ADDRESS, purchasorSendingWalletAddress)
+      .set(HEADERS.X_PURCHASOR_SENDING_VEVE_USERNAME, purchasorSendingVeveUsername)
+      .set(HEADERS.X_ECOMI_CREATOR_SENDING_WALLET_ADDRESS, ecomiCreatorSendingWalletAddress)
+      .set(HEADERS.X_ECOMI_CREATOR_SENDING_VEVE_USERNAME, ecomiCreatorSendingVeveUsername)
+      .set(HEADERS.X_ECOMI_PURCHASOR_RECEIVING_WALLET_ADDRESS, ecomiPurchasorReceivingWalletAddress)
+      .set(HEADERS.X_ECOMI_PURCHASOR_RECEIVING_VEVE_USERNAME, ecomiPurchasorReceivingVeveUsername);
 
     const options = { headers, responseType: 'json' as const };
 
@@ -60,6 +80,10 @@ export class TransactionService {
       .catch((error) => {
         throw error;
       });
+  }
+
+  private setString(string: string | undefined) {
+    return string ? string : '';
   }
 
   deleteTransaction(id: string): Promise<void> {
