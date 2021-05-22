@@ -39,6 +39,9 @@ import { UtilService } from './services/util.service';
 import { AppEffects } from './state/app.effects';
 import { appReducer } from './state/app.reducer';
 import { PurchaseReceivingModalComponent } from './components/modals/transactions/purchase-receiving-modal/purchase-receiving-modal.component';
+import { MatchTransactionConfirmationComponent } from './components/modals/transactions/match-transaction-confirmation-modal /match-transaction-confirmation.component';
+import { MatchTransactionErrorComponent } from './components/modals/transactions/match-transaction-error-modal/match-transaction-error.component';
+import { MatchTransactionSpinnerComponent } from './components/modals/transactions/match-transaction-spinner-modal/match-transaction-spinner.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +70,9 @@ import { PurchaseReceivingModalComponent } from './components/modals/transaction
     PurchasePaymentModalComponent,
     HowItWorksModalComponent,
     PurchaseReceivingModalComponent,
+    MatchTransactionConfirmationComponent,
+    MatchTransactionErrorComponent,
+    MatchTransactionSpinnerComponent
   ],
   imports: [
     FormsModule,

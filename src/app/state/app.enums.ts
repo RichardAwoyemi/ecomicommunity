@@ -11,7 +11,10 @@ export enum AppModalStates {
   PurchaseSummary = 'purchase-summary',
   CreatorItem = 'creator-item',
   PurchasorItem = 'purchasor-item',
-  HowItWorks = 'how-it-works'
+  HowItWorks = 'how-it-works',
+  MatchTransactionSpinner = 'match-transaction-spinner',
+  MatchTransactionConfirmation = 'match-transaction-confirm',
+  MatchTransactionError = 'match-transaction-error',
 }
 
 export enum AppAuthMessages {

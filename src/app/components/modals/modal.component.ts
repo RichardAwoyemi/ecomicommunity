@@ -24,6 +24,9 @@ export class ModalComponent {
   PURCHASE_PAYMENT_MODAL = AppModalStates.PurchasePayment;
   PURCHASE_RECEIVING_MODAL = AppModalStates.PurchaseReceiving;
   HOW_IT_WORKS_MODAL = AppModalStates.HowItWorks;
+  MATCH_TRANSACTION_SPINNER_MODAL = AppModalStates.MatchTransactionSpinner;
+  MATCH_TRANSACTION_CONFIRMATION_MODAL = AppModalStates.MatchTransactionConfirmation;
+  MATCH_TRANSACTION_ERROR_MODAL = AppModalStates.MatchTransactionError;
 
   email = '';
   password = '';

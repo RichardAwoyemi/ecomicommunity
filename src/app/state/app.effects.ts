@@ -159,7 +159,7 @@ export class AppEffects {
       ofType(AppActions.matchTransaction),
       exhaustMap((props) =>
         from(this.transactionService.matchTransaction(props.user, props.txn!)).pipe(
-          map(() => AppActions.showModal({ modalState: AppModalStates.Closed }))
+          map((response) => response == 'success' ? AppActions.showModal({ modalState: AppModalStates.MatchTransactionConfirmation }) : AppActions.showModal({modalState: AppModalStates.MatchTransactionError}))
         )
       )
     );

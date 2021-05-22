@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IAmount, IUser } from 'functions/src/utils/interfaces.utils';
+import { AppModalStates } from 'src/app/state/app.enums';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
 
@@ -17,6 +18,7 @@ export class ConfirmPurchaseButtonComponent {
   constructor(private store: Store<State>) {}
 
   confirmPurchase(): void {
+    this.store.dispatch(AppActions.showModal({modalState: AppModalStates.MatchTransactionSpinner}));
     this.store.dispatch(
       AppActions.matchTransaction({
         user: this.user!,
