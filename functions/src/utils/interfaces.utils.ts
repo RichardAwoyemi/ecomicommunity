@@ -53,7 +53,7 @@ export interface IAmount {
     units?: number;
     sendingWallet?: IWallet;
     receivingWallet?: IWallet;
-    ecomiReceivingWallet?: IWallet;
+    platformReceivingWallet?: IWallet;
     fees?: IFees;
 }
 

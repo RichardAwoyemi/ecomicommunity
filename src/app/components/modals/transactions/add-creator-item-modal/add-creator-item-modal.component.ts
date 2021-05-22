@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { DEFAULT_NETWORKS } from 'functions/src/utils/constants.utils';
+import { DEFAULT_NETWORKS, INTERNAL_NETWORK_ADDRESSES } from 'functions/src/utils/constants.utils';
 import { NetworkSymbols, AppTransactionCurrencies, AppTransactionItemTypes, Networks } from 'functions/src/utils/enums.utils';
 import { Observable } from 'rxjs';
 import { getCreatorItemsCurrency, getCreatorItemsUnits } from 'src/app/state';
@@ -83,6 +83,11 @@ export class AddCreatorItemModalComponent {
       })
     );
     this.store.dispatch(
+      AppActions.setPlatformReceivingCreatorWalletAddress({
+        walletAddress: INTERNAL_NETWORK_ADDRESSES[this.selectedCreatorNetworkSymbol]
+      })
+    )
+    this.store.dispatch(
       AppActions.setPurchasorReceivingNetworkSymbol({
         symbol: this.selectedCreatorNetworkSymbol,
       })
@@ -98,6 +103,11 @@ export class AddCreatorItemModalComponent {
     this.store.dispatch(
       AppActions.setPurchasorReceivingNetworkSymbol({ symbol: symbol })
     );
+    this.store.dispatch(
+      AppActions.setPlatformReceivingCreatorWalletAddress({
+        walletAddress: INTERNAL_NETWORK_ADDRESSES[symbol]
+      })
+    )
   }
 
   setCreatorSendingNetworkWalletAddress(walletAddress: string): void {

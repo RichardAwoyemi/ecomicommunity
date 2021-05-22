@@ -10,10 +10,10 @@ export const HEADERS = {
   X_CREATOR_RECEIVING_VEVE_USERNAME: "x-creator-receiving-veve-username",
   X_PURCHASOR_SENDING_WALLET_ADDRESS: "x-purchasor-sending-wallet-address",
   X_PURCHASOR_SENDING_VEVE_USERNAME: "x-purchasor-sending-veve-username",
-  X_ECOMI_RECEIVING_CREATOR_WALLET_ADDRESS: "x-ecomi-receiving-creator-wallet-address",
-  X_ECOMI_RECEIVING_CREATOR_VEVE_USERNAME: "x-ecomi-receiving-creator-veve-username",
-  X_ECOMI_RECEIVING_PURCHASOR_WALLET_ADDRESS: "x-ecomi-receiving-purchasor-wallet-address",
-  X_ECOMI_RECEIVING_PURCHASOR_VEVE_USERNAME: "x-ecomi-receiving-purchasor-veve-username",
+  X_PLATFORM_RECEIVING_CREATOR_WALLET_ADDRESS: "x-platform-receiving-creator-wallet-address",
+  X_PLATFORM_RECEIVING_CREATOR_VEVE_USERNAME: "x-platform-receiving-creator-veve-username",
+  X_PLATFORM_RECEIVING_PURCHASOR_WALLET_ADDRESS: "x-platform-receiving-purchasor-wallet-address",
+  X_PLATFORM_RECEIVING_PURCHASOR_VEVE_USERNAME: "x-platform-receiving-purchasor-veve-username",
 };
 
 export const DEFAULT_NETWORKS = {

@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { NETWORK_FEES_PC } from 'functions/src/utils/constants.utils';
+import { INTERNAL_NETWORK_ADDRESSES, NETWORK_FEES_PC } from 'functions/src/utils/constants.utils';
 import { AppTransactionCurrencies, AppTransactionItemTypes, Networks, NetworkSymbols } from 'functions/src/utils/enums.utils';
 import { IUser, ITransaction, IAmount } from 'functions/src/utils/interfaces.utils';
 import { UtilService } from '../services/util.service';
@@ -54,6 +54,9 @@ const initialState: AppState = {
       walletAddress: '',
       veveUsername: '',
     },
+    platformReceivingWallet: {
+      walletAddress: INTERNAL_NETWORK_ADDRESSES[NetworkSymbols.VEVE]
+    },
     fees: {
       networkFees: NETWORK_FEES_PC[AppTransactionCurrencies.BTC][0].fee,
       platformFees: 0.125 * 0.05,
@@ -77,6 +80,9 @@ const initialState: AppState = {
       networkSymbol: NetworkSymbols.BTC,
       walletAddress: '',
       veveUsername: '',
+    },
+    platformReceivingWallet: {
+      walletAddress: INTERNAL_NETWORK_ADDRESSES[NetworkSymbols.BTC]
     },
     fees: {
       networkFees: NETWORK_FEES_PC[AppTransactionCurrencies.GEMS][0].fee,
@@ -158,9 +164,6 @@ export const appReducer = createReducer<AppState>(
   }),
 
   on(AppActions.credentialsLoginSuccess, (state, props): AppState => {
-    state.rememberMe
-      ? localStorage.setItem('ec-user', JSON.stringify(props.user))
-      : sessionStorage.setItem('ec-user', JSON.stringify(props.user));
     return {
       ...state,
       user: props.user,
@@ -170,15 +173,19 @@ export const appReducer = createReducer<AppState>(
   }),
 
   on(AppActions.setUserSecret, (state, props): AppState => {
+    const user = {
+      uid: state.user?.uid,
+      email: state.user?.email,
+      photoURL: state.user?.photoURL,
+      username: state.user?.username,
+      secret: props.secret
+    }
+    state.rememberMe
+      ? localStorage.setItem('ec-user', JSON.stringify(user))
+      : sessionStorage.setItem('ec-user', JSON.stringify(user));
     return {
       ...state,
-      user: {
-        uid: state.user?.uid,
-        email: state.user?.email,
-        photoURL: state.user?.photoURL,
-        username: state.user?.username,
-        secret: props.secret
-      }
+      user: user
     };
   }),
 
@@ -222,6 +229,17 @@ export const appReducer = createReducer<AppState>(
         ...state.creatorItems,
         useruid: state.user?.uid || state.creatorItems.useruid,
         username: state.user?.username || state.creatorItems.username,
+      },
+    };
+  }),
+  on(AppActions.setPlatformReceivingCreatorWalletAddress, (state, props): AppState => {
+    return {
+      ...state,
+      creatorItems: {
+        ...state.creatorItems,
+        platformReceivingWallet: {
+          walletAddress: props.walletAddress
+        }
       },
     };
   }),
@@ -352,10 +370,21 @@ export const appReducer = createReducer<AppState>(
   on(AppActions.setPurchasorUserDetails, (state): AppState => {
     return {
       ...state,
-      creatorItems: {
-        ...state.creatorItems,
-        useruid: state.user?.uid || state.creatorItems.useruid,
-        username: state.user?.username || state.creatorItems.username,
+      purchasorItems: {
+        ...state.purchasorItems,
+        useruid: state.user?.uid || state.purchasorItems.useruid,
+        username: state.user?.username || state.purchasorItems.username,
+      },
+    };
+  }),
+  on(AppActions.setPlatformReceivingPurchasorWalletAddress, (state, props): AppState => {
+    return {
+      ...state,
+      purchasorItems: {
+        ...state.purchasorItems,
+        platformReceivingWallet: {
+          walletAddress: props.walletAddress
+        }
       },
     };
   }),

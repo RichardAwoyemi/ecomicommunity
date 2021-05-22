@@ -36,6 +36,7 @@ export class PurchasePaymentModalComponent {
     this.network$ = this.store.select(getPurchasorSendingWalletNetwork);
     this.walletAddress$ = this.store.select(getPurchasorSendingWalletAddress);
     this.veveUsername$ = this.store.select(getPurchasorSendingVeveUsername);
+    this.store.dispatch(AppActions.setPurchasorUserDetails());
   }
 
   setNetworkSymbol(symbol: NetworkSymbols): void {

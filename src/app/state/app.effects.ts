@@ -15,7 +15,7 @@ export class AppEffects {
     public authService: AuthService,
     private transactionService: TransactionService,
     private userService: UserService
-  ) {}
+  ) { }
 
   credentialsRegistation$ = createEffect(() => {
     return this.actions$.pipe(
@@ -78,7 +78,7 @@ export class AppEffects {
                 uid: user.uid,
                 email: user.email,
                 photoURL: user?.photoURL,
-                username: user?.username,
+                username: user?.username
               },
             })
           )
@@ -91,7 +91,7 @@ export class AppEffects {
       ofType(AppActions.persistUserSecret),
       exhaustMap((props) =>
         from(this.userService.setUserSecretById(props.useruid)).pipe(
-          map(() => 
+          map(() =>
             AppActions.credentialsRegistrationSuccess()
           )
         ),
@@ -103,7 +103,7 @@ export class AppEffects {
       ofType(AppActions.persistUser),
       exhaustMap((props) =>
         from(this.userService.setUser(props.user)).pipe(
-          map(() => 
+          map(() =>
             AppActions.persistUserSecret({ useruid: props.user.uid ? props?.user.uid : "" })
           )
         ),
@@ -142,7 +142,7 @@ export class AppEffects {
       ofType(AppActions.logoutUser),
       map(() => AppActions.clearUser()),
       tap(() => this.authService.logout())
-      )
+    )
   });
   getTransactions$ = createEffect(() => {
     return this.actions$.pipe(

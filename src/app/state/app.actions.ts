@@ -32,6 +32,7 @@ export enum AppActionTypes {
   AddTransaction = '[App] [Transactions] Add New Transaction',
 
   SetCreatorUserDetails = '[App] [Transactions] Set Creator User Details',
+  SetPlatformReceivingCreatorWalletAddress = '[App] [Transactions] Set Plaftfom Receiving Creator Wallet Address Details',
   SetCreatorSendingAmountUnits = '[App] [Transactions] Set Creator Sending Amount Units',
   SetCreatorSendingAmountCurrency = '[App] [Transactions] Set Creator Sending Amount Currency',
   SetCreatorSendingNetworkVeveUsername = '[App] [Transactions] Set Creator Sending Network Username',
@@ -44,6 +45,7 @@ export enum AppActionTypes {
   SetCreatorReceivingFees = '[App] [Transactions] Set Creator Receiving Fees',
 
   SetPurchasorUserDetails = '[App] [Transactions] Set Purchasor User Details',
+  SetPlatformReceivingPurchasorWalletAddress = '[App] [Transactions] Set Plaftfom Receiving Purchasor Wallet Address Details',
   SetPurchasorSendingAmountUnits = '[App] [Transactions] Set Purchasor Sending Amount Units',
   SetPurchasorSendingAmountCurrency = '[App] [Transactions] Set Purchasor Sending Amount Currency',
   SetPurchasorSendingNetworkVeveUsername = '[App] [Transactions] Set Purchasor Sending Network Username',
@@ -200,6 +202,10 @@ export const deleteTransaction = createAction(
 export const setCreatorUserDetails = createAction(
   AppActionTypes.SetCreatorUserDetails
 );
+export const setPlatformReceivingCreatorWalletAddress = createAction(
+  AppActionTypes.SetPlatformReceivingCreatorWalletAddress,
+  props<{ walletAddress: string }>()
+);
 export const setCreatorSendingNetworkWalletAddress = createAction(
   AppActionTypes.SetCreatorSendingNetworkWalletAddress,
   props<{ walletAddress: string }>()
@@ -237,6 +243,10 @@ export const setCreatorReceivingFees = createAction(
 );
 export const setPurchasorUserDetails = createAction(
   AppActionTypes.SetPurchasorUserDetails
+);
+export const setPlatformReceivingPurchasorWalletAddress = createAction(
+  AppActionTypes.SetPlatformReceivingPurchasorWalletAddress,
+  props<{ walletAddress: string }>()
 );
 export const setPurchasorSendingNetworkWalletAddress = createAction(
   AppActionTypes.SetPurchasorSendingNetworkWalletAddress,

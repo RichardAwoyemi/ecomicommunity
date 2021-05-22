@@ -24,10 +24,10 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
         const creatorReceivingVeveUsername = request.get(HEADERS.X_CREATOR_RECEIVING_VEVE_USERNAME);
         const purchasorSendingWalletAddress = request.get(HEADERS.X_PURCHASOR_SENDING_WALLET_ADDRESS);
         const purchasorSendingVeveUsername = request.get(HEADERS.X_PURCHASOR_SENDING_VEVE_USERNAME);
-        const ecomiReceivingCreatorWalletAddress = request.get(HEADERS.X_ECOMI_RECEIVING_CREATOR_WALLET_ADDRESS);
-        const ecomiReceivingCreatorVeveUsername = request.get(HEADERS.X_ECOMI_RECEIVING_CREATOR_VEVE_USERNAME);
-        const ecomiReceivingPurchasorWalletAddress = request.get(HEADERS.X_ECOMI_RECEIVING_PURCHASOR_WALLET_ADDRESS);
-        const ecomiReceivingPurchasorVeveUsername = request.get(HEADERS.X_ECOMI_RECEIVING_PURCHASOR_VEVE_USERNAME);
+        const platformReceivingCreatorWalletAddress = request.get(HEADERS.X_PLATFORM_RECEIVING_CREATOR_WALLET_ADDRESS);
+        const platformReceivingCreatorVeveUsername = request.get(HEADERS.X_PLATFORM_RECEIVING_CREATOR_VEVE_USERNAME);
+        const platformReceivingPurchasorWalletAddress = request.get(HEADERS.X_PLATFORM_RECEIVING_PURCHASOR_WALLET_ADDRESS);
+        const platformReceivingPurchasorVeveUsername = request.get(HEADERS.X_PLATFORM_RECEIVING_PURCHASOR_VEVE_USERNAME);
 
         // functions.logger.log(`Buyer Uid: ${creatorUid}, Seller Uid, ${purchasorUid}, Transaction Id: ${transactionId}`);
 
@@ -36,8 +36,8 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
         creatorUid !== undefined &&
         creatorReceivingWalletAddress != undefined &&
         purchasorSendingWalletAddress != undefined &&
-        ecomiReceivingCreatorWalletAddress != undefined &&
-        ecomiReceivingPurchasorWalletAddress != undefined) {
+        platformReceivingCreatorWalletAddress != undefined &&
+        platformReceivingPurchasorWalletAddress != undefined) {
         // functions.logger.log(`Preparing documents for user: ${userUid}`);
           const creatorDocRef: admin.firestore.DocumentReference = admin
               .firestore()
@@ -83,17 +83,17 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
                           walletAddress: creatorReceivingWalletAddress,
                           veveUsername: creatorReceivingVeveUsername,
                         },
-                        ecomiReceivingWallet: {
-                          walletAddress: ecomiReceivingCreatorWalletAddress,
-                          veveUsername: ecomiReceivingCreatorVeveUsername,
+                        platformReceivingWallet: {
+                          walletAddress: platformReceivingCreatorWalletAddress,
+                          veveUsername: platformReceivingCreatorVeveUsername,
                         },
                       },
                       purchasor: {
                         useruid: purchasorUid,
                         username: purchasorDoc.get("username"),
-                        ecomiReceivingWallet: {
-                          walletAddress: ecomiReceivingPurchasorWalletAddress,
-                          veveUsername: ecomiReceivingPurchasorVeveUsername,
+                        platformReceivingWallet: {
+                          walletAddress: platformReceivingPurchasorWalletAddress,
+                          veveUsername: platformReceivingPurchasorVeveUsername,
                         },
                         sendingWallet: {
                           walletAddress: purchasorSendingWalletAddress,
@@ -220,7 +220,7 @@ function createEmailContentForTransactionMatch(
     sendingCurrency: string,
     sendingWallet: string,
     sendingNetwork: string,
-    ecomiReceivingWallet: string,
+    platformReceivingWallet: string,
     fees: IFees,
 ): string {
   return "Hi " + username + "," +
@@ -230,7 +230,7 @@ function createEmailContentForTransactionMatch(
     "<br>Please send " + sendingUnits + " " + sendingCurrency + " on the " + sendingNetwork + " network:" +
     "<ul>" +
     "  <li>Send from your wallet: " + sendingWallet + "</li>" +
-    "  <li>Send to the wallet: " + ecomiReceivingWallet + "</li>" +
+    "  <li>Send to the wallet: " + platformReceivingWallet + "</li>" +
     "</ul>" +
     "<br>" +
     "<br>Once we have received both amounts from both parties, we will send another email to notify you of your purchase." +
@@ -308,7 +308,7 @@ async function sendMatchedEmails(transactionSummary: ITransaction) {
           getString(transactionSummary.purchasor.currency),
           getString(transactionSummary.creator.sendingWallet?.walletAddress),
           getString(transactionSummary.creator.sendingWallet?.network),
-          getString(transactionSummary.creator.ecomiReceivingWallet?.walletAddress),
+          getString(transactionSummary.creator.platformReceivingWallet?.walletAddress),
           getFees(transactionSummary.creator.fees)
       )
   );
@@ -326,7 +326,7 @@ async function sendMatchedEmails(transactionSummary: ITransaction) {
           getString(transactionSummary.creator.currency),
           getString(transactionSummary.purchasor.sendingWallet?.walletAddress),
           getString(transactionSummary.purchasor.sendingWallet?.network),
-          getString(transactionSummary.purchasor.ecomiReceivingWallet?.walletAddress),
+          getString(transactionSummary.purchasor.platformReceivingWallet?.walletAddress),
           getFees(transactionSummary.purchasor.fees)
       )
   );
@@ -374,7 +374,7 @@ function setTransactionSummary(
       username: transactionData?.creator?.username || creatorDoc.get("username"),
       receivingWallet: transactionData?.creator?.receivingWallet,
       sendingWallet: transactionData?.creator?.sendingWallet,
-      ecomiReceivingWallet: transactionData?.creator?.ecomiReceivingWallet,
+      platformReceivingWallet: transactionData?.creator?.platformReceivingWallet,
       fees: transactionData?.creator?.fees,
     },
     purchasor: {
@@ -384,7 +384,7 @@ function setTransactionSummary(
       username: transactionData?.purchasor?.username || purchasorDoc.get("username"),
       receivingWallet: transactionData?.purchasor?.receivingWallet,
       sendingWallet: transactionData?.purchasor?.sendingWallet,
-      ecomiReceivingWallet: transactionData?.purchasor?.ecomiReceivingWallet,
+      platformReceivingWallet: transactionData?.purchasor?.platformReceivingWallet,
       fees: transactionData?.purchasor?.fees,
     },
   };

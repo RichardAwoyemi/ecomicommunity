@@ -16,7 +16,7 @@ import {
   getPurchasorItemsCurrency,
   getPurchasorItemsUnits,
 } from '../../../../state/index';
-import { DEFAULT_NETWORKS } from 'functions/src/utils/constants.utils';
+import { DEFAULT_NETWORKS, INTERNAL_NETWORK_ADDRESSES } from 'functions/src/utils/constants.utils';
 import { NetworkSymbols, AppTransactionCurrencies, AppTransactionItemTypes, Networks } from 'functions/src/utils/enums.utils';
 import { IFees } from 'functions/src/utils/interfaces.utils';
 @Component({
@@ -71,6 +71,11 @@ export class AddPurchasorItemModalComponent {
     this.store.dispatch(AppActions.setPurchasorSendingAmountCurrency({ currency: currency }));
     this.store.dispatch(AppActions.setPurchasorSendingNetworkSymbol({ symbol: this.selectedPurchasorNetworkSymbol }));
     this.store.dispatch(AppActions.setCreatorReceivingNetworkSymbol({ symbol: this.selectedPurchasorNetworkSymbol }));
+    this.store.dispatch(
+      AppActions.setPlatformReceivingPurchasorWalletAddress({
+        walletAddress: INTERNAL_NETWORK_ADDRESSES[this.selectedPurchasorNetworkSymbol]
+      })
+    )
     this.store.dispatch(AppActions.setCreatorReceivingFees());
   }
 
@@ -78,6 +83,11 @@ export class AddPurchasorItemModalComponent {
     this.selectedPurchasorNetworkSymbol = symbol;
     this.store.dispatch(AppActions.setPurchasorSendingNetworkSymbol({ symbol: symbol }));
     this.store.dispatch(AppActions.setCreatorReceivingNetworkSymbol({ symbol: symbol }));
+    this.store.dispatch(
+      AppActions.setPlatformReceivingPurchasorWalletAddress({
+        walletAddress: INTERNAL_NETWORK_ADDRESSES[symbol]
+      })
+    )
   }
 
   setCreatorReceivingNetworkWalletAddress(walletAddress: string): void {
