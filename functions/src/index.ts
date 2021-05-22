@@ -210,25 +210,25 @@ function createEmailContentForTransactionMatch(
     fees: IFees,
 ): string {
   return "<h1>Hi " + username + ",</h1>" +
-    "<br>" +
     "<h2>Your transaction #" + transactionId + " has been confirmed!</h2>" +
-    "<br>Please send " + sendingUnits + " " + sendingCurrency + " on the " + sendingNetwork + " network:" +
+    "Please send " + sendingUnits + " " + sendingCurrency + " on the " + sendingNetwork + " network:" +
     "<ul>" +
     "  <li>Send from your wallet: " + sendingWallet + "</li>" +
     "  <li>Send to the wallet: " + platformReceivingWallet + "</li>" +
     "</ul>" +
-    "<br>Once we have received both amounts from both parties, we will send another email to notify you of your purchase." +
-    "<br>When this happens, you will receive " + receivingUnits + " " + receivingCurrency + " on the " + receivingNetwork + " network:" +
+    "Once we have received both amounts from both parties, we will send another email to notify you of your purchase." +
+    "<br>When this happens, for your purchase of " + receivingUnits + " " + receivingCurrency + " on the " + receivingNetwork + " network:" +
     "<ul>" +
-    "  <li>Sent to your wallet: " + receivingWallet + " " + receivingNetwork + "</li>" +
+    "  <li>You will receive: " + fees.totalPostFees + " " + receivingCurrency + "</li>" +
+    "  <li>Sent to your wallet: " + receivingWallet + "</li>" +
     "</ul>" +
-    "<br>You will be charged the following fees:" +
+    "You will be charged the following fees:" +
     "<ul>" +
     "  <li>Network fees: " + fees.networkFees + " " + receivingCurrency + "</li>" +
     "  <li>Platform fees: " + fees.platformFees + " " + receivingCurrency + "</li>" +
-    "  <li>Amount after fees: " + fees.totalPostFees + " " + receivingCurrency + "</li>" +
     "</ul>" +
-    "<br> Please be sure to reach out if any of the details above in incorrect!";
+    "If you encounter any issues please reach out <a href=\"mailto:contact@ecomi.community\">here</a>" +
+    "<h5>Ecomi Community</h5>";
 }
 
 
@@ -242,21 +242,20 @@ function createEmailContentForTransactionCompleted(
     fees: IFees,
 ): string {
   return "<h1>Hi " + username + ",</h1>" +
-    "<br>" +
     "<h2>Good news! Your transaction #" + transactionId + " has been completed!</h2>" +
-    "<br>" +
-    "<br>We have received both parties funds and have now completed your transaction!" +
-    "<br>Please give 24hrs, to receive " + receivingUnits + " " + receivingCurrency + " on the " + receivingNetwork + " network:" +
+    "We have received both parties funds and have now completed your transaction!" +
+    "<br>Please give 24hrs, for your purchase of " + receivingUnits + " " + receivingCurrency + " on the " + receivingNetwork + " network:" +
     "<ul>" +
-    "  <li>Sent to your wallet: " + receivingWallet + " " + receivingNetwork + "</li>" +
+    "  <li>You will receive: " + fees.totalPostFees + " " + receivingCurrency + "</li>" +
+    "  <li>Sent to your wallet: " + receivingWallet + "</li>" +
     "</ul>" +
-    "<br>You will be charged the following fees:" +
+    "You will be charged the following fees:" +
     "<ul>" +
     "  <li>Network fees: " + fees.networkFees + " " + receivingCurrency + "</li>" +
     "  <li>Platform fees: " + fees.platformFees + " " + receivingCurrency + "</li>" +
-    "  <li>Amount after fees: " + fees.totalPostFees + " " + receivingCurrency + "</li>" +
     "</ul>" +
-    "<br>If you encounter any issues please reach out!";
+    "If you encounter any issues please reach out <a href=\"mailto:contact@ecomi.community\">here</a>" +
+    "<h5>Ecomi Community</h5>";
 }
 
 function sendEmailToPerson(
@@ -265,7 +264,7 @@ function sendEmailToPerson(
     html: string) {
   const msg = {
     to: to,
-    from: "mofe.salami@gmail.com",
+    from: "no-reply@ecomi.community",
     subject: subject,
     html: html,
   };
