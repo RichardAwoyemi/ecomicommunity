@@ -5,11 +5,11 @@ import {
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { HEADERS } from 'functions/src/utils/function.utils';
+import { HEADERS } from 'functions/src/utils/constants.utils';
+import { AppTransactionStates } from 'functions/src/utils/enums.utils';
+import { ITransaction, IUser } from 'functions/src/utils/interfaces.utils';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { AppTransactionStates } from '../state/app.enums';
-import { ExistingUser, ITransaction, IUser } from '../state/app.model';
 
 @Injectable()
 export class TransactionService {
@@ -37,16 +37,34 @@ export class TransactionService {
   }
 
   matchTransaction(
-    transactionId: string,
-    sellerUid: string,
-    user: ExistingUser
+    purchasorUser: IUser,
+    transaction: ITransaction,
   ): Promise<string> {
+
+    const creatorUid = this.setString(transaction.creator.useruid); 
+    const purchasorUid = this.setString(transaction.purchasor.useruid); 
+    const transactionId = this.setString(transaction.id); 
+    const purchasorEmail = this.setString(purchasorUser.email);
+    const purchasorUsername = this.setString(purchasorUser.username);
+    const purchasorReceivingWalletAddress = this.setString(transaction.purchasor?.receivingWallet?.walletAddress);
+    const purchasorReceivingVeveUsername = this.setString(transaction.purchasor?.receivingWallet?.veveUsername);
+    const purchasorSendingWalletAddress = this.setString(transaction.purchasor?.sendingWallet?.walletAddress);
+    const purchasorSendingVeveUsername = this.setString(transaction.purchasor?.sendingWallet?.veveUsername);
+
+    console.table({creatorUid, purchasorUid, transactionId, purchasorEmail, purchasorUsername, creatorReceivingWalletAddress: purchasorReceivingWalletAddress, creatorReceivingVeveUsername: purchasorReceivingVeveUsername, purchasorSendingWalletAddress, purchasorSendingVeveUsername})
+
     const headers = new HttpHeaders({
-      Authorization: 'Bearer' + user.secret,
+      Authorization: 'Bearer ' + purchasorUser.secret,
     })
-      .set(HEADERS.X_BUYER_UID, user.uid)
-      .set(HEADERS.X_SELLER_UID, sellerUid)
-      .set(HEADERS.X_TRANSACTION_ID, transactionId);
+      .set(HEADERS.X_CREATOR_UID, creatorUid)
+      .set(HEADERS.X_PURCHASOR_UID, purchasorUid)
+      .set(HEADERS.X_TRANSACTION_ID, transactionId)   
+      .set(HEADERS.X_PURCHASOR_EMAIL, purchasorEmail)
+      .set(HEADERS.X_PURCHASOR_USERNAME, purchasorUsername)   
+      .set(HEADERS.X_PURCHASOR_RECEIVING_WALLET_ADDRESS, purchasorReceivingWalletAddress)
+      .set(HEADERS.X_PURCHASOR_RECEIVING_VEVE_USERNAME, purchasorReceivingVeveUsername)
+      .set(HEADERS.X_PURCHASOR_SENDING_WALLET_ADDRESS, purchasorSendingWalletAddress)
+      .set(HEADERS.X_PURCHASOR_SENDING_VEVE_USERNAME, purchasorSendingVeveUsername);
 
     const options = { headers, responseType: 'json' as const };
 
@@ -62,17 +80,15 @@ export class TransactionService {
       });
   }
 
+  private setString(string: string | undefined | null) {
+    return string ? string : '';
+  }
+
   deleteTransaction(id: string): Promise<void> {
     return this.afs.doc(`transactions/${id}`).delete();
   }
 
   getTransactions(): Observable<ITransaction[]> {
     return this.afs.collection<ITransaction>('transactions').valueChanges();
-  }
-
-  confirmPurchase(txn: ITransaction, user: IUser): Promise<void> {
-    return this.afs
-      .doc(`transactions/${txn.id}`)
-      .update({ status: AppTransactionStates.InProgress, buyerUid: user.uid });
   }
 }

@@ -1,8 +1,12 @@
 /* NgRx */
 import { createAction, props } from '@ngrx/store';
 import firebase from 'firebase/app';
-import { IUser, ITransaction, IAmount } from './app.model';
-import { AppModalStates, AppDropdownState } from './app.enums';
+import {
+  AppModalStates,
+  AppDropdownState,
+} from './app.enums';
+import { NetworkSymbols, AppTransactionCurrencies } from 'functions/src/utils/enums.utils';
+import { IUser, ITransaction } from 'functions/src/utils/interfaces.utils';
 
 export enum AppActionTypes {
   IsLoggedIn = '[App] Is Logged In',
@@ -23,21 +27,48 @@ export enum AppActionTypes {
   SetTransactions = '[App] [Transactions] Set Full Transaction List',
   DeleteTransaction = '[App] [Transaction] Delete Transaction from the table by ID',
   SetActiveTransaction = '[App] [Transaction] Set Active Transaction',
-  ResetNewTransaction = '[App] [Transaction] Reset New Transaction',
-  ConfirmPurchase = '[App] Confirm Purchase',
+  resetTransaction = '[App] [Transaction] Reset Transaction',
+  MatchTransaction = '[App] Match Transaction',
   AddTransaction = '[App] [Transactions] Add New Transaction',
-  SetCreatorItems = '[App] [Transactions] Set Creator Assets',
-  SetPurchasorItems = '[App] [Transactions] Set Purchasor Assets',
+
+  SetCreatorUserDetails = '[App] [Transactions] Set Creator User Details',
+  SetPlatformReceivingCreatorWalletAddress = '[App] [Transactions] Set Plaftfom Receiving Creator Wallet Address Details',
+  SetCreatorSendingAmountUnits = '[App] [Transactions] Set Creator Sending Amount Units',
+  SetCreatorSendingAmountCurrency = '[App] [Transactions] Set Creator Sending Amount Currency',
+  SetCreatorSendingNetworkVeveUsername = '[App] [Transactions] Set Creator Sending Network Username',
+  SetCreatorSendingNetworkWalletAddress = '[App] [Transactions] Set Creator Sending Network Wallet Address',
+  SetCreatorSendingNetworkSymbol = '[App] [Transactions] Set Creator Sending Network Symbol',
+  SetCreatorSendingCurrency = '[App] [Transactions] Set Creator Sending Currency',
+  SetCreatorReceivingNetworkVeveUsername = '[App] [Transactions] Set Creator Receiving Network Username',
+  SetCreatorReceivingNetworkWalletAddress = '[App] [Transactions] Set Creator Receiving Network Wallet Address',
+  SetCreatorReceivingNetworkSymbol = '[App] [Transactions] Set Creator Receiving Network Symbol',
+  SetCreatorReceivingFees = '[App] [Transactions] Set Creator Receiving Fees',
+
+  SetPurchasorUserDetails = '[App] [Transactions] Set Purchasor User Details',
+  SetPlatformReceivingPurchasorWalletAddress = '[App] [Transactions] Set Plaftfom Receiving Purchasor Wallet Address Details',
+  SetPurchasorSendingAmountUnits = '[App] [Transactions] Set Purchasor Sending Amount Units',
+  SetPurchasorSendingAmountCurrency = '[App] [Transactions] Set Purchasor Sending Amount Currency',
+  SetPurchasorSendingNetworkVeveUsername = '[App] [Transactions] Set Purchasor Sending Network Username',
+  SetPurchasorSendingNetworkWalletAddress = '[App] [Transactions] Set Purchasor Sending Network Wallet Address',
+  SetPurchasorSendingNetworkSymbol = '[App] [Transactions] Set Purchasor Sending Network Symbol',
+  SetPurchasorSendingCurrency = '[App] [Transactions] Set Purchasor Sending Currency',
+  SetPurchasorReceivingNetworkVeveUsername = '[App] [Transactions] Set Purchasor Receiving Network Username',
+  SetPurchasorReceivingNetworkWalletAddress = '[App] [Transactions] Set Purchasor Receiving Network Wallet Address',
+  SetPurchasorReceivingNetworkSymbol = '[App] [Transactions] Set Purchasor Receiving Network Symbol',
+  SetPurchasorReceivingFees = '[App] [Transactions] Set Purchasor Receiving Fees',
+
+  SetUserSecret = '[App] [Login] Set User Secret',
   SetUser = '[App] [Login] Set User',
   GetUser = '[App] [Login] Get User Info',
+  GetUserSecret = '[App] [Login] Get User Secret Info',
   ClearUser = '[App] [Login] Clear User Info',
-  SetEmailVerificationFailMessage = "[App] [Login] Email Verification Failed",
-  EmailVerificationFailure = "[App] [Login] Email Verification Failure",
+  SetEmailVerificationFailMessage = '[App] [Login] Email Verification Failed',
+  EmailVerificationFailure = '[App] [Login] Email Verification Failure',
   PersistUser = '[App] [Register] Perist User',
+  PersistUserSecret = '[App] [Register] Perist User Secret',
   ToggleNavbar = '[App] Toggle Navbar',
   ToggleEmailConsent = '[App] Toggle Email Consent',
   ToggleRememberMe = '[App] Toggle Remember Me',
-  ResetPurchaseModal = '[App] [Transaction] [Purchase] Reset Purchase Modal'
 }
 
 export const isLoggedIn = createAction(AppActionTypes.IsLoggedIn);
@@ -81,6 +112,11 @@ export const credentialsLoginSuccess = createAction(
   props<{ user: IUser }>()
 );
 
+export const setUserSecret = createAction(
+  AppActionTypes.SetUserSecret,
+  props<{ secret: string }>()
+);
+
 export const credentialsLoginVerification = createAction(
   AppActionTypes.CredentialsLoginVerification,
   props<{ user: IUser }>()
@@ -115,22 +151,33 @@ export const setUser = createAction(
   props<{ user: firebase.auth.UserCredential }>()
 );
 
+export const persistUserSecret = createAction(
+  AppActionTypes.PersistUserSecret,
+  props<{ useruid: string }>()
+);
+
+
 export const persistUser = createAction(
   AppActionTypes.PersistUser,
   props<{ user: IUser }>()
 );
 
 export const setEmailVerificationFailMessage = createAction(
-  AppActionTypes.SetEmailVerificationFailMessage,
+  AppActionTypes.SetEmailVerificationFailMessage
 );
 
 export const emailVerificationFailure = createAction(
-  AppActionTypes.EmailVerificationFailure,
+  AppActionTypes.EmailVerificationFailure
 );
 
 export const getUser = createAction(
   AppActionTypes.GetUser,
   props<{ key: string }>()
+);
+
+export const getUserSecret = createAction(
+  AppActionTypes.GetUserSecret,
+  props<{ userid: string }>()
 );
 
 export const getTransactions = createAction(AppActionTypes.GetTransactions);
@@ -143,34 +190,101 @@ export const addTransaction = createAction(
   AppActionTypes.AddTransaction,
   props<{ txn: ITransaction }>()
 );
-
-export const confirmPurchase = createAction(
-  AppActionTypes.ConfirmPurchase,
-  props<{ txn: ITransaction, user: IUser }>()
+export const matchTransaction = createAction(
+  AppActionTypes.MatchTransaction,
+  props<{ txn: ITransaction; user: IUser }>()
 );
 
 export const deleteTransaction = createAction(
   AppActionTypes.DeleteTransaction,
   props<{ id: string }>()
 );
-
-
-export const setCreatorItems = createAction(
-  AppActionTypes.SetCreatorItems,
-  props<{ amount: IAmount }>()
+export const setCreatorUserDetails = createAction(
+  AppActionTypes.SetCreatorUserDetails
 );
-export const setPurchasorItems = createAction(
-  AppActionTypes.SetPurchasorItems,
-  props<{ amount: IAmount }>()
+export const setPlatformReceivingCreatorWalletAddress = createAction(
+  AppActionTypes.SetPlatformReceivingCreatorWalletAddress,
+  props<{ walletAddress: string }>()
+);
+export const setCreatorSendingNetworkWalletAddress = createAction(
+  AppActionTypes.SetCreatorSendingNetworkWalletAddress,
+  props<{ walletAddress: string }>()
+);
+export const setCreatorSendingNetworkVeveUsername = createAction(
+  AppActionTypes.SetCreatorSendingNetworkVeveUsername,
+  props<{ veveUsername: string }>()
+);
+export const setCreatorSendingNetworkSymbol = createAction(
+  AppActionTypes.SetCreatorSendingNetworkSymbol,
+  props<{ symbol: NetworkSymbols }>()
+);
+export const setCreatorSendingAmountUnits = createAction(
+  AppActionTypes.SetCreatorSendingAmountUnits,
+  props<{ units: number }>()
+);
+export const setCreatorSendingAmountCurrency = createAction(
+  AppActionTypes.SetCreatorSendingAmountCurrency,
+  props<{ currency: AppTransactionCurrencies }>()
+);
+export const setCreatorReceivingNetworkWalletAddress = createAction(
+  AppActionTypes.SetCreatorReceivingNetworkWalletAddress,
+  props<{ walletAddress: string }>()
+);
+export const setCreatorReceivingNetworkVeveUsername = createAction(
+  AppActionTypes.SetCreatorReceivingNetworkVeveUsername,
+  props<{ veveUsername: string }>()
+);
+export const setCreatorReceivingNetworkSymbol = createAction(
+  AppActionTypes.SetCreatorReceivingNetworkSymbol,
+  props<{ symbol: NetworkSymbols }>()
+);
+export const setCreatorReceivingFees = createAction(
+  AppActionTypes.SetCreatorReceivingFees
+);
+export const setPurchasorUserDetails = createAction(
+  AppActionTypes.SetPurchasorUserDetails
+);
+export const setPlatformReceivingPurchasorWalletAddress = createAction(
+  AppActionTypes.SetPlatformReceivingPurchasorWalletAddress,
+  props<{ walletAddress: string }>()
+);
+export const setPurchasorSendingNetworkWalletAddress = createAction(
+  AppActionTypes.SetPurchasorSendingNetworkWalletAddress,
+  props<{ walletAddress: string }>()
+);
+export const setPurchasorSendingNetworkVeveUsername = createAction(
+  AppActionTypes.SetPurchasorSendingNetworkVeveUsername,
+  props<{ veveUsername: string }>()
+);
+export const setPurchasorSendingNetworkSymbol = createAction(
+  AppActionTypes.SetPurchasorSendingNetworkSymbol,
+  props<{ symbol: NetworkSymbols }>()
+);
+export const setPurchasorSendingAmountUnits = createAction(
+  AppActionTypes.SetPurchasorSendingAmountUnits,
+  props<{ units: number }>()
+);
+export const setPurchasorSendingAmountCurrency = createAction(
+  AppActionTypes.SetPurchasorSendingAmountCurrency,
+  props<{ currency: AppTransactionCurrencies }>()
+);
+export const setPurchasorReceivingNetworkWalletAddress = createAction(
+  AppActionTypes.SetPurchasorReceivingNetworkWalletAddress,
+  props<{ walletAddress: string }>()
+);
+export const setPurchasorReceivingNetworkVeveUsername = createAction(
+  AppActionTypes.SetCreatorReceivingNetworkVeveUsername,
+  props<{ veveUsername: string }>()
+);
+export const setPurchasorReceivingNetworkSymbol = createAction(
+  AppActionTypes.SetPurchasorReceivingNetworkSymbol,
+  props<{ symbol: NetworkSymbols }>()
+);
+export const setPurchasorReceivingFees = createAction(
+  AppActionTypes.SetPurchasorReceivingFees
 );
 export const setActiveTransaction = createAction(
   AppActionTypes.SetActiveTransaction,
   props<{ txn?: ITransaction }>()
 );
-export const resetNewTransaction = createAction(
-  AppActionTypes.ResetNewTransaction
-);
-
-export const resetPurchaseModal = createAction(
-  AppActionTypes.ResetPurchaseModal
-)
+export const resetTransaction = createAction(AppActionTypes.resetTransaction);

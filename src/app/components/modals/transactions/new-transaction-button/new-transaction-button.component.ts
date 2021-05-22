@@ -1,9 +1,9 @@
 import { Component, Input, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { IUser } from 'functions/src/utils/interfaces.utils';
 import { AppModalStates } from 'src/app/state/app.enums';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
-import { IAmount, ITransaction, IUser } from '../../../../state/app.model';
 
 @Component({
   selector: 'ec-new-transaction-button',
@@ -15,12 +15,15 @@ export class NewTransactionButtonComponent {
   constructor(private store: Store<State>) {}
 
   showNewTransactionModal(): void {
-    this.store.dispatch(
-      AppActions.showModal({
-        modalState: this.user
-          ? AppModalStates.NewTransaction
-          : AppModalStates.Registration,
-      })
-    );
+    if (this.user) {
+      this.store.dispatch(AppActions.resetTransaction());
+      this.store.dispatch(
+        AppActions.showModal({ modalState: AppModalStates.CreatorItem })
+      );
+    } else {
+      this.store.dispatch(
+        AppActions.showModal({ modalState: AppModalStates.Registration })
+      );
+    }
   }
 }

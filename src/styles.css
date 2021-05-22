@@ -17,8 +17,7 @@ ec-logout-modal > div,
 ec-email-verification > div,
 ec-new-transaction-modal > div,
 ec-add-sale-item-modal > div,
-ec-add-buy-item-modal > div
-ec-new-transaction-summary-modal > div {
+ec-add-buy-item-modal > div ec-new-transaction-summary-modal > div {
   margin: auto;
   min-width: 20rem;
 }

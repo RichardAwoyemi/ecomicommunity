@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { AppState } from './app.reducer';
 import { AppDropdownState } from './app.enums';
-import { NETWORK_FEES_PC } from '../data/currency-settings';
+import { NETWORK_FEES_PC } from 'functions/src/utils/constants.utils';
 
 const getAppFeatureState = createFeatureSelector<AppState>('app');
 
@@ -83,26 +83,6 @@ export const getCreatorItems = createSelector(
 export const getCreatorItemsCurrency = createSelector(
   getCreatorItems,
   (state) => state.currency!
-);
-
-export const getActiveCreatorItemsCurrency = createSelector(
-  getActiveTransaction,
-  (state) => state?.creator.currency!
-);
-
-export const getActivePurchaseItemsCurrency = createSelector(
-  getActiveTransaction,
-  (state) => state?.purchasor.currency!
-);
-
-export const getActiveTransactionBuyNetworkSymbols = createSelector(
-  getActivePurchaseItemsCurrency,
-  (state) => NETWORK_FEES_PC[state].map((item) => item.symbol)
-);
-
-export const getActiveTransactionSellNetworkSymbols = createSelector(
-  getActiveCreatorItemsCurrency,
-  (state) => NETWORK_FEES_PC[state].map((item) => item.symbol)
 );
 
 export const getCreatorItemsUnits = createSelector(
@@ -195,7 +175,7 @@ export const getPurchasorReceivingWalletAddress = createSelector(
   (state) => state.receivingWallet!.walletAddress!
 );
 
-export const getPurchasoringSendingWalletAddress = createSelector(
+export const getPurchasorSendingWalletAddress = createSelector(
   getPurchasorItems,
   (state) => state.sendingWallet?.walletAddress!
 );

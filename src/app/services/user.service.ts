@@ -4,17 +4,30 @@ import {
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import firebase from 'firebase';
+import { IUser, IUserPrivate } from 'functions/src/utils/interfaces.utils';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IUser } from '../state/app.model';
-import DocumentData = firebase.firestore.DocumentData;
 
 @Injectable()
 export class UserService {
   constructor(private afs: AngularFirestore, public router: Router) {}
 
   setUser(user: IUser): Promise<void> {
+    const usersRef: AngularFirestoreDocument = this.afs.doc(
+      `users/${user.uid}`
+    );
+    const userData: IUser = {
+      uid: user.uid,
+      username: user.username,
+      email: user.email,
+      photoURL: user.photoURL
+    };
+    return usersRef.set(userData, {
+      merge: true,
+    });
+  }
+
+  setUserSecretById(userid: string): Promise<void> {
     var makeid = (length: number) => {
       var result = [];
       var characters =
@@ -29,20 +42,30 @@ export class UserService {
     };
 
     const secret = makeid(12);
-
-    const usersRef: AngularFirestoreDocument = this.afs.doc(
-      `users/${user.uid}`
+    const usersPrivateRef: AngularFirestoreDocument = this.afs.doc(
+      `users-private/${userid}`
     );
-    const userData: IUser = {
-      uid: user.uid,
-      username: user.username,
-      email: user.email,
-      photoURL: user.photoURL,
-      secret: secret,
+    const userPrivateData = {
+      uid: userid,
+      secret: secret
     };
-    return usersRef.set(userData, {
+    return usersPrivateRef.set(userPrivateData, {
       merge: true,
     });
+  }
+
+  getUserSecretById(id: string | undefined): Observable<IUserPrivate> {
+    return this.afs
+      .collection('users-private')
+      .doc(id)
+      .snapshotChanges()
+      .pipe(
+        map((action) => {
+          const data = action.payload.data();
+          const uid = action.payload.id;
+          return { uid, ...(<IUserPrivate>data) };
+        })
+      );
   }
 
   getUserById(id: string | undefined): Observable<IUser> {

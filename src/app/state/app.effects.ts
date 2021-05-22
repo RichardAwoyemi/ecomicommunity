@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { from, of } from 'rxjs';
-import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
+import { catchError, exhaustMap, map, switchMap, tap } from 'rxjs/operators';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { AppModalStates } from 'src/app/state/app.enums';
 import { AuthService } from '../services/auth.service';
@@ -15,7 +15,7 @@ export class AppEffects {
     public authService: AuthService,
     private transactionService: TransactionService,
     private userService: UserService
-  ) {}
+  ) { }
 
   credentialsRegistation$ = createEffect(() => {
     return this.actions$.pipe(
@@ -39,7 +39,7 @@ export class AppEffects {
       )
     );
   });
-  credentialsRegistationSuccees$ = createEffect(() =>
+  credentialsRegistrationSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AppActions.credentialsRegistrationSuccess),
       exhaustMap(() =>
@@ -47,6 +47,20 @@ export class AppEffects {
           map(() =>
             AppActions.showModal({
               modalState: AppModalStates.EmailVerification,
+            })
+          )
+        )
+      )
+    )
+  );
+  getUserSecret$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AppActions.getUserSecret),
+      exhaustMap((props) =>
+        from(this.userService.getUserSecretById(props.userid)).pipe(
+          map((user) =>
+            AppActions.setUserSecret({
+              secret: user?.secret
             })
           )
         )
@@ -64,7 +78,7 @@ export class AppEffects {
                 uid: user.uid,
                 email: user.email,
                 photoURL: user?.photoURL,
-                username: user?.username,
+                username: user?.username
               },
             })
           )
@@ -72,26 +86,41 @@ export class AppEffects {
       )
     )
   );
-  persistUser$ = createEffect(() =>
-    this.actions$.pipe(
+  persistUserSecret$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AppActions.persistUserSecret),
+      exhaustMap((props) =>
+        from(this.userService.setUserSecretById(props.useruid)).pipe(
+          map(() =>
+            AppActions.credentialsRegistrationSuccess()
+          )
+        ),
+      )
+    )
+  });
+  persistUser$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(AppActions.persistUser),
       exhaustMap((props) =>
         from(this.userService.setUser(props.user)).pipe(
-          map(() => AppActions.credentialsRegistrationSuccess())
-        )
+          map(() =>
+            AppActions.persistUserSecret({ useruid: props.user.uid ? props?.user.uid : "" })
+          )
+        ),
       )
     )
-  );
+  });
   credentialsLogin$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AppActions.credentialsLogin),
       exhaustMap((action) =>
         from(this.authService.login(action.email, action.password)).pipe(
-          map((user) =>
+          switchMap((user) => [
             user.user?.emailVerified
               ? AppActions.getUser({ key: user.user.uid })
-              : AppActions.emailVerificationFailure()
-          ),
+              : AppActions.emailVerificationFailure(),
+            AppActions.getUserSecret({ userid: user?.user?.uid ? user?.user.uid : "" })
+          ]),
           catchError((error) =>
             of(AppActions.credentialsLoginFailure({ error }))
           )
@@ -113,7 +142,7 @@ export class AppEffects {
       ofType(AppActions.logoutUser),
       map(() => AppActions.clearUser()),
       tap(() => this.authService.logout())
-      )
+    )
   });
   getTransactions$ = createEffect(() => {
     return this.actions$.pipe(
@@ -121,6 +150,16 @@ export class AppEffects {
       exhaustMap(() =>
         from(this.transactionService.getTransactions()).pipe(
           map((payload) => AppActions.setTransactions({ txs: payload }))
+        )
+      )
+    );
+  });
+  matchTransaction$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AppActions.matchTransaction),
+      exhaustMap((props) =>
+        from(this.transactionService.matchTransaction(props.user, props.txn!)).pipe(
+          map(() => AppActions.showModal({ modalState: AppModalStates.Closed }))
         )
       )
     );
@@ -140,16 +179,6 @@ export class AppEffects {
       ofType(AppActions.deleteTransaction),
       exhaustMap((props) =>
         from(this.transactionService.deleteTransaction(props.id)).pipe(
-          map(() => AppActions.showModal({ modalState: AppModalStates.Closed }))
-        )
-      )
-    );
-  });
-  confirmPurchase$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(AppActions.confirmPurchase),
-      exhaustMap((props) =>
-        from(this.transactionService.confirmPurchase(props.txn!, props.user)).pipe(
           map(() => AppActions.showModal({ modalState: AppModalStates.Closed }))
         )
       )

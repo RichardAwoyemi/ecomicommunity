@@ -1,32 +1,21 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { NetworkSymbols, Networks, AppTransactionCurrencies } from 'functions/src/utils/enums.utils';
+import { IFees } from 'functions/src/utils/interfaces.utils';
 import { Observable } from 'rxjs';
-import { Networks, NetworkSymbols } from 'src/app/data/currency-settings';
-import { AuthService } from 'src/app/services/auth.service';
+import { AppModalStates } from 'src/app/state/app.enums';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
-import { AppModalStates, AppTransactionCurrencies } from '../../../../state/app.enums';
-import { IAmount, IFees, ITransaction, IUser } from '../../../../state/app.model';
-import { getCreatorReceivingWalletNetworkSymbol, getCreatorItemsFees, getCreatorItemsCurrency } from '../../../../state/index';
 import {
-  getActiveTransaction,
-  getPurchasorItems,
-  getCreatorCurrencyNetworkSymbolList,
-  getCreatorItems,
-  getCreatorReceivingVeveUsername,
-  getCreatorReceivingWalletAddress,
-  getCreatorReceivingWalletNetwork,
-  getUser,
+  getPurchasorCurrencyNetworkSymbolList, getPurchasorItemsCurrency, getPurchasorItemsFees, getPurchasorReceivingVeveUsername,
+  getPurchasorReceivingWalletAddress,
+  getPurchasorReceivingWalletNetwork, getPurchasorReceivingWalletNetworkSymbol
 } from '../../../../state/index';
 @Component({
   selector: 'ec-purchase-receiving-modal',
   templateUrl: './purchase-receiving-modal.component.html',
 })
 export class PurchaseReceivingModalComponent {
-  creatorItems$!: Observable<IAmount>;
-  purchaseItems$!: Observable<IAmount>;
-  user$!: Observable<IUser | undefined>;
-  activeTransaction$!: Observable<ITransaction | undefined>;
   NETWORK_SYMBOLS = NetworkSymbols;
   networkSymbol$!: Observable<NetworkSymbols>;
   networkSymbolList$!: Observable<NetworkSymbols[]>;
@@ -36,28 +25,32 @@ export class PurchaseReceivingModalComponent {
   fees$!: Observable<IFees>;
   currency$!: Observable<AppTransactionCurrencies>
 
-  constructor(private store: Store<State>, public authService: AuthService) {}
+  constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
-    this.creatorItems$ = this.store.select(getCreatorItems);
-    this.purchaseItems$ = this.store.select(getPurchasorItems);
-    this.user$ = this.store.select(getUser);
-    this.activeTransaction$ = this.store.select(getActiveTransaction);
     this.networkSymbolList$ = this.store.select(
-      getCreatorCurrencyNetworkSymbolList
+      getPurchasorCurrencyNetworkSymbolList
     );
     this.networkSymbol$ = this.store.select(
-      getCreatorReceivingWalletNetworkSymbol
+      getPurchasorReceivingWalletNetworkSymbol
     );
-    this.network$ = this.store.select(getCreatorReceivingWalletNetwork);
-    this.walletAddress$ = this.store.select(getCreatorReceivingWalletAddress);
-    this.veveUsername$ = this.store.select(getCreatorReceivingVeveUsername);
-    this.fees$ = this.store.select(getCreatorItemsFees);
-    this.currency$ = this.store.select(getCreatorItemsCurrency);
+    this.network$ = this.store.select(getPurchasorReceivingWalletNetwork);
+    this.walletAddress$ = this.store.select(getPurchasorReceivingWalletAddress);
+    this.veveUsername$ = this.store.select(getPurchasorReceivingVeveUsername);
+    this.fees$ = this.store.select(getPurchasorItemsFees);
+    this.currency$ = this.store.select(getPurchasorItemsCurrency);
   }
 
-  setCreatorItems(amount: IAmount): void {
-    this.store.dispatch(AppActions.setCreatorItems({ amount }));
+  setNetworkSymbol(symbol: NetworkSymbols): void {
+    this.store.dispatch(AppActions.setPurchasorReceivingNetworkSymbol({ symbol }));
+  }
+
+  setWalletAddress(walletAddress: string): void {
+    this.store.dispatch(AppActions.setPurchasorReceivingNetworkWalletAddress({ walletAddress }));
+  }
+
+  setVeveUsername(veveUsername: string): void {
+    this.store.dispatch(AppActions.setPurchasorReceivingNetworkVeveUsername({ veveUsername }));
   }
 
   nextModal(): void {

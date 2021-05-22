@@ -2,10 +2,11 @@
 /* eslint-disable require-jsdoc */
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
-import {HEADERS, IAmount, ITransactionSummary} from "./utils/function.utils";
+import {HEADERS} from "./utils/constants.utils";
 import {CustomError, ERROR_MESSAGES} from "./utils/error.utils";
 import * as SendGrid from "@sendgrid/mail";
 import cors = require("cors");
+import {ITransaction, IFees} from "./utils/interfaces.utils";
 
 admin.initializeApp(functions.config().firebase);
 const corsHandler = cors({origin: true});
@@ -17,54 +18,61 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
 
       corsHandler(request, response, () => {
         const transactionId = request.get(HEADERS.X_TRANSACTION_ID);
-        const sellerUid = request.get(HEADERS.X_SELLER_UID);
-        const buyerUid = request.get(HEADERS.X_BUYER_UID);
-        const buyerWalletAddress = request.get(HEADERS.X_BUYER_WALLET_ADDRESS);
-        const buyerVeveUsername = request.get(HEADERS.X_BUYER_VEVE_USERNAME);
+        const creatorUid = request.get(HEADERS.X_CREATOR_UID);
+        const purchasorUid = request.get(HEADERS.X_PURCHASOR_UID);
+        const purchasorEmail = request.get(HEADERS.X_PURCHASOR_EMAIL);
+        const purchasorUsername = request.get(HEADERS.X_PURCHASOR_USERNAME);
+        const purchasorReceivingWalletAddress = request.get(HEADERS.X_PURCHASOR_RECEIVING_WALLET_ADDRESS);
+        const purchasorReceivingVeveUsername = request.get(HEADERS.X_PURCHASOR_RECEIVING_VEVE_USERNAME);
+        const purchasorSendingWalletAddress = request.get(HEADERS.X_PURCHASOR_SENDING_WALLET_ADDRESS);
+        const purchasorSendingVeveUsername = request.get(HEADERS.X_PURCHASOR_SENDING_VEVE_USERNAME);
 
-        // functions.logger.log(`Buyer Uid: ${buyerUid}, Seller Uid, ${sellerUid}, Transaction Id: ${transactionId}`);
+        // functions.logger.log(`Buyer Uid: ${creatorUid}, Seller Uid, ${purchasorUid}, Transaction Id: ${transactionId}`);
 
-        if (transactionId !== undefined &&
-        sellerUid !== undefined &&
-        buyerUid !== undefined &&
-        buyerWalletAddress!= undefined) {
+        if (transactionId !== undefined && transactionId !== "" &&
+        purchasorUid !== undefined && purchasorUid !== "" &&
+        purchasorEmail !== undefined && purchasorEmail !== "" &&
+        purchasorUsername !== undefined && purchasorUsername !== "" &&
+        creatorUid !== undefined && creatorUid !== "" &&
+        purchasorReceivingWalletAddress != undefined && purchasorReceivingWalletAddress !== "" &&
+        purchasorSendingWalletAddress != undefined && purchasorSendingWalletAddress !== "") {
         // functions.logger.log(`Preparing documents for user: ${userUid}`);
-          const buyerDocRef: admin.firestore.DocumentReference = admin
-              .firestore()
-              .collection("users")
-              .doc(buyerUid);
-
           const transactionDocRef: admin.firestore.DocumentReference = admin
               .firestore()
               .collection("transactions")
               .doc(transactionId);
 
-          const sellerDocRef: admin.firestore.DocumentReference = admin
+          const purchasorPrivateDocRef: admin.firestore.DocumentReference = admin
               .firestore()
-              .collection("users")
-              .doc(sellerUid);
+              .collection("users-private")
+              .doc(purchasorUid);
 
           return admin
               .firestore()
               .runTransaction(async (transaction: admin.firestore.Transaction) => {
-                const buyerDoc: admin.firestore.DocumentSnapshot = await transaction.get(buyerDocRef);
+                const purchasorPrivateDoc: admin.firestore.DocumentSnapshot = await transaction.get(purchasorPrivateDocRef);
 
-                // Check that the buyer creating the request is authorised
-                if (isAuthorised(request, buyerDoc)) {
+                // Check that the creator creating the request is authorised
+                if (isAuthorised(request, purchasorPrivateDoc)) {
                   const transactionDoc: admin.firestore.DocumentSnapshot = await transaction.get(transactionDocRef);
-                  const sellerDoc: admin.firestore.DocumentSnapshot = await transaction.get(sellerDocRef);
 
                   // Check that the transaction is Available before updating it
                   if (transactionDoc.get("status") == "Available") {
-                  // functions.logger.log("Validated transaction status");
-                  // Update the status and the buyerUid if it's a valid and available transaction
+                    // functions.logger.log("Validated transaction status");
+                    // Update the status and the creatorUid if it's a valid and available transaction
                     transaction.set(transactionDocRef, {
                       status: "In Progress",
-                      buying: {
-                        useruid: buyerDoc.get("uid"),
-                        username: buyerDoc.get("username"),
-                        walletAddress: buyerWalletAddress,
-                        veveUsername: buyerVeveUsername,
+                      purchasor: {
+                        useruid: purchasorUid,
+                        username: purchasorUsername,
+                        sendingWallet: {
+                          walletAddress: purchasorSendingWalletAddress,
+                          veveUsername: purchasorSendingVeveUsername,
+                        },
+                        receivingWallet: {
+                          walletAddress: purchasorReceivingWalletAddress,
+                          veveUsername: purchasorReceivingVeveUsername,
+                        },
                       },
                     }, {merge: true});
 
@@ -72,8 +80,8 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
 
                     const transactionData: FirebaseFirestore.DocumentData | undefined = transactionDoc.data();
                     if (transactionDoc.exists) {
-                      const transactionSummary = setTransactionSummary(transactionData, buyerDoc, sellerDoc);
-                      console.log(transactionSummary);
+                      const transactionSummary = setTransactionSummary(transactionData, purchasorEmail, purchasorUsername);
+                      // functions.logger.log(transactionSummary);
                       return transactionSummary;
                     } else {
                       throw new functions.https.HttpsError(
@@ -94,13 +102,16 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
                   );
                 }
               })
-              .then((transactionSummary: ITransactionSummary) => {
+              .then((transactionSummary: ITransaction) => {
                 return sendMatchedEmails(transactionSummary);
               })
               .then(() => {
-                response.status(200).send({message: "transactions added and first email sent to buyer and seller"});
+                response.status(200).send({message: "transactions added and first email sent to creator and purchasor"});
               })
-              .catch((error: CustomError) => errorHandler(error, response));
+              .catch((error: CustomError) => {
+                functions.logger.error(error);
+                errorHandler(error, response);
+              });
         } else {
           response.status(400).send({error: ERROR_MESSAGES.BAD_REQUEST});
           return;
@@ -113,28 +124,23 @@ exports.sendTransactionCompleteEmail = functions.region("europe-west2").firestor
   const transactionData = change.after.data();
   const beforeStatus = change.before.data().status;
   const afterStatus = transactionData.status;
-  functions.logger.log("status before: '" + beforeStatus + "', status after: '", afterStatus + "'");
+  // functions.logger.log("status before: '" + beforeStatus + "', status after: '", afterStatus + "'");
 
   if (beforeStatus == "In Progress" && afterStatus == "Completed") {
-    const sellerDocRef: admin.firestore.DocumentReference = admin
+    const purchasorDocRef: admin.firestore.DocumentReference = admin
         .firestore()
         .collection("users")
-        .doc(transactionData.selling.useruid);
-    const buyerDocRef: admin.firestore.DocumentReference = admin
-        .firestore()
-        .collection("users")
-        .doc(transactionData.buying.useruid);
+        .doc(transactionData.purchasor.useruid);
 
     return admin
         .firestore()
         .runTransaction(async (transaction: admin.firestore.Transaction) => {
-          const buyerDoc: admin.firestore.DocumentSnapshot = await transaction.get(buyerDocRef);
-          const sellerDoc: admin.firestore.DocumentSnapshot = await transaction.get(sellerDocRef);
-          const transactionSummary = setTransactionSummary(transactionData, buyerDoc, sellerDoc);
+          const purchasorDoc: admin.firestore.DocumentSnapshot = await transaction.get(purchasorDocRef);
+          const transactionSummary = setTransactionSummary(transactionData, purchasorDoc.get("email"), purchasorDoc.get("username"));
 
           return transactionSummary;
         })
-        .then((transactionSummary: ITransactionSummary) => {
+        .then((transactionSummary: ITransaction) => {
           functions.logger.log("Sending completed emails");
           return sendCompletedEmails(transactionSummary);
         })
@@ -176,30 +182,73 @@ function errorHandler(error: CustomError, response: functions.Response) {
 }
 
 function createEmailContentForTransactionMatch(
-    person: IAmount
+    transactionId: string,
+    username: string,
+    receivingUnits: number,
+    receivingCurrency: string,
+    receivingWallet: string,
+    receivingNetwork: string,
+    sendingUnits: number,
+    sendingCurrency: string,
+    sendingWallet: string,
+    sendingNetwork: string,
+    platformReceivingWallet: string,
+    fees: IFees,
 ): string {
-  return "Hi " + person.username + "," +
-  "<br>" +
-  "<br> Your transaction to buy " + person.units + " " + person.currency + " has been confirmed." +
-  "<br>" +
-  "<br> Please send " + person.units + " " + person.currency + " to the address: {{Ecomi Wallet Address}}" +
-  "<br>" +
-  "<br> You will be charged the following fees:" +
-  "<ul><li>Network fees: " + person.fees.networkFees + " " + person.networkSymbol + "</li></ul>" +
-  "<ul><li>Platform fees: " + person.fees.platformFees + " " + person.networkSymbol + "</li></ul>"+
-  "<br>" +
-  "<br> You will send:";
+  return "Hi " + username + "," +
+    "<br>" +
+    "<br>Your transaction #" + transactionId + " has been confirmed!" +
+    "<br>" +
+    "<br>Please send " + sendingUnits + " " + sendingCurrency + " on the " + sendingNetwork + " network:" +
+    "<ul>" +
+    "  <li>Send from your wallet: " + sendingWallet + "</li>" +
+    "  <li>Send to the wallet: " + platformReceivingWallet + "</li>" +
+    "</ul>" +
+    "<br>" +
+    "<br>Once we have received both amounts from both parties, we will send another email to notify you of your purchase." +
+    "<br>When this happens, you will receive " + receivingUnits + " " + receivingCurrency + " on the " + receivingNetwork + " network:" +
+    "<ul>" +
+    "  <li>Sent to your wallet: " + receivingWallet + " " + receivingNetwork + "</li>" +
+    "</ul>" +
+    "<br>" +
+    "<br>You will be charged the following fees:" +
+    "<ul>" +
+    "  <li>Network fees: " + fees.networkFees + " " + receivingCurrency + "</li>" +
+    "  <li>Platform fees (5%): " + fees.platformFees + " " + receivingCurrency + "</li>" +
+    "  <li>Amount after fees: " + fees.totalPostFees + " " + receivingCurrency + "</li>" +
+    "</ul>" +
+    "<br>" +
+    "<br> Please be sure to reach out if any of the details above in incorrect!";
 }
 
 
 function createEmailContentForTransactionCompleted(
-    person: IAmount
+    transactionId: string,
+    username: string,
+    receivingUnits: number,
+    receivingCurrency: string,
+    receivingWallet: string,
+    receivingNetwork: string,
+    fees: IFees,
 ): string {
-  return "Hi " + person.username + "," +
-  "<br>" +
-  "<br> Your transaction to buy " + person.units + " " + person.currency + " has been completed!" +
-  "<br>" +
-  "<br> Please wait up to 48hrs to recieve your funds in your wallet ";
+  return "Hi " + username + "," +
+    "<br>" +
+    "<br>Good news! Your transaction #" + transactionId + " has been completed!" +
+    "<br>" +
+    "<br>We have received both parties funds and have now completed your transaction!" +
+    "<br>Please give 24hrs, to receive " + receivingUnits + " " + receivingCurrency + " on the " + receivingNetwork + " network:" +
+    "<ul>" +
+    "  <li>Sent to your wallet: " + receivingWallet + " " + receivingNetwork + "</li>" +
+    "</ul>" +
+    "<br>" +
+    "<br>You will be charged the following fees:" +
+    "<ul>" +
+    "  <li>Network fees: " + fees.networkFees + " " + receivingCurrency + "</li>" +
+    "  <li>Platform fees (5%): " + fees.platformFees + " " + receivingCurrency + "</li>" +
+    "  <li>Amount after fees: " + fees.totalPostFees + " " + receivingCurrency + "</li>" +
+    "</ul>" +
+    "<br>" +
+    "<br>If you encounter any issues please reach out!";
 }
 
 function sendEmailToPerson(
@@ -215,61 +264,117 @@ function sendEmailToPerson(
   return SendGrid.send(msg);
 }
 
-async function sendMatchedEmails(transactionSummary: ITransactionSummary) {
-  const subject = "Your transaction has been matched";
+async function sendMatchedEmails(transactionSummary: ITransaction) {
+  const subject = "Transaction #" + transactionSummary.id + ": Your transaction has been matched!";
   await sendEmailToPerson(
-      transactionSummary.buying.userEmail,
+      getString(transactionSummary.creator.email),
       subject,
-      createEmailContentForTransactionMatch(transactionSummary.buying)
+      createEmailContentForTransactionMatch(
+          getString(transactionSummary.id),
+          getString(transactionSummary.creator.username),
+          getNumber(transactionSummary.purchasor.units),
+          getString(transactionSummary.purchasor.currency),
+          getString(transactionSummary.creator.receivingWallet?.walletAddress),
+          getString(transactionSummary.creator.receivingWallet?.networkSymbol),
+          getNumber(transactionSummary.purchasor.units),
+          getString(transactionSummary.purchasor.currency),
+          getString(transactionSummary.creator.sendingWallet?.walletAddress),
+          getString(transactionSummary.creator.sendingWallet?.network),
+          getString(transactionSummary.creator.platformReceivingWallet?.walletAddress),
+          getFees(transactionSummary.creator.fees)
+      )
   );
   await sendEmailToPerson(
-      transactionSummary.selling.userEmail,
+      getString(transactionSummary.purchasor.email),
       subject,
-      createEmailContentForTransactionMatch(transactionSummary.selling)
+      createEmailContentForTransactionMatch(
+          getString(transactionSummary.id),
+          getString(transactionSummary.purchasor.username),
+          getNumber(transactionSummary.creator.units),
+          getString(transactionSummary.creator.currency),
+          getString(transactionSummary.purchasor.receivingWallet?.walletAddress),
+          getString(transactionSummary.purchasor.receivingWallet?.networkSymbol),
+          getNumber(transactionSummary.creator.units),
+          getString(transactionSummary.creator.currency),
+          getString(transactionSummary.purchasor.sendingWallet?.walletAddress),
+          getString(transactionSummary.purchasor.sendingWallet?.network),
+          getString(transactionSummary.purchasor.platformReceivingWallet?.walletAddress),
+          getFees(transactionSummary.purchasor.fees)
+      )
   );
 }
 
-async function sendCompletedEmails(transactionSummary: ITransactionSummary) {
-  const subject = "Your transaction has been completed";
+async function sendCompletedEmails(transaction: ITransaction) {
+  const subject = "Transaction #" + transaction.id + ": Your transaction has been completed!";
   await sendEmailToPerson(
-      transactionSummary.buying.userEmail,
+      getString(transaction.creator.email),
       subject,
-      createEmailContentForTransactionCompleted(transactionSummary.buying)
+      createEmailContentForTransactionCompleted(
+          getString(transaction.id),
+          getString(transaction.creator.username),
+          getNumber(transaction.purchasor.units),
+          getString(transaction.purchasor.currency),
+          getString(transaction.creator.receivingWallet?.walletAddress),
+          getString(transaction.creator.receivingWallet?.network),
+          getFees(transaction.creator.fees))
   );
   await sendEmailToPerson(
-      transactionSummary.selling.userEmail,
+      getString(transaction.purchasor.email),
       subject,
-      createEmailContentForTransactionCompleted(transactionSummary.selling)
+      createEmailContentForTransactionCompleted(
+          getString(transaction.id),
+          getString(transaction.purchasor.username),
+          getNumber(transaction.creator.units),
+          getString(transaction.creator.currency),
+          getString(transaction.purchasor.receivingWallet?.walletAddress),
+          getString(transaction.purchasor.receivingWallet?.network),
+          getFees(transaction.purchasor.fees))
   );
 }
 
 function setTransactionSummary(
     transactionData: FirebaseFirestore.DocumentData | undefined,
-    buyerDoc: admin.firestore.DocumentSnapshot,
-    sellerDoc: admin.firestore.DocumentSnapshot
-): ITransactionSummary {
-  const transactionSummary: ITransactionSummary = {
+    purchasorEmail: string,
+    purchasorUsername: string,
+): ITransaction {
+  const transactionSummary: ITransaction = {
     id: transactionData?.id,
-    buying: {
-      currency: transactionData?.buying?.currency,
-      units: transactionData?.buying?.units,
-      userEmail: buyerDoc.get("email"),
-      username: transactionData?.buying?.username || buyerDoc.get("username"),
-      networkSymbol: transactionData?.buying?.networkSymbol,
-      walletAddress: transactionData?.buying?.walletAddress,
-      veveUsername: transactionData?.buying?.veveUsername,
-      fees: transactionData?.buying?.fees,
+    creator: {
+      currency: transactionData?.creator?.currency,
+      units: transactionData?.creator?.units,
+      email: transactionData?.creator?.email,
+      username: transactionData?.creator?.username,
+      receivingWallet: transactionData?.creator?.receivingWallet,
+      sendingWallet: transactionData?.creator?.sendingWallet,
+      platformReceivingWallet: transactionData?.creator?.platformReceivingWallet,
+      fees: transactionData?.creator?.fees,
     },
-    selling: {
-      currency: transactionData?.selling?.currency,
-      units: transactionData?.selling?.units,
-      userEmail: sellerDoc.get("email"),
-      username: transactionData?.selling?.username || sellerDoc.get("username"),
-      networkSymbol: transactionData?.selling?.networkSymbol,
-      walletAddress: transactionData?.selling?.walletAddress,
-      veveUsername: transactionData?.selling?.veveUsername,
-      fees: transactionData?.selling?.fees,
+    purchasor: {
+      currency: transactionData?.purchasor?.currency,
+      units: transactionData?.purchasor?.units,
+      email: purchasorEmail,
+      username: purchasorUsername,
+      receivingWallet: transactionData?.purchasor?.receivingWallet,
+      sendingWallet: transactionData?.purchasor?.sendingWallet,
+      platformReceivingWallet: transactionData?.purchasor?.platformReceivingWallet,
+      fees: transactionData?.purchasor?.fees,
     },
   };
   return transactionSummary;
+}
+
+function getString(string: string | undefined): string {
+  return string ? string : "";
+}
+
+function getNumber(number: number | undefined): number {
+  return number ? number : 0;
+}
+
+function getFees(fees: IFees | undefined): IFees {
+  return fees ? fees : {
+    totalPostFees: 0,
+    networkFees: 0,
+    platformFees: 0,
+  };
 }

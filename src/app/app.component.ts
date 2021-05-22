@@ -6,7 +6,7 @@ import { AppModalStates } from './state/app.enums';
 import { State } from './state/app.state';
 import { getmodalState, getTransactions, getUser } from './state/index';
 import { TransactionService } from './services/transaction.service';
-import { ITransaction, IUser } from './state/app.model';
+import { ITransaction, IUser } from 'functions/src/utils/interfaces.utils';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

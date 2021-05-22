@@ -14,13 +14,13 @@
       </div>
       <div class="flex justify-center  font-bold my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Total: ' + ((creatorItems$ | async)?.units!| number:'1.0-10') + ' ' + (creatorItems$ | async)?.currency"></div>
       <hr class="my-4">
-      <div [innerHtml]="'Recieving'"
+      <div [innerHtml]="'Receiving'"
         class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
       </div>
       <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Initial Amount: ' + (purchaseItems$ | async)!.units! + ' ' + (purchaseItems$ | async)!.currency!"></div>
-      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Platform Fees (5%): ' + ((purchaseItemFees$ | async)!.platformFees| number:'1.0-10') + ' ' + (purchaseItems$ | async)!.currency!"></div>
-      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Network Fees: ' + ((purchaseItemFees$ | async)!.networkFees| number:'1.0-10') + ' ' + (purchaseItems$ | async)?.currency"></div>
-      <div class="flex justify-center font-bold my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Total: ' + ((purchaseItemFees$ | async)!.totalPostFees| number:'1.0-10') + ' ' + (purchaseItems$ | async)?.currency"></div>
+      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Platform Fees (5%): ' + ((creatorItemFees$ | async)!.platformFees| number:'1.0-10') + ' ' + (purchaseItems$ | async)!.currency!"></div>
+      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Network Fees: ' + ((creatorItemFees$ | async)!.networkFees| number:'1.0-10') + ' ' + (purchaseItems$ | async)?.currency"></div>
+      <div class="flex justify-center font-bold my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Total: ' + ((creatorItemFees$ | async)!.totalPostFees| number:'1.0-10') + ' ' + (purchaseItems$ | async)?.currency"></div>
     </div>
 
     <!--
@@ -37,7 +37,7 @@
       class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm">
       Cancel
     </button>
-    <ec-add-transaction-button [user]="(user$ | async)" [creatorItem]="(creatorItems$ | async) || {}"
+    <ec-add-transaction-button [creatorItem]="(creatorItems$ | async) || {}"
       [purchaseItem]="(purchaseItems$ | async) || {}" type="button" class="w-full mt-3 sm:mt-0" innerHtml="Confirm">
     </ec-add-transaction-button>
   </div>

@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { AppTransactionStates } from 'functions/src/utils/enums.utils';
+import { ITransaction, IUser } from 'functions/src/utils/interfaces.utils';
 import { Subject } from 'rxjs';
+import { AppModalStates } from 'src/app/state/app.enums';
 import { State } from 'src/app/state/app.state';
-import { AppModalStates, AppTransactionStates } from '../../state/app.enums';
-import { ITransaction, IUser } from '../../state/app.model';
 import * as AppActions from '../../state/app.actions';
 
 @Component({
@@ -23,6 +24,7 @@ export class TransactionRowComponent {
   constructor(private store: Store<State>) {}
 
   setActiveTransaction() {
+    this.store.dispatch(AppActions.resetTransaction());
     this.store.dispatch(
       AppActions.setActiveTransaction({ txn: this.transaction })
     );
@@ -30,7 +32,6 @@ export class TransactionRowComponent {
 
   openPurchaseSummaryModal() {
     if (this.user) {
-      this.store.dispatch(AppActions.resetPurchaseModal());
       this.store.dispatch(
         AppActions.showModal({ modalState: AppModalStates.PurchasePayment })
       );

@@ -1,8 +1,8 @@
 import { Component, Input, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { IAmount } from 'functions/src/utils/interfaces.utils';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
-import { IAmount, IUser } from '../../../../state/app.model';
 
 @Component({
   selector: 'ec-add-transaction-button',
@@ -11,7 +11,6 @@ import { IAmount, IUser } from '../../../../state/app.model';
 export class AddTransactionButtonComponent {
   @Input() creatorItem!: IAmount;
   @Input() purchaseItem!: IAmount;
-  @Input() user!: IUser | null | undefined;
 
   constructor(private store: Store<State>) {}
 

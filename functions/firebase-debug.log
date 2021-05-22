@@ -1,0 +1,45 @@
+[debug] [2021-05-22T04:17:39.738Z] ----------------------------------------------------------------------
+[debug] [2021-05-22T04:17:39.739Z] Command:       /home/mofesal/.nvm/versions/node/v16.0.0/bin/node /home/mofesal/.nvm/versions/node/v16.0.0/bin/firebase deploy --only functions
+[debug] [2021-05-22T04:17:39.739Z] CLI Version:   9.10.0
+[debug] [2021-05-22T04:17:39.740Z] Platform:      linux
+[debug] [2021-05-22T04:17:39.740Z] Node Version:  v16.0.0
+[debug] [2021-05-22T04:17:39.740Z] Time:          Sat May 22 2021 05:17:39 GMT+0100 (British Summer Time)
+[debug] [2021-05-22T04:17:39.740Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-05-22T04:17:39.744Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-05-22T04:17:39.745Z] > authorizing via signed-in user (mofe.salami@gmail.com)
+[debug] [2021-05-22T04:17:39.745Z] [iam] checking project ecomi-community for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2021-05-22T04:17:39.746Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2021-05-22T04:17:39.746Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-05-22T04:17:39.872Z] <<< HTTP RESPONSE 200 {"expires":"Mon, 01 Jan 1990 00:00:00 GMT","pragma":"no-cache","date":"Sat, 22 May 2021 04:17:39 GMT","cache-control":"no-cache, no-store, max-age=0, must-revalidate","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-05-22T04:17:39.887Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/ecomi-community:testIamPermissions  
+ {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2021-05-22T04:17:40.514Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Sat, 22 May 2021 04:17:39 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=541","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-05-22T04:17:40.518Z] >>> HTTP REQUEST POST https://iam.googleapis.com/v1/projects/ecomi-community/serviceAccounts/ecomi-community@appspot.gserviceaccount.com:testIamPermissions  
+ {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2021-05-22T04:18:03.542Z] ----------------------------------------------------------------------
+[debug] [2021-05-22T04:18:03.543Z] Command:       /home/mofesal/.nvm/versions/node/v16.0.0/bin/node /home/mofesal/.nvm/versions/node/v16.0.0/bin/firebase deploy --only functions
+[debug] [2021-05-22T04:18:03.544Z] CLI Version:   9.10.0
+[debug] [2021-05-22T04:18:03.544Z] Platform:      linux
+[debug] [2021-05-22T04:18:03.544Z] Node Version:  v16.0.0
+[debug] [2021-05-22T04:18:03.544Z] Time:          Sat May 22 2021 05:18:03 GMT+0100 (British Summer Time)
+[debug] [2021-05-22T04:18:03.544Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-05-22T04:18:03.549Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-05-22T04:18:03.549Z] > authorizing via signed-in user (mofe.salami@gmail.com)
+[debug] [2021-05-22T04:18:03.549Z] [iam] checking project ecomi-community for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2021-05-22T04:18:03.551Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/ecomi-community:testIamPermissions  
+ {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2021-05-22T04:18:04.158Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Sat, 22 May 2021 04:18:03 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=541","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-05-22T04:18:04.159Z] >>> HTTP REQUEST POST https://iam.googleapis.com/v1/projects/ecomi-community/serviceAccounts/ecomi-community@appspot.gserviceaccount.com:testIamPermissions  
+ {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2021-05-22T04:18:04.435Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Sat, 22 May 2021 04:18:03 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[warn] ⚠  functions: package.json indicates an outdated version of firebase-functions.
+Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[info] 
+[info] === Deploying to 'ecomi-community'...
+[info] 
+[info] i  deploying functions 
+[info] Running command: npm --prefix "$RESOURCE_DIR" run lint
+[info] Running command: npm --prefix "$RESOURCE_DIR" run build
