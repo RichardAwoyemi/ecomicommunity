@@ -2,10 +2,11 @@
 /* eslint-disable require-jsdoc */
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
-import {HEADERS, IAmount, IFees, ITransactionSummary} from "./utils/function.utils";
+import {HEADERS} from "./utils/constants.utils";
 import {CustomError, ERROR_MESSAGES} from "./utils/error.utils";
 import * as SendGrid from "@sendgrid/mail";
 import cors = require("cors");
+import {ITransaction, IFees} from "./utils/interfaces.utils";
 
 admin.initializeApp(functions.config().firebase);
 const corsHandler = cors({origin: true});
@@ -53,20 +54,26 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
               .collection("users")
               .doc(purchasorUid);
 
+          const purchasorPrivateDocRef: admin.firestore.DocumentReference = admin
+              .firestore()
+              .collection("users-private")
+              .doc(purchasorUid);
+
           return admin
               .firestore()
               .runTransaction(async (transaction: admin.firestore.Transaction) => {
                 const purchasorDoc: admin.firestore.DocumentSnapshot = await transaction.get(purchasorDocRef);
+                const purchasorPrivateDoc: admin.firestore.DocumentSnapshot = await transaction.get(purchasorPrivateDocRef);
 
                 // Check that the creator creating the request is authorised
-                if (isAuthorised(request, purchasorDoc)) {
+                if (isAuthorised(request, purchasorPrivateDoc)) {
                   const transactionDoc: admin.firestore.DocumentSnapshot = await transaction.get(transactionDocRef);
                   const creatorDoc: admin.firestore.DocumentSnapshot = await transaction.get(creatorDocRef);
 
                   // Check that the transaction is Available before updating it
                   if (transactionDoc.get("status") == "Available") {
-                  // functions.logger.log("Validated transaction status");
-                  // Update the status and the creatorUid if it's a valid and available transaction
+                    // functions.logger.log("Validated transaction status");
+                    // Update the status and the creatorUid if it's a valid and available transaction
                     transaction.set(transactionDocRef, {
                       status: "In Progress",
                       creator: {
@@ -121,7 +128,7 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
                   );
                 }
               })
-              .then((transactionSummary: ITransactionSummary) => {
+              .then((transactionSummary: ITransaction) => {
                 return sendMatchedEmails(transactionSummary);
               })
               .then(() => {
@@ -161,7 +168,7 @@ exports.sendTransactionCompleteEmail = functions.region("europe-west2").firestor
 
           return transactionSummary;
         })
-        .then((transactionSummary: ITransactionSummary) => {
+        .then((transactionSummary: ITransaction) => {
           functions.logger.log("Sending completed emails");
           return sendCompletedEmails(transactionSummary);
         })
@@ -207,39 +214,39 @@ function createEmailContentForTransactionMatch(
     username: string,
     receivingUnits: number,
     receivingCurrency: string,
-    receivingWallet: string | undefined,
+    receivingWallet: string,
     receivingNetwork: string,
     sendingUnits: number,
     sendingCurrency: string,
-    sendingWallet: string | undefined,
+    sendingWallet: string,
     sendingNetwork: string,
-    ecomiReceivingWallet: string | undefined,
+    ecomiReceivingWallet: string,
     fees: IFees,
 ): string {
   return "Hi " + username + "," +
-  "<br>" +
-  "<br>Your transaction #" + transactionId + " has been confirmed!" +
-  "<br>" +
-  "<br>Please send " + sendingUnits + " " + sendingCurrency + " on the " + sendingNetwork + " network:" +
-  "<ul>" +
-  "  <li>Send from your wallet: " + sendingWallet + "</li>" +
-  "  <li>Send to the wallet: " + ecomiReceivingWallet + "</li>" +
-  "</ul>"+
-  "<br>" +
-  "<br>Once we have received both amounts from both parties, we will send another email to notify you of your purchase." +
-  "<br>When this happens, you will receive " + receivingUnits + " " + receivingCurrency + " on the " + receivingNetwork + " network:" +
-  "<ul>" +
-  "  <li>Sent to your wallet: " + receivingWallet + " " + receivingNetwork + "</li>" +
-  "</ul>" +
-  "<br>" +
-  "<br>You will be charged the following fees:" +
-  "<ul>"+
-  "  <li>Network fees: " + fees.networkFees + " " + receivingCurrency + "</li>" +
-  "  <li>Platform fees (5%): " + fees.platformFees + " " + receivingCurrency + "</li>" +
-  "  <li>Amount after fees: " + fees.totalPostFees + " " + receivingCurrency + "</li>" +
-  "</ul>"+
-  "<br>" +
-  "<br> Please be sure to reach out if any of the details above in incorrect!";
+    "<br>" +
+    "<br>Your transaction #" + transactionId + " has been confirmed!" +
+    "<br>" +
+    "<br>Please send " + sendingUnits + " " + sendingCurrency + " on the " + sendingNetwork + " network:" +
+    "<ul>" +
+    "  <li>Send from your wallet: " + sendingWallet + "</li>" +
+    "  <li>Send to the wallet: " + ecomiReceivingWallet + "</li>" +
+    "</ul>" +
+    "<br>" +
+    "<br>Once we have received both amounts from both parties, we will send another email to notify you of your purchase." +
+    "<br>When this happens, you will receive " + receivingUnits + " " + receivingCurrency + " on the " + receivingNetwork + " network:" +
+    "<ul>" +
+    "  <li>Sent to your wallet: " + receivingWallet + " " + receivingNetwork + "</li>" +
+    "</ul>" +
+    "<br>" +
+    "<br>You will be charged the following fees:" +
+    "<ul>" +
+    "  <li>Network fees: " + fees.networkFees + " " + receivingCurrency + "</li>" +
+    "  <li>Platform fees (5%): " + fees.platformFees + " " + receivingCurrency + "</li>" +
+    "  <li>Amount after fees: " + fees.totalPostFees + " " + receivingCurrency + "</li>" +
+    "</ul>" +
+    "<br>" +
+    "<br> Please be sure to reach out if any of the details above in incorrect!";
 }
 
 
@@ -248,28 +255,28 @@ function createEmailContentForTransactionCompleted(
     username: string,
     receivingUnits: number,
     receivingCurrency: string,
-    receivingWallet: string | undefined,
+    receivingWallet: string,
     receivingNetwork: string,
     fees: IFees,
 ): string {
   return "Hi " + username + "," +
-  "<br>" +
-  "<br>Good news! Your transaction #" + transactionId + " has been completed!" +
-  "<br>" +
-  "<br>We have received both parties funds and have now completed your transaction!" +
-  "<br>Please give 24hrs, to receive " + receivingUnits + " " + receivingCurrency + " on the " + receivingNetwork + " network:" +
-  "<ul>" +
-  "  <li>Sent to your wallet: " + receivingWallet + " " + receivingNetwork + "</li>" +
-  "</ul>" +
-  "<br>" +
-  "<br>You will be charged the following fees:" +
-  "<ul>"+
-  "  <li>Network fees: " + fees.networkFees + " " + receivingCurrency + "</li>" +
-  "  <li>Platform fees (5%): " + fees.platformFees + " " + receivingCurrency + "</li>" +
-  "  <li>Amount after fees: " + fees.totalPostFees + " " + receivingCurrency + "</li>" +
-  "</ul>"+
-  "<br>" +
-  "<br>If you encounter any issues please reach out!";
+    "<br>" +
+    "<br>Good news! Your transaction #" + transactionId + " has been completed!" +
+    "<br>" +
+    "<br>We have received both parties funds and have now completed your transaction!" +
+    "<br>Please give 24hrs, to receive " + receivingUnits + " " + receivingCurrency + " on the " + receivingNetwork + " network:" +
+    "<ul>" +
+    "  <li>Sent to your wallet: " + receivingWallet + " " + receivingNetwork + "</li>" +
+    "</ul>" +
+    "<br>" +
+    "<br>You will be charged the following fees:" +
+    "<ul>" +
+    "  <li>Network fees: " + fees.networkFees + " " + receivingCurrency + "</li>" +
+    "  <li>Platform fees (5%): " + fees.platformFees + " " + receivingCurrency + "</li>" +
+    "  <li>Amount after fees: " + fees.totalPostFees + " " + receivingCurrency + "</li>" +
+    "</ul>" +
+    "<br>" +
+    "<br>If you encounter any issues please reach out!";
 }
 
 function sendEmailToPerson(
@@ -285,71 +292,71 @@ function sendEmailToPerson(
   return SendGrid.send(msg);
 }
 
-async function sendMatchedEmails(transactionSummary: ITransactionSummary) {
+async function sendMatchedEmails(transactionSummary: ITransaction) {
   const subject = "Transaction #" + transactionSummary.id + ": Your transaction has been matched!";
   await sendEmailToPerson(
-      transactionSummary.creator.userEmail,
+      getString(transactionSummary.creator.email),
       subject,
       createEmailContentForTransactionMatch(
-          transactionSummary.id,
-          transactionSummary.creator.username,
-          transactionSummary.purchasor.units,
-          transactionSummary.purchasor.currency,
-          transactionSummary.creator.receivingWallet?.walletAddress,
-          transactionSummary.creator.networkSymbol,
-          transactionSummary.purchasor.units,
-          transactionSummary.purchasor.currency,
-          transactionSummary.purchasor.receivingWallet?.walletAddress,
-          transactionSummary.purchasor.networkSymbol,
-          transactionSummary.creator.ecomiReceivingWallet?.walletAddress,
-          transactionSummary.creator.fees
+          getString(transactionSummary.id),
+          getString(transactionSummary.creator.username),
+          getNumber(transactionSummary.purchasor.units),
+          getString(transactionSummary.purchasor.currency),
+          getString(transactionSummary.creator.receivingWallet?.walletAddress),
+          getString(transactionSummary.creator.receivingWallet?.networkSymbol),
+          getNumber(transactionSummary.purchasor.units),
+          getString(transactionSummary.purchasor.currency),
+          getString(transactionSummary.creator.sendingWallet?.walletAddress),
+          getString(transactionSummary.creator.sendingWallet?.network),
+          getString(transactionSummary.creator.ecomiReceivingWallet?.walletAddress),
+          getFees(transactionSummary.creator.fees)
       )
   );
   await sendEmailToPerson(
-      transactionSummary.purchasor.userEmail,
+      getString(transactionSummary.purchasor.email),
       subject,
       createEmailContentForTransactionMatch(
-          transactionSummary.id,
-          transactionSummary.purchasor.username,
-          transactionSummary.creator.units,
-          transactionSummary.creator.currency,
-          transactionSummary.purchasor.receivingWallet?.walletAddress,
-          transactionSummary.purchasor.networkSymbol,
-          transactionSummary.creator.units,
-          transactionSummary.creator.currency,
-          transactionSummary.creator.receivingWallet?.walletAddress,
-          transactionSummary.creator.networkSymbol,
-          transactionSummary.purchasor.ecomiReceivingWallet?.walletAddress,
-          transactionSummary.purchasor.fees
+          getString(transactionSummary.id),
+          getString(transactionSummary.purchasor.username),
+          getNumber(transactionSummary.creator.units),
+          getString(transactionSummary.creator.currency),
+          getString(transactionSummary.purchasor.receivingWallet?.walletAddress),
+          getString(transactionSummary.purchasor.receivingWallet?.network),
+          getNumber(transactionSummary.creator.units),
+          getString(transactionSummary.creator.currency),
+          getString(transactionSummary.purchasor.sendingWallet?.walletAddress),
+          getString(transactionSummary.purchasor.sendingWallet?.network),
+          getString(transactionSummary.purchasor.ecomiReceivingWallet?.walletAddress),
+          getFees(transactionSummary.purchasor.fees)
       )
   );
 }
 
-async function sendCompletedEmails(transactionSummary: ITransactionSummary) {
-  const subject = "Transaction #" + transactionSummary.id + ": Your transaction has been completed!";
+async function sendCompletedEmails(transaction: ITransaction) {
+  const subject = "Transaction #" + transaction.id + ": Your transaction has been completed!";
   await sendEmailToPerson(
-      transactionSummary.creator.userEmail,
+      getString(transaction.creator.email),
       subject,
       createEmailContentForTransactionCompleted(
-          transactionSummary.id,
-          transactionSummary.creator.username,
-          transactionSummary.purchasor.units,
-          transactionSummary.purchasor.currency,
-          transactionSummary.creator.receivingWallet?.walletAddress,
-          transactionSummary.creator.networkSymbol,
-          transactionSummary.creator.fees)
+          getString(transaction.id),
+          getString(transaction.creator.username),
+          getNumber(transaction.purchasor.units),
+          getString(transaction.purchasor.currency),
+          getString(transaction.creator.receivingWallet?.walletAddress),
+          getString(transaction.creator.receivingWallet?.network),
+          getFees(transaction.creator.fees))
   );
   await sendEmailToPerson(
-      transactionSummary.purchasor.userEmail,
+      getString(transaction.purchasor.email),
       subject,
       createEmailContentForTransactionCompleted(
-          transactionSummary.id,
-          transactionSummary.purchasor.username,
-          transactionSummary.creator.units,
-          transactionSummary.creator.currency,
-          transactionSummary.purchasor.receivingWallet?.walletAddress,
-          transactionSummary.purchasor.networkSymbol,
-          transactionSummary.purchasor.fees)
+          getString(transaction.id),
+          getString(transaction.purchasor.username),
+          getNumber(transaction.creator.units),
+          getString(transaction.creator.currency),
+          getString(transaction.purchasor.receivingWallet?.walletAddress),
+          getString(transaction.purchasor.receivingWallet?.network),
+          getFees(transaction.purchasor.fees))
   );
 }
 
@@ -357,15 +364,14 @@ function setTransactionSummary(
     transactionData: FirebaseFirestore.DocumentData | undefined,
     creatorDoc: admin.firestore.DocumentSnapshot,
     purchasorDoc: admin.firestore.DocumentSnapshot
-): ITransactionSummary {
-  const transactionSummary: ITransactionSummary = {
+): ITransaction {
+  const transactionSummary: ITransaction = {
     id: transactionData?.id,
     creator: {
       currency: transactionData?.creator?.currency,
       units: transactionData?.creator?.units,
-      userEmail: creatorDoc.get("email"),
+      email: creatorDoc.get("email"),
       username: transactionData?.creator?.username || creatorDoc.get("username"),
-      networkSymbol: transactionData?.creator?.networkSymbol,
       receivingWallet: transactionData?.creator?.receivingWallet,
       sendingWallet: transactionData?.creator?.sendingWallet,
       ecomiReceivingWallet: transactionData?.creator?.ecomiReceivingWallet,
@@ -374,9 +380,8 @@ function setTransactionSummary(
     purchasor: {
       currency: transactionData?.purchasor?.currency,
       units: transactionData?.purchasor?.units,
-      userEmail: purchasorDoc.get("email"),
+      email: purchasorDoc.get("email"),
       username: transactionData?.purchasor?.username || purchasorDoc.get("username"),
-      networkSymbol: transactionData?.purchasor?.networkSymbol,
       receivingWallet: transactionData?.purchasor?.receivingWallet,
       sendingWallet: transactionData?.purchasor?.sendingWallet,
       ecomiReceivingWallet: transactionData?.purchasor?.ecomiReceivingWallet,
@@ -384,4 +389,20 @@ function setTransactionSummary(
     },
   };
   return transactionSummary;
+}
+
+function getString(string: string | undefined): string {
+  return string ? string : "";
+}
+
+function getNumber(number: number | undefined): number {
+  return number ? number : 0;
+}
+
+function getFees(fees: IFees | undefined): IFees {
+  return fees ? fees : {
+    totalPostFees: 0,
+    networkFees: 0,
+    platformFees: 0,
+  };
 }

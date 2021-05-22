@@ -1,19 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
-import {
-  DEFAULT_NETWORKS,
-  NETWORK_FEES_PC,
-} from 'src/app/data/currency-settings';
-import { Networks, NetworkSymbols } from '../data/currency-settings';
+import { NETWORK_FEES_PC } from 'functions/src/utils/constants.utils';
+import { AppTransactionCurrencies, AppTransactionItemTypes, Networks, NetworkSymbols } from 'functions/src/utils/enums.utils';
+import { IUser, ITransaction, IAmount } from 'functions/src/utils/interfaces.utils';
 import { UtilService } from '../services/util.service';
 import * as AppActions from './app.actions';
-import {
-  AppAuthMessages,
-  AppDropdownState,
-  AppModalStates,
-  AppTransactionCurrencies,
-  AppTransactionItemTypes,
-} from './app.enums';
-import { IAmount, ITransaction, IUser } from './app.model';
+import { AppModalStates, AppDropdownState, AppAuthMessages } from './app.enums';
 
 export interface AppState {
   user: IUser | undefined;
@@ -175,6 +166,19 @@ export const appReducer = createReducer<AppState>(
       user: props.user,
       loginErrorMessage: '',
       modalState: AppModalStates.Closed,
+    };
+  }),
+
+  on(AppActions.setUserSecret, (state, props): AppState => {
+    return {
+      ...state,
+      user: {
+        uid: state.user?.uid,
+        email: state.user?.email,
+        photoURL: state.user?.photoURL,
+        username: state.user?.username,
+        secret: props.secret
+      }
     };
   }),
 

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { IAmount, IFees } from 'functions/src/utils/interfaces.utils';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
 import { AppModalStates } from '../../../../state/app.enums';
-import { IAmount, IFees } from '../../../../state/app.model';
 import { getCreatorItems, getCreatorItemsFees, getPurchasorItems } from '../../../../state/index';
 @Component({
   selector: 'ec-new-transaction-summary-modal',

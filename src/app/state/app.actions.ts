@@ -1,14 +1,12 @@
 /* NgRx */
 import { createAction, props } from '@ngrx/store';
 import firebase from 'firebase/app';
-import { IUser, ITransaction, IAmount, IWallet } from './app.model';
 import {
   AppModalStates,
   AppDropdownState,
-  AppTransactionCurrencies,
 } from './app.enums';
-import { NetworkSymbols } from '../data/currency-settings';
-import { IFees } from 'functions/src/utils/function.utils';
+import { NetworkSymbols, AppTransactionCurrencies } from 'functions/src/utils/enums.utils';
+import { IUser, ITransaction } from 'functions/src/utils/interfaces.utils';
 
 export enum AppActionTypes {
   IsLoggedIn = '[App] Is Logged In',
@@ -30,7 +28,7 @@ export enum AppActionTypes {
   DeleteTransaction = '[App] [Transaction] Delete Transaction from the table by ID',
   SetActiveTransaction = '[App] [Transaction] Set Active Transaction',
   resetTransaction = '[App] [Transaction] Reset Transaction',
-  ConfirmPurchase = '[App] Confirm Purchase',
+  MatchTransaction = '[App] Match Transaction',
   AddTransaction = '[App] [Transactions] Add New Transaction',
 
   SetCreatorUserDetails = '[App] [Transactions] Set Creator User Details',
@@ -57,12 +55,15 @@ export enum AppActionTypes {
   SetPurchasorReceivingNetworkSymbol = '[App] [Transactions] Set Purchasor Receiving Network Symbol',
   SetPurchasorReceivingFees = '[App] [Transactions] Set Purchasor Receiving Fees',
 
+  SetUserSecret = '[App] [Login] Set User Secret',
   SetUser = '[App] [Login] Set User',
   GetUser = '[App] [Login] Get User Info',
+  GetUserSecret = '[App] [Login] Get User Secret Info',
   ClearUser = '[App] [Login] Clear User Info',
   SetEmailVerificationFailMessage = '[App] [Login] Email Verification Failed',
   EmailVerificationFailure = '[App] [Login] Email Verification Failure',
   PersistUser = '[App] [Register] Perist User',
+  PersistUserSecret = '[App] [Register] Perist User Secret',
   ToggleNavbar = '[App] Toggle Navbar',
   ToggleEmailConsent = '[App] Toggle Email Consent',
   ToggleRememberMe = '[App] Toggle Remember Me',
@@ -109,6 +110,11 @@ export const credentialsLoginSuccess = createAction(
   props<{ user: IUser }>()
 );
 
+export const setUserSecret = createAction(
+  AppActionTypes.SetUserSecret,
+  props<{ secret: string }>()
+);
+
 export const credentialsLoginVerification = createAction(
   AppActionTypes.CredentialsLoginVerification,
   props<{ user: IUser }>()
@@ -143,6 +149,12 @@ export const setUser = createAction(
   props<{ user: firebase.auth.UserCredential }>()
 );
 
+export const persistUserSecret = createAction(
+  AppActionTypes.PersistUserSecret,
+  props<{ useruid: string }>()
+);
+
+
 export const persistUser = createAction(
   AppActionTypes.PersistUser,
   props<{ user: IUser }>()
@@ -161,6 +173,11 @@ export const getUser = createAction(
   props<{ key: string }>()
 );
 
+export const getUserSecret = createAction(
+  AppActionTypes.GetUserSecret,
+  props<{ userid: string }>()
+);
+
 export const getTransactions = createAction(AppActionTypes.GetTransactions);
 export const setTransactions = createAction(
   AppActionTypes.SetTransactions,
@@ -171,11 +188,11 @@ export const addTransaction = createAction(
   AppActionTypes.AddTransaction,
   props<{ txn: ITransaction }>()
 );
-
-export const confirmPurchase = createAction(
-  AppActionTypes.ConfirmPurchase,
+export const matchTransaction = createAction(
+  AppActionTypes.MatchTransaction,
   props<{ txn: ITransaction; user: IUser }>()
 );
+
 export const deleteTransaction = createAction(
   AppActionTypes.DeleteTransaction,
   props<{ id: string }>()

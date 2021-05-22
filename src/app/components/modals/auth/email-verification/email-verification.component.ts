@@ -5,7 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { AppModalStates } from 'src/app/state/app.enums';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
-import { getEmailConsent, getRegistrationError } from '../../../../state/index';
+import { getEmailConsent } from '../../../../state/index';
 
 @Component({
   selector: 'ec-email-verification',

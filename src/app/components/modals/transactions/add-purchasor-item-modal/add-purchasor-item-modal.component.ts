@@ -1,26 +1,24 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { DEFAULT_NETWORKS, Networks, NetworkSymbols } from 'src/app/data/currency-settings';
 import {
   getActiveDropdownTransactionType,
   getCreatorItemsFees,
 } from 'src/app/state';
-import { IFees } from 'src/app/state/app.model';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
 import { getPurchasorSendingWalletNetworkSymbol, getPurchasorSendingWalletNetwork, getCreatorReceivingWalletAddress, getCreatorReceivingVeveUsername } from '../../../../state/index';
 import {
-  AppDropdownState,
-  AppModalStates,
-  AppTransactionCurrencies,
-  AppTransactionItemTypes
+  AppDropdownState, AppModalStates,
 } from '../../../../state/app.enums';
 import {
   getPurchasorCurrencyNetworkSymbolList,
   getPurchasorItemsCurrency,
   getPurchasorItemsUnits,
 } from '../../../../state/index';
+import { DEFAULT_NETWORKS } from 'functions/src/utils/constants.utils';
+import { NetworkSymbols, AppTransactionCurrencies, AppTransactionItemTypes, Networks } from 'functions/src/utils/enums.utils';
+import { IFees } from 'functions/src/utils/interfaces.utils';
 @Component({
   selector: 'ec-add-purchasor-item-modal',
   templateUrl: './add-purchasor-item-modal.component.html',

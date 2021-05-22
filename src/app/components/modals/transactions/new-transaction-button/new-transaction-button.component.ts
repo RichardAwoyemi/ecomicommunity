@@ -1,9 +1,9 @@
 import { Component, Input, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { IUser } from 'functions/src/utils/interfaces.utils';
 import { AppModalStates } from 'src/app/state/app.enums';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
-import { IAmount, ITransaction, IUser } from '../../../../state/app.model';
 
 @Component({
   selector: 'ec-new-transaction-button',

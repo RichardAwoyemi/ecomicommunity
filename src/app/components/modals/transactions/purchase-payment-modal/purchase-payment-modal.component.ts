@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { NetworkSymbols, Networks } from 'functions/src/utils/enums.utils';
 import { Observable } from 'rxjs';
-import { Networks, NetworkSymbols } from 'src/app/data/currency-settings';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
 import { AppModalStates } from '../../../../state/app.enums';

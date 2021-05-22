@@ -1,12 +1,11 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { AppTransactionCurrencies } from 'functions/src/utils/enums.utils';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { getDropdownState } from 'src/app/state';
+import { AppDropdownState } from 'src/app/state/app.enums';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../state/app.actions';
-import { AppDropdownState, AppTransactionCurrencies } from '../../state/app.enums';
-import { getDropdownState, getActiveDropdownOptions } from '../../state/index';
-import { IAmount } from '../../state/app.model';
 
 @Component({
   selector: 'ec-text-dropdown-suffix',

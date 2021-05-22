@@ -4,9 +4,10 @@ import { AuthService } from 'src/app/services/auth.service';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../state/app.actions';
 import { Observable } from 'rxjs';
-import { getNavbarVisibility, getUser } from 'src/app/state';
-import { IUser } from 'src/app/state/app.model';
+import { getUser } from 'src/app/state';
 import { AppModalStates } from 'src/app/state/app.enums';
+import { IUser } from 'functions/src/utils/interfaces.utils';
+import { getNavbarVisibility } from 'src/app/state';
 
 @Component({
   selector: 'ec-navbar',

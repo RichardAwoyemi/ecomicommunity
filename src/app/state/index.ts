@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { AppState } from './app.reducer';
 import { AppDropdownState } from './app.enums';
-import { NETWORK_FEES_PC } from '../data/currency-settings';
+import { NETWORK_FEES_PC } from 'functions/src/utils/constants.utils';
 
 const getAppFeatureState = createFeatureSelector<AppState>('app');
 

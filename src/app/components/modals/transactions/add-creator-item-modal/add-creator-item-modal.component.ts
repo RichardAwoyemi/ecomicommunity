@@ -1,19 +1,14 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { DEFAULT_NETWORKS } from 'functions/src/utils/constants.utils';
+import { NetworkSymbols, AppTransactionCurrencies, AppTransactionItemTypes, Networks } from 'functions/src/utils/enums.utils';
 import { Observable } from 'rxjs';
-import {
-  DEFAULT_NETWORKS,
-  Networks,
-  NetworkSymbols,
-} from 'src/app/data/currency-settings';
 import { getCreatorItemsCurrency, getCreatorItemsUnits } from 'src/app/state';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
 import {
   AppDropdownState,
   AppModalStates,
-  AppTransactionCurrencies,
-  AppTransactionItemTypes,
 } from '../../../../state/app.enums';
 import {
   getActiveDropdownTransactionType,

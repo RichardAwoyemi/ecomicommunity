@@ -5,11 +5,11 @@ import {
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { HEADERS } from 'functions/src/utils/function.utils';
+import { HEADERS } from 'functions/src/utils/constants.utils';
+import { AppTransactionStates } from 'functions/src/utils/enums.utils';
+import { ITransaction, IUser } from 'functions/src/utils/interfaces.utils';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { AppTransactionStates } from '../state/app.enums';
-import { ExistingUser, IAmount, ITransaction, IUser } from '../state/app.model';
 
 @Injectable()
 export class TransactionService {
@@ -37,7 +37,7 @@ export class TransactionService {
   }
 
   matchTransaction(
-    purchasorUser: ExistingUser,
+    purchasorUser: IUser,
     transaction: ITransaction,
   ): Promise<string> {
 
@@ -92,11 +92,5 @@ export class TransactionService {
 
   getTransactions(): Observable<ITransaction[]> {
     return this.afs.collection<ITransaction>('transactions').valueChanges();
-  }
-
-  confirmPurchase(txn: ITransaction, user: IUser): Promise<void> {
-    return this.afs
-      .doc(`transactions/${txn.id}`)
-      .update({ status: AppTransactionStates.InProgress, buyerUid: user.uid });
   }
 }
