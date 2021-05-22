@@ -44,31 +44,27 @@ export class TransactionService {
     const creatorUid = this.setString(transaction.creator.useruid); 
     const purchasorUid = this.setString(transaction.purchasor.useruid); 
     const transactionId = this.setString(transaction.id); 
-    const creatorReceivingWalletAddress = this.setString(transaction.creator?.receivingWallet?.walletAddress);
-    const creatorReceivingVeveUsername = this.setString(transaction.creator?.receivingWallet?.veveUsername);
+    const purchasorEmail = this.setString(purchasorUser.email);
+    const purchasorUsername = this.setString(purchasorUser.username);
+    const purchasorReceivingWalletAddress = this.setString(transaction.purchasor?.receivingWallet?.walletAddress);
+    const purchasorReceivingVeveUsername = this.setString(transaction.purchasor?.receivingWallet?.veveUsername);
     const purchasorSendingWalletAddress = this.setString(transaction.purchasor?.sendingWallet?.walletAddress);
     const purchasorSendingVeveUsername = this.setString(transaction.purchasor?.sendingWallet?.veveUsername);
-    const platformCreatorSendingWalletAddress = this.setString(transaction.creator.sendingWallet?.walletAddress);
-    const platformCreatorSendingVeveUsername = this.setString(transaction.creator.sendingWallet?.veveUsername);
-    const platformPurchasorReceivingWalletAddress = this.setString(transaction.purchasor.receivingWallet?.walletAddress);
-    const platformPurchasorReceivingVeveUsername = this.setString(transaction.purchasor.receivingWallet?.veveUsername);
 
-    console.table({purchasorUser, creatorUid, purchasorUid, transactionId, creatorReceivingWalletAddress, creatorReceivingVeveUsername, purchasorSendingWalletAddress, purchasorSendingVeveUsername, platformCreatorSendingWalletAddress, platformCreatorSendingVeveUsername, platformPurchasorReceivingWalletAddress, platformPurchasorReceivingVeveUsername})
+    console.table({creatorUid, purchasorUid, transactionId, purchasorEmail, purchasorUsername, creatorReceivingWalletAddress: purchasorReceivingWalletAddress, creatorReceivingVeveUsername: purchasorReceivingVeveUsername, purchasorSendingWalletAddress, purchasorSendingVeveUsername})
 
     const headers = new HttpHeaders({
-      Authorization: 'Bearer' + purchasorUser.secret,
+      Authorization: 'Bearer ' + purchasorUser.secret,
     })
       .set(HEADERS.X_CREATOR_UID, creatorUid)
       .set(HEADERS.X_PURCHASOR_UID, purchasorUid)
-      .set(HEADERS.X_TRANSACTION_ID, transactionId)      
-      .set(HEADERS.X_CREATOR_RECEIVING_WALLET_ADDRESS, creatorReceivingWalletAddress)
-      .set(HEADERS.X_CREATOR_RECEIVING_VEVE_USERNAME, creatorReceivingVeveUsername)
+      .set(HEADERS.X_TRANSACTION_ID, transactionId)   
+      .set(HEADERS.X_PURCHASOR_EMAIL, purchasorEmail)
+      .set(HEADERS.X_PURCHASOR_USERNAME, purchasorUsername)   
+      .set(HEADERS.X_PURCHASOR_RECEIVING_WALLET_ADDRESS, purchasorReceivingWalletAddress)
+      .set(HEADERS.X_PURCHASOR_RECEIVING_VEVE_USERNAME, purchasorReceivingVeveUsername)
       .set(HEADERS.X_PURCHASOR_SENDING_WALLET_ADDRESS, purchasorSendingWalletAddress)
-      .set(HEADERS.X_PURCHASOR_SENDING_VEVE_USERNAME, purchasorSendingVeveUsername)
-      .set(HEADERS.X_PLATFORM_RECEIVING_CREATOR_WALLET_ADDRESS, platformCreatorSendingWalletAddress)
-      .set(HEADERS.X_PLATFORM_RECEIVING_CREATOR_VEVE_USERNAME, platformCreatorSendingVeveUsername)
-      .set(HEADERS.X_PLATFORM_RECEIVING_PURCHASOR_WALLET_ADDRESS, platformPurchasorReceivingWalletAddress)
-      .set(HEADERS.X_PLATFORM_RECEIVING_PURCHASOR_VEVE_USERNAME, platformPurchasorReceivingVeveUsername);
+      .set(HEADERS.X_PURCHASOR_SENDING_VEVE_USERNAME, purchasorSendingVeveUsername);
 
     const options = { headers, responseType: 'json' as const };
 
@@ -84,7 +80,7 @@ export class TransactionService {
       });
   }
 
-  private setString(string: string | undefined) {
+  private setString(string: string | undefined | null) {
     return string ? string : '';
   }
 

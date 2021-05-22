@@ -6,14 +6,12 @@ export const HEADERS = {
   X_TRANSACTION_ID: "x-transaction-id",
   X_CREATOR_UID: "x-buyer-uid",
   X_PURCHASOR_UID: "x-purchasor-uid",
-  X_CREATOR_RECEIVING_WALLET_ADDRESS: "x-creator-receiving-wallet-address",
-  X_CREATOR_RECEIVING_VEVE_USERNAME: "x-creator-receiving-veve-username",
+  X_PURCHASOR_EMAIL: "x-purchasor-email",
+  X_PURCHASOR_USERNAME: "x-purchasor-username",
+  X_PURCHASOR_RECEIVING_WALLET_ADDRESS: "x-purchasor-receiving-wallet-address",
+  X_PURCHASOR_RECEIVING_VEVE_USERNAME: "x-purchasor-receiving-veve-username",
   X_PURCHASOR_SENDING_WALLET_ADDRESS: "x-purchasor-sending-wallet-address",
   X_PURCHASOR_SENDING_VEVE_USERNAME: "x-purchasor-sending-veve-username",
-  X_PLATFORM_RECEIVING_CREATOR_WALLET_ADDRESS: "x-platform-receiving-creator-wallet-address",
-  X_PLATFORM_RECEIVING_CREATOR_VEVE_USERNAME: "x-platform-receiving-creator-veve-username",
-  X_PLATFORM_RECEIVING_PURCHASOR_WALLET_ADDRESS: "x-platform-receiving-purchasor-wallet-address",
-  X_PLATFORM_RECEIVING_PURCHASOR_VEVE_USERNAME: "x-platform-receiving-purchasor-veve-username",
 };
 
 export const DEFAULT_NETWORKS = {

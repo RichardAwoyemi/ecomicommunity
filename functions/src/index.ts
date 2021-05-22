@@ -20,39 +20,27 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
         const transactionId = request.get(HEADERS.X_TRANSACTION_ID);
         const creatorUid = request.get(HEADERS.X_CREATOR_UID);
         const purchasorUid = request.get(HEADERS.X_PURCHASOR_UID);
-        const creatorReceivingWalletAddress = request.get(HEADERS.X_CREATOR_RECEIVING_WALLET_ADDRESS);
-        const creatorReceivingVeveUsername = request.get(HEADERS.X_CREATOR_RECEIVING_VEVE_USERNAME);
+        const purchasorEmail = request.get(HEADERS.X_PURCHASOR_EMAIL);
+        const purchasorUsername = request.get(HEADERS.X_PURCHASOR_USERNAME);
+        const purchasorReceivingWalletAddress = request.get(HEADERS.X_PURCHASOR_RECEIVING_WALLET_ADDRESS);
+        const purchasorReceivingVeveUsername = request.get(HEADERS.X_PURCHASOR_RECEIVING_VEVE_USERNAME);
         const purchasorSendingWalletAddress = request.get(HEADERS.X_PURCHASOR_SENDING_WALLET_ADDRESS);
         const purchasorSendingVeveUsername = request.get(HEADERS.X_PURCHASOR_SENDING_VEVE_USERNAME);
-        const platformReceivingCreatorWalletAddress = request.get(HEADERS.X_PLATFORM_RECEIVING_CREATOR_WALLET_ADDRESS);
-        const platformReceivingCreatorVeveUsername = request.get(HEADERS.X_PLATFORM_RECEIVING_CREATOR_VEVE_USERNAME);
-        const platformReceivingPurchasorWalletAddress = request.get(HEADERS.X_PLATFORM_RECEIVING_PURCHASOR_WALLET_ADDRESS);
-        const platformReceivingPurchasorVeveUsername = request.get(HEADERS.X_PLATFORM_RECEIVING_PURCHASOR_VEVE_USERNAME);
 
         // functions.logger.log(`Buyer Uid: ${creatorUid}, Seller Uid, ${purchasorUid}, Transaction Id: ${transactionId}`);
 
-        if (transactionId !== undefined &&
-        purchasorUid !== undefined &&
-        creatorUid !== undefined &&
-        creatorReceivingWalletAddress != undefined &&
-        purchasorSendingWalletAddress != undefined &&
-        platformReceivingCreatorWalletAddress != undefined &&
-        platformReceivingPurchasorWalletAddress != undefined) {
+        if (transactionId !== undefined && transactionId !== "" &&
+        purchasorUid !== undefined && purchasorUid !== "" &&
+        purchasorEmail !== undefined && purchasorEmail !== "" &&
+        purchasorUsername !== undefined && purchasorUsername !== "" &&
+        creatorUid !== undefined && creatorUid !== "" &&
+        purchasorReceivingWalletAddress != undefined && purchasorReceivingWalletAddress !== "" &&
+        purchasorSendingWalletAddress != undefined && purchasorSendingWalletAddress !== "") {
         // functions.logger.log(`Preparing documents for user: ${userUid}`);
-          const creatorDocRef: admin.firestore.DocumentReference = admin
-              .firestore()
-              .collection("users")
-              .doc(creatorUid);
-
           const transactionDocRef: admin.firestore.DocumentReference = admin
               .firestore()
               .collection("transactions")
               .doc(transactionId);
-
-          const purchasorDocRef: admin.firestore.DocumentReference = admin
-              .firestore()
-              .collection("users")
-              .doc(purchasorUid);
 
           const purchasorPrivateDocRef: admin.firestore.DocumentReference = admin
               .firestore()
@@ -62,13 +50,11 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
           return admin
               .firestore()
               .runTransaction(async (transaction: admin.firestore.Transaction) => {
-                const purchasorDoc: admin.firestore.DocumentSnapshot = await transaction.get(purchasorDocRef);
                 const purchasorPrivateDoc: admin.firestore.DocumentSnapshot = await transaction.get(purchasorPrivateDocRef);
 
                 // Check that the creator creating the request is authorised
                 if (isAuthorised(request, purchasorPrivateDoc)) {
                   const transactionDoc: admin.firestore.DocumentSnapshot = await transaction.get(transactionDocRef);
-                  const creatorDoc: admin.firestore.DocumentSnapshot = await transaction.get(creatorDocRef);
 
                   // Check that the transaction is Available before updating it
                   if (transactionDoc.get("status") == "Available") {
@@ -76,28 +62,16 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
                     // Update the status and the creatorUid if it's a valid and available transaction
                     transaction.set(transactionDocRef, {
                       status: "In Progress",
-                      creator: {
-                        useruid: creatorUid,
-                        username: creatorDoc.get("username"),
-                        receivingWallet: {
-                          walletAddress: creatorReceivingWalletAddress,
-                          veveUsername: creatorReceivingVeveUsername,
-                        },
-                        platformReceivingWallet: {
-                          walletAddress: platformReceivingCreatorWalletAddress,
-                          veveUsername: platformReceivingCreatorVeveUsername,
-                        },
-                      },
                       purchasor: {
                         useruid: purchasorUid,
-                        username: purchasorDoc.get("username"),
-                        platformReceivingWallet: {
-                          walletAddress: platformReceivingPurchasorWalletAddress,
-                          veveUsername: platformReceivingPurchasorVeveUsername,
-                        },
+                        username: purchasorUsername,
                         sendingWallet: {
                           walletAddress: purchasorSendingWalletAddress,
                           veveUsername: purchasorSendingVeveUsername,
+                        },
+                        receivingWallet: {
+                          walletAddress: purchasorReceivingWalletAddress,
+                          veveUsername: purchasorReceivingVeveUsername,
                         },
                       },
                     }, {merge: true});
@@ -106,8 +80,8 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
 
                     const transactionData: FirebaseFirestore.DocumentData | undefined = transactionDoc.data();
                     if (transactionDoc.exists) {
-                      const transactionSummary = setTransactionSummary(transactionData, creatorDoc, purchasorDoc);
-                      console.log(transactionSummary);
+                      const transactionSummary = setTransactionSummary(transactionData, purchasorEmail, purchasorUsername);
+                      // functions.logger.log(transactionSummary);
                       return transactionSummary;
                     } else {
                       throw new functions.https.HttpsError(
@@ -134,7 +108,10 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
               .then(() => {
                 response.status(200).send({message: "transactions added and first email sent to creator and purchasor"});
               })
-              .catch((error: CustomError) => errorHandler(error, response));
+              .catch((error: CustomError) => {
+                functions.logger.error(error);
+                errorHandler(error, response);
+              });
         } else {
           response.status(400).send({error: ERROR_MESSAGES.BAD_REQUEST});
           return;
@@ -154,17 +131,12 @@ exports.sendTransactionCompleteEmail = functions.region("europe-west2").firestor
         .firestore()
         .collection("users")
         .doc(transactionData.purchasor.useruid);
-    const creatorDocRef: admin.firestore.DocumentReference = admin
-        .firestore()
-        .collection("users")
-        .doc(transactionData.creator.useruid);
 
     return admin
         .firestore()
         .runTransaction(async (transaction: admin.firestore.Transaction) => {
-          const creatorDoc: admin.firestore.DocumentSnapshot = await transaction.get(creatorDocRef);
           const purchasorDoc: admin.firestore.DocumentSnapshot = await transaction.get(purchasorDocRef);
-          const transactionSummary = setTransactionSummary(transactionData, creatorDoc, purchasorDoc);
+          const transactionSummary = setTransactionSummary(transactionData, purchasorDoc.get("email"), purchasorDoc.get("username"));
 
           return transactionSummary;
         })
@@ -321,7 +293,7 @@ async function sendMatchedEmails(transactionSummary: ITransaction) {
           getNumber(transactionSummary.creator.units),
           getString(transactionSummary.creator.currency),
           getString(transactionSummary.purchasor.receivingWallet?.walletAddress),
-          getString(transactionSummary.purchasor.receivingWallet?.network),
+          getString(transactionSummary.purchasor.receivingWallet?.networkSymbol),
           getNumber(transactionSummary.creator.units),
           getString(transactionSummary.creator.currency),
           getString(transactionSummary.purchasor.sendingWallet?.walletAddress),
@@ -362,16 +334,16 @@ async function sendCompletedEmails(transaction: ITransaction) {
 
 function setTransactionSummary(
     transactionData: FirebaseFirestore.DocumentData | undefined,
-    creatorDoc: admin.firestore.DocumentSnapshot,
-    purchasorDoc: admin.firestore.DocumentSnapshot
+    purchasorEmail: string,
+    purchasorUsername: string,
 ): ITransaction {
   const transactionSummary: ITransaction = {
     id: transactionData?.id,
     creator: {
       currency: transactionData?.creator?.currency,
       units: transactionData?.creator?.units,
-      email: creatorDoc.get("email"),
-      username: transactionData?.creator?.username || creatorDoc.get("username"),
+      email: transactionData?.creator?.email,
+      username: transactionData?.creator?.username,
       receivingWallet: transactionData?.creator?.receivingWallet,
       sendingWallet: transactionData?.creator?.sendingWallet,
       platformReceivingWallet: transactionData?.creator?.platformReceivingWallet,
@@ -380,8 +352,8 @@ function setTransactionSummary(
     purchasor: {
       currency: transactionData?.purchasor?.currency,
       units: transactionData?.purchasor?.units,
-      email: purchasorDoc.get("email"),
-      username: transactionData?.purchasor?.username || purchasorDoc.get("username"),
+      email: purchasorEmail,
+      username: purchasorUsername,
       receivingWallet: transactionData?.purchasor?.receivingWallet,
       sendingWallet: transactionData?.purchasor?.sendingWallet,
       platformReceivingWallet: transactionData?.purchasor?.platformReceivingWallet,
