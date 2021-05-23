@@ -12,20 +12,20 @@
       <div [innerHtml]="'Selling'"
         class="mt-2 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
       </div>
-      <div class="flex justify-center  font-bold my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Total: ' + ((creatorItems$ | async)?.units!| number:'1.0-10') + ' ' + (creatorItems$ | async)?.currency"></div>
+      <div class="flex justify-center  font-bold my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Total: ' + ((creatorItems$ | async)?.sendingUnits!| number:'1.0-10') + ' ' + (creatorItems$ | async)?.sendingCurrency"></div>
       <hr class="my-4">
       <div [innerHtml]="'Receiving'"
         class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
       </div>
-      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Initial Amount: ' + (purchaseItems$ | async)!.units! + ' ' + (purchaseItems$ | async)!.currency!"></div>
-      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Platform Fees (5%): ' + ((creatorItemFees$ | async)!.platformFees| number:'1.0-10') + ' ' + (purchaseItems$ | async)!.currency!"></div>
-      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Network Fees: ' + ((creatorItemFees$ | async)!.networkFees| number:'1.0-10') + ' ' + (purchaseItems$ | async)?.currency"></div>
-      <div class="flex justify-center font-bold my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Total: ' + ((creatorItemFees$ | async)!.totalPostFees| number:'1.0-10') + ' ' + (purchaseItems$ | async)?.currency"></div>
+      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Initial Amount: ' + (purchaseItems$ | async)!.sendingUnits! + ' ' + (purchaseItems$ | async)!.sendingCurrency!"></div>
+      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Platform Fees (5%): ' + ((creatorItemFees$ | async)!.platformFees| number:'1.0-10') + ' ' + (purchaseItems$ | async)!.sendingCurrency!"></div>
+      <div class="flex justify-center my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Network Fees: ' + ((creatorItemFees$ | async)!.networkFees| number:'1.0-10') + ' ' + (purchaseItems$ | async)?.sendingCurrency"></div>
+      <div class="flex justify-center font-bold my-2 text-xs font-medium rounded text-gray-700" [innerHtml]="'Total: ' + ((creatorItemFees$ | async)!.totalPostFees| number:'1.0-10') + ' ' + (purchaseItems$ | async)?.sendingCurrency"></div>
     </div>
 
     <!--
       <h3 class="text-sm leading-6 font-medium text-gray-600" id="modal-title"
-        [innerHtml]="'You have requested to exchange ' + (creatorItems$ | async)?.units + ' ' + (creatorItems$ | async)?.currency + ' for ' + (purchaseItems$ | async)?.units + ' ' + (purchaseItems$ | async)?.currency + '.'">
+        [innerHtml]="'You have requested to exchange ' + (creatorItems$ | async)?.sendingUnits + ' ' + (creatorItems$ | async)?.sendingCurrency + ' for ' + (purchaseItems$ | async)?.sendingUnits + ' ' + (purchaseItems$ | async)?.sendingCurrency + '.'">
       </h3>
       <h3 class="text-sm leading-6 font-medium text-gray-600" id="modal-title"
         [innerHtml]="'Would you like to continue?'">

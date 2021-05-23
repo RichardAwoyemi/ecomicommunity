@@ -62,13 +62,13 @@ export class AddPurchasorItemModalComponent {
   }
 
   setPurchasorSendingUnits(units: number): void {
-    this.store.dispatch(AppActions.setPurchasorSendingAmountUnits({ units: units }));
+    this.store.dispatch(AppActions.setPurchasorSendingAmountUnits({ sendingUnits: units }));
     this.store.dispatch(AppActions.setCreatorReceivingFees());
   }
 
   setPurchasorSendingCurrency(currency: AppTransactionCurrencies): void {
     this.selectedPurchasorNetworkSymbol = DEFAULT_NETWORKS[currency || AppTransactionCurrencies.BTC];
-    this.store.dispatch(AppActions.setPurchasorSendingAmountCurrency({ currency: currency }));
+    this.store.dispatch(AppActions.setPurchasorSendingAmountCurrency({ sendingCurrency: currency }));
     this.store.dispatch(AppActions.setPurchasorSendingNetworkSymbol({ symbol: this.selectedPurchasorNetworkSymbol }));
     this.store.dispatch(AppActions.setCreatorReceivingNetworkSymbol({ symbol: this.selectedPurchasorNetworkSymbol }));
     this.store.dispatch(

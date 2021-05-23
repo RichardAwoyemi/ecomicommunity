@@ -40,8 +40,8 @@ const initialState: AppState = {
   ],
   transactions: [],
   creatorItems: {
-    currency: AppTransactionCurrencies.GEMS,
-    units: 1000,
+    sendingCurrency: AppTransactionCurrencies.GEMS,
+    sendingUnits: 1000,
     receivingWallet: {
       network: Networks.BTC,
       networkSymbol: NetworkSymbols.BTC,
@@ -57,7 +57,7 @@ const initialState: AppState = {
     platformReceivingWallet: {
       walletAddress: INTERNAL_NETWORK_ADDRESSES[NetworkSymbols.VEVE]
     },
-    fees: {
+    receivingFees: {
       networkFees: NETWORK_FEES_PC[AppTransactionCurrencies.BTC][0].fee,
       platformFees: 0.125 * 0.05,
       totalPostFees:
@@ -67,8 +67,8 @@ const initialState: AppState = {
   purchasorItems: {
     username: '',
     useruid: '',
-    currency: AppTransactionCurrencies.BTC,
-    units: 0.0125,
+    sendingCurrency: AppTransactionCurrencies.BTC,
+    sendingUnits: 0.0125,
     receivingWallet: {
       network: Networks.VEVE,
       networkSymbol: NetworkSymbols.VEVE,
@@ -84,7 +84,7 @@ const initialState: AppState = {
     platformReceivingWallet: {
       walletAddress: INTERNAL_NETWORK_ADDRESSES[NetworkSymbols.BTC]
     },
-    fees: {
+    receivingFees: {
       networkFees: NETWORK_FEES_PC[AppTransactionCurrencies.GEMS][0].fee,
       platformFees: 1000 * 0.05,
       totalPostFees:
@@ -278,7 +278,7 @@ export const appReducer = createReducer<AppState>(
       ...state,
       creatorItems: {
         ...state.creatorItems,
-        units: props?.units || state.creatorItems.units!,
+        sendingUnits: props?.sendingUnits || state.creatorItems.sendingUnits!,
       },
     };
   }),
@@ -287,7 +287,7 @@ export const appReducer = createReducer<AppState>(
       ...state,
       creatorItems: {
         ...state.creatorItems,
-        currency: props?.currency || state.creatorItems.currency!,
+        sendingCurrency: props?.sendingCurrency || state.creatorItems.sendingCurrency!,
       },
     };
   }),
@@ -341,8 +341,8 @@ export const appReducer = createReducer<AppState>(
     }
   ),
   on(AppActions.setCreatorReceivingFees, (state): AppState => {
-    const units = state.purchasorItems.units!;
-    const currency = state.purchasorItems.currency;
+    const units = state.purchasorItems.sendingUnits!;
+    const currency = state.purchasorItems.sendingCurrency;
     const networkSymbol = state.creatorItems.receivingWallet?.networkSymbol!;
 
     const networkDetails = NETWORK_FEES_PC[currency!].find(
@@ -357,7 +357,7 @@ export const appReducer = createReducer<AppState>(
       ...state,
       creatorItems: {
         ...state.creatorItems,
-        fees: {
+        receivingFees: {
           networkFees: networkFees,
           platformFees: platformFees,
           totalPostFees: units - platformFees - networkFees,
@@ -423,7 +423,7 @@ export const appReducer = createReducer<AppState>(
       ...state,
       purchasorItems: {
         ...state.purchasorItems,
-        units: props?.units || state.purchasorItems.units!,
+        sendingUnits: props?.sendingUnits || state.purchasorItems.sendingUnits!,
       },
     };
   }),
@@ -432,7 +432,7 @@ export const appReducer = createReducer<AppState>(
       ...state,
       purchasorItems: {
         ...state.purchasorItems,
-        currency: props.currency || state.purchasorItems.currency!,
+        sendingCurrency: props.sendingCurrency || state.purchasorItems.sendingCurrency!,
       },
     };
   }),
@@ -476,8 +476,8 @@ export const appReducer = createReducer<AppState>(
     }
   ),
   on(AppActions.setPurchasorReceivingFees, (state): AppState => {
-    const units = state.creatorItems.units!;
-    const currency = state.creatorItems.currency;
+    const units = state.creatorItems.sendingUnits!;
+    const currency = state.creatorItems.sendingCurrency;
     const networkSymbol = state.purchasorItems.receivingWallet?.networkSymbol!;
 
     const networkDetails = NETWORK_FEES_PC[currency!].find(
@@ -492,7 +492,7 @@ export const appReducer = createReducer<AppState>(
       ...state,
       purchasorItems: {
         ...state.purchasorItems,
-        fees: {
+        receivingFees: {
           networkFees: networkFees,
           platformFees: platformFees,
           totalPostFees: units - platformFees - networkFees,
