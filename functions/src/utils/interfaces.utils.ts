@@ -78,4 +78,5 @@ export interface INetworkDetails {
     symbol: NetworkSymbols;
     fee: number;
     minimum: number;
+    default: number;
 }

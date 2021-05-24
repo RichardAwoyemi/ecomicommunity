@@ -19,43 +19,49 @@ export const DEFAULT_NETWORKS = {
   [AppTransactionCurrencies.BTC]: NetworkSymbols.BTC,
   [AppTransactionCurrencies.DAI]: NetworkSymbols.BEP20,
   [AppTransactionCurrencies.GEMS]: NetworkSymbols.VEVE,
-  [AppTransactionCurrencies.OMI]: NetworkSymbols.GO,
+  [AppTransactionCurrencies.OMI]: NetworkSymbols.GO20,
   [AppTransactionCurrencies.USDC]: NetworkSymbols.BEP20,
-  [AppTransactionCurrencies.USDT]: NetworkSymbols.BEP20,
+  [AppTransactionCurrencies.USDT]: NetworkSymbols.TRC20,
 };
 
 export const INTERNAL_NETWORK_ADDRESSES = {
-  [NetworkSymbols.ERC20]: "0xA6B300A0F83a3D49b720F1B5734Fee4A59AEddce",
-  [NetworkSymbols.BEP20]: "0xA6B300A0F83a3D49b720F1B5734Fee4A59AEddce",
-  [NetworkSymbols.BTC]: "BTC-TODO",
-  [NetworkSymbols.GO]: "GO-TODO",
+  [NetworkSymbols.ERC20]: "0x518Ed2A0C418Cd90828983268f4adc25090E4De6",
+  [NetworkSymbols.BEP20]: "0x518Ed2A0C418Cd90828983268f4adc25090E4De6",
+  [NetworkSymbols.BEP2]: "bnb1nhu2h8zhn4d5mspnpsve5qdwtcjurtqeszgc88",
+  [NetworkSymbols.BTC]: "bc1ql80kha3ry679a4e2z957pwle6pm34jfzwtlxyq",
+  [NetworkSymbols.GO20]: "0x7Eb0DFD3331C13c51b2CC8Ce2eb14C27628c18Cb",
+  [NetworkSymbols.TRC20]: "TTsxFGWmh5Ni9mCZyBKYNDKZU9B2rm6kyY",
   [NetworkSymbols.VEVE]: "VEVE-TODO",
 };
 
 export const NETWORK_FEES_PC: INetworkFees = {
   [AppTransactionCurrencies.BNB]: [
-    {symbol: NetworkSymbols.ERC20, fee: 0.05, minimum: 0.5},
-    {symbol: NetworkSymbols.BEP20, fee: 0.01, minimum: 0.5},
+    {symbol: NetworkSymbols.ERC20, fee: 0.05, minimum: 0.5, default: 3.5},
+    {symbol: NetworkSymbols.BEP20, fee: 0.01, minimum: 0.5, default: 3.5},
+    {symbol: NetworkSymbols.BEP2, fee: 0.01, minimum: 0.5, default: 3.5},
   ],
   [AppTransactionCurrencies.BTC]: [
-    {symbol: NetworkSymbols.BTC, fee: 0.0005, minimum: 0.005},
+    {symbol: NetworkSymbols.BTC, fee: 0.0005, minimum: 0.005, default: 0.05},
   ],
   [AppTransactionCurrencies.DAI]: [
-    {symbol: NetworkSymbols.ERC20, fee: 30, minimum: 250},
-    {symbol: NetworkSymbols.BEP20, fee: 5, minimum: 250},
+    {symbol: NetworkSymbols.ERC20, fee: 30, minimum: 250, default: 1000},
+    {symbol: NetworkSymbols.BEP2, fee: 5, minimum: 250, default: 1000},
+    {symbol: NetworkSymbols.BEP20, fee: 5, minimum: 250, default: 1000},
   ],
   [AppTransactionCurrencies.GEMS]: [
-    {symbol: NetworkSymbols.VEVE, fee: 0, minimum: 250},
+    {symbol: NetworkSymbols.VEVE, fee: 0, minimum: 250, default: 1000},
   ],
   [AppTransactionCurrencies.OMI]: [
-    {symbol: NetworkSymbols.GO, fee: 1000, minimum: 50000},
+    {symbol: NetworkSymbols.GO20, fee: 1000, minimum: 100000, default: 500000},
   ],
   [AppTransactionCurrencies.USDC]: [
-    {symbol: NetworkSymbols.ERC20, fee: 30, minimum: 250},
-    {symbol: NetworkSymbols.BEP20, fee: 5, minimum: 250},
+    {symbol: NetworkSymbols.ERC20, fee: 30, minimum: 250, default: 1000},
+    {symbol: NetworkSymbols.BEP2, fee: 5, minimum: 250, default: 1000},
+    {symbol: NetworkSymbols.BEP20, fee: 5, minimum: 250, default: 1000},
   ],
   [AppTransactionCurrencies.USDT]: [
-    {symbol: NetworkSymbols.ERC20, fee: 30, minimum: 250},
-    {symbol: NetworkSymbols.BEP20, fee: 5, minimum: 250},
+    {symbol: NetworkSymbols.ERC20, fee: 30, minimum: 250, default: 1000},
+    {symbol: NetworkSymbols.BEP2, fee: 5, minimum: 250, default: 1000},
+    {symbol: NetworkSymbols.TRC20, fee: 5, minimum: 250, default: 1000},
   ],
 };
