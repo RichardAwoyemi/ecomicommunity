@@ -308,7 +308,7 @@ async function sendMatchedEmails(transactionSummary: ITransaction) {
           getString(transactionSummary.purchasor.sendingWallet?.walletAddress),
           getString(transactionSummary.purchasor.sendingWallet?.network),
           getString(transactionSummary.purchasor.platformReceivingWallet?.walletAddress),
-          getReceivingFees(transactionSummary.purchasor.receivingFees)
+          getFees(transactionSummary.purchasor.receivingFees)
       )
   );
 }
@@ -325,7 +325,7 @@ async function sendCompletedEmails(transaction: ITransaction) {
           getString(transaction.purchasor.sendingCurrency),
           getString(transaction.creator.receivingWallet?.walletAddress),
           getString(transaction.creator.receivingWallet?.network),
-          getReceivingFees(transaction.creator.receivingFees))
+          getFees(transaction.creator.receivingFees))
   );
   await sendEmailToPerson(
       getString(transaction.purchasor.email),
@@ -337,7 +337,7 @@ async function sendCompletedEmails(transaction: ITransaction) {
           getString(transaction.creator.sendingCurrency),
           getString(transaction.purchasor.receivingWallet?.walletAddress),
           getString(transaction.purchasor.receivingWallet?.network),
-          getReceivingFees(transaction.purchasor.receivingFees))
+          getFees(transaction.purchasor.receivingFees))
   );
 }
 
@@ -350,7 +350,7 @@ function setTransactionSummary(
   const transactionSummary: ITransaction = {
     id: transactionData?.id,
     creator: {
-      sendingCurrency: transactionData?.creator?.receivingFees,
+      sendingCurrency: transactionData?.creator?.sendingCurrency,
       sendingUnits: transactionData?.creator?.sendingUnits,
       email: creatorEmail,
       username: transactionData?.creator?.username,
@@ -381,7 +381,7 @@ function getNumber(number: number | undefined): number {
   return number ? number : 0;
 }
 
-function getReceivingFees(receivingFees: IFees | undefined): IFees {
+function getFees(receivingFees: IFees | undefined): IFees {
   return receivingFees ? receivingFees : {
     totalPostFees: 0,
     networkFees: 0,

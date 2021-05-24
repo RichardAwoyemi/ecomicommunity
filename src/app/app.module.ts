@@ -42,6 +42,7 @@ import { PurchaseReceivingModalComponent } from './components/modals/transaction
 import { MatchTransactionConfirmationComponent } from './components/modals/transactions/match-transaction-confirmation-modal /match-transaction-confirmation.component';
 import { MatchTransactionErrorComponent } from './components/modals/transactions/match-transaction-error-modal/match-transaction-error.component';
 import { MatchTransactionSpinnerComponent } from './components/modals/transactions/match-transaction-spinner-modal/match-transaction-spinner.component';
+import { DotCarouselComponent } from './components/animations/dot-carousel/dot-carousel.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { MatchTransactionSpinnerComponent } from './components/modals/transactio
     PurchaseReceivingModalComponent,
     MatchTransactionConfirmationComponent,
     MatchTransactionErrorComponent,
-    MatchTransactionSpinnerComponent
+    MatchTransactionSpinnerComponent,
+    DotCarouselComponent
   ],
   imports: [
     FormsModule,
