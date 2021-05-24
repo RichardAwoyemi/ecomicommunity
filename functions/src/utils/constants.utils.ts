@@ -31,7 +31,7 @@ export const INTERNAL_NETWORK_ADDRESSES = {
   [NetworkSymbols.BTC]: "bc1ql80kha3ry679a4e2z957pwle6pm34jfzwtlxyq",
   [NetworkSymbols.GO20]: "0x7Eb0DFD3331C13c51b2CC8Ce2eb14C27628c18Cb",
   [NetworkSymbols.TRC20]: "TTsxFGWmh5Ni9mCZyBKYNDKZU9B2rm6kyY",
-  [NetworkSymbols.VEVE]: "VEVE-TODO",
+  [NetworkSymbols.VEVE]: "845dccc4-38f2-4963-bca8-7b2cbbdaaa2b",
 };
 
 export const NETWORK_FEES_PC: INetworkFees = {
