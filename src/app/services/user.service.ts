@@ -13,7 +13,7 @@ export class UserService {
   constructor(private afs: AngularFirestore, public router: Router) {}
 
   setUser(user: IUser): Promise<void> {
-    const usersRef: AngularFirestoreDocument = this.afs.doc(
+    const usersRef: AngularFirestoreDocument = this.afs.doc<IUser>(
       `users/${user.uid}`
     );
     const userData: IUser = {
@@ -56,7 +56,7 @@ export class UserService {
 
   getUserSecretById(id: string | undefined): Observable<IUserPrivate> {
     return this.afs
-      .collection('users-private')
+      .collection<IUserPrivate>('users-private')
       .doc(id)
       .snapshotChanges()
       .pipe(
@@ -70,7 +70,7 @@ export class UserService {
 
   getUserById(id: string | undefined): Observable<IUser> {
     return this.afs
-      .collection('users')
+      .collection<IUser>('users')
       .doc(id)
       .snapshotChanges()
       .pipe(
@@ -78,6 +78,17 @@ export class UserService {
           const data = action.payload.data();
           const uid = action.payload.id;
           return { uid, ...(<IUser>data) };
+        })
+      );
+  }
+
+  userWithUsernameExists(username: string | undefined): Observable<Boolean> {
+    return this.afs
+      .collection<IUser>('users', ref => ref.where('username', '==', username))
+      .snapshotChanges()
+      .pipe(
+        map(users => {
+          return users.length > 0;
         })
       );
   }
