@@ -66,7 +66,7 @@ export class AddCreatorItemModalComponent {
 
   setCreatorSendingUnits(units: number): void {
     this.store.dispatch(
-      AppActions.setCreatorSendingAmountUnits({ units: units })
+      AppActions.setCreatorSendingAmountUnits({ sendingUnits: units })
     );
     this.store.dispatch(AppActions.setPurchasorReceivingFees());
   }
@@ -75,7 +75,7 @@ export class AddCreatorItemModalComponent {
     this.selectedCreatorNetworkSymbol =
       DEFAULT_NETWORKS[currency || AppTransactionCurrencies.GEMS];
     this.store.dispatch(
-      AppActions.setCreatorSendingAmountCurrency({ currency: currency })
+      AppActions.setCreatorSendingAmountCurrency({ sendingCurrency: currency })
     );
     this.store.dispatch(
       AppActions.setCreatorSendingNetworkSymbol({

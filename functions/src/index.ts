@@ -207,7 +207,7 @@ function createEmailContentForTransactionMatch(
     sendingWallet: string,
     sendingNetwork: string,
     platformReceivingWallet: string,
-    fees: IFees,
+    receivingFees: IFees,
 ): string {
   return "<h1>Hi " + username + ",</h1>" +
     "<h2>Your transaction #" + transactionId + " has been confirmed!</h2>" +
@@ -218,15 +218,17 @@ function createEmailContentForTransactionMatch(
     "</ul>" +
     "Once we have received both amounts from both parties, we will send another email to notify you of your purchase." +
     "<br>When this happens, for your purchase of " + receivingUnits + " " + receivingCurrency + " on the " + receivingNetwork + " network:" +
+    "You have been charged the following fees:" +
     "<ul>" +
-    "  <li>You will receive: " + fees.totalPostFees + " " + receivingCurrency + "</li>" +
+    "  <li>Network fees: " + receivingFees.networkFees + " " + receivingCurrency + "</li>" +
+    "  <li>Platform fees: " + receivingFees.platformFees + " " + receivingCurrency + "</li>" +
+    "</ul>" +
+
+    "<ul>" +
+    "  <li>You will receive: " + receivingFees.totalPostFees + " " + receivingCurrency + "</li>" +
     "  <li>Sent to your wallet: " + receivingWallet + "</li>" +
     "</ul>" +
-    "You will be charged the following fees:" +
-    "<ul>" +
-    "  <li>Network fees: " + fees.networkFees + " " + receivingCurrency + "</li>" +
-    "  <li>Platform fees: " + fees.platformFees + " " + receivingCurrency + "</li>" +
-    "</ul>" +
+
     "If you encounter any issues please reach out <a href=\"mailto:contact@ecomi.community\">here</a>" +
     "<h5>Ecomi Community</h5>";
 }
@@ -239,20 +241,20 @@ function createEmailContentForTransactionCompleted(
     receivingCurrency: string,
     receivingWallet: string,
     receivingNetwork: string,
-    fees: IFees,
+    receivingFees: IFees,
 ): string {
   return "<h1>Hi " + username + ",</h1>" +
     "<h2>Good news! Your transaction #" + transactionId + " has been completed!</h2>" +
     "We have received both parties funds and have now completed your transaction!" +
     "<br>Please give 24hrs, for your purchase of " + receivingUnits + " " + receivingCurrency + " on the " + receivingNetwork + " network:" +
     "<ul>" +
-    "  <li>You will receive: " + fees.totalPostFees + " " + receivingCurrency + "</li>" +
+    "  <li>You will receive: " + receivingFees.totalPostFees + " " + receivingCurrency + "</li>" +
     "  <li>Sent to your wallet: " + receivingWallet + "</li>" +
     "</ul>" +
     "You will be charged the following fees:" +
     "<ul>" +
-    "  <li>Network fees: " + fees.networkFees + " " + receivingCurrency + "</li>" +
-    "  <li>Platform fees: " + fees.platformFees + " " + receivingCurrency + "</li>" +
+    "  <li>Network fees: " + receivingFees.networkFees + " " + receivingCurrency + "</li>" +
+    "  <li>Platform fees: " + receivingFees.platformFees + " " + receivingCurrency + "</li>" +
     "</ul>" +
     "If you encounter any issues please reach out <a href=\"mailto:contact@ecomi.community\">here</a>" +
     "<h5>Ecomi Community</h5>";
@@ -279,16 +281,16 @@ async function sendMatchedEmails(transactionSummary: ITransaction) {
       createEmailContentForTransactionMatch(
           getString(transactionSummary.id),
           getString(transactionSummary.creator.username),
-          getNumber(transactionSummary.purchasor.units),
-          getString(transactionSummary.purchasor.currency),
+          getNumber(transactionSummary.purchasor.sendingUnits),
+          getString(transactionSummary.purchasor.sendingCurrency),
           getString(transactionSummary.creator.receivingWallet?.walletAddress),
           getString(transactionSummary.creator.receivingWallet?.networkSymbol),
-          getNumber(transactionSummary.creator.units),
-          getString(transactionSummary.creator.currency),
+          getNumber(transactionSummary.creator.sendingUnits),
+          getString(transactionSummary.creator.sendingCurrency),
           getString(transactionSummary.creator.sendingWallet?.walletAddress),
           getString(transactionSummary.creator.sendingWallet?.network),
           getString(transactionSummary.creator.platformReceivingWallet?.walletAddress),
-          getFees(transactionSummary.creator.fees)
+          getFees(transactionSummary.creator.receivingFees)
       )
   );
   await sendEmailToPerson(
@@ -297,16 +299,16 @@ async function sendMatchedEmails(transactionSummary: ITransaction) {
       createEmailContentForTransactionMatch(
           getString(transactionSummary.id),
           getString(transactionSummary.purchasor.username),
-          getNumber(transactionSummary.creator.units),
-          getString(transactionSummary.creator.currency),
+          getNumber(transactionSummary.creator.sendingUnits),
+          getString(transactionSummary.creator.sendingCurrency),
           getString(transactionSummary.purchasor.receivingWallet?.walletAddress),
           getString(transactionSummary.purchasor.receivingWallet?.networkSymbol),
-          getNumber(transactionSummary.purchasor.units),
-          getString(transactionSummary.purchasor.currency),
+          getNumber(transactionSummary.purchasor.sendingUnits),
+          getString(transactionSummary.purchasor.sendingCurrency),
           getString(transactionSummary.purchasor.sendingWallet?.walletAddress),
           getString(transactionSummary.purchasor.sendingWallet?.network),
           getString(transactionSummary.purchasor.platformReceivingWallet?.walletAddress),
-          getFees(transactionSummary.purchasor.fees)
+          getFees(transactionSummary.purchasor.receivingFees)
       )
   );
 }
@@ -319,11 +321,11 @@ async function sendCompletedEmails(transaction: ITransaction) {
       createEmailContentForTransactionCompleted(
           getString(transaction.id),
           getString(transaction.creator.username),
-          getNumber(transaction.purchasor.units),
-          getString(transaction.purchasor.currency),
+          getNumber(transaction.purchasor.sendingUnits),
+          getString(transaction.purchasor.sendingCurrency),
           getString(transaction.creator.receivingWallet?.walletAddress),
           getString(transaction.creator.receivingWallet?.network),
-          getFees(transaction.creator.fees))
+          getFees(transaction.creator.receivingFees))
   );
   await sendEmailToPerson(
       getString(transaction.purchasor.email),
@@ -331,11 +333,11 @@ async function sendCompletedEmails(transaction: ITransaction) {
       createEmailContentForTransactionCompleted(
           getString(transaction.id),
           getString(transaction.purchasor.username),
-          getNumber(transaction.creator.units),
-          getString(transaction.creator.currency),
+          getNumber(transaction.creator.sendingUnits),
+          getString(transaction.creator.sendingCurrency),
           getString(transaction.purchasor.receivingWallet?.walletAddress),
           getString(transaction.purchasor.receivingWallet?.network),
-          getFees(transaction.purchasor.fees))
+          getFees(transaction.purchasor.receivingFees))
   );
 }
 
@@ -348,24 +350,24 @@ function setTransactionSummary(
   const transactionSummary: ITransaction = {
     id: transactionData?.id,
     creator: {
-      currency: transactionData?.creator?.currency,
-      units: transactionData?.creator?.units,
+      sendingCurrency: transactionData?.creator?.sendingCurrency,
+      sendingUnits: transactionData?.creator?.sendingUnits,
       email: creatorEmail,
       username: transactionData?.creator?.username,
       receivingWallet: transactionData?.creator?.receivingWallet,
       sendingWallet: transactionData?.creator?.sendingWallet,
       platformReceivingWallet: transactionData?.creator?.platformReceivingWallet,
-      fees: transactionData?.creator?.fees,
+      receivingFees: transactionData?.creator?.receivingFees,
     },
     purchasor: {
-      currency: transactionData?.purchasor?.currency,
-      units: transactionData?.purchasor?.units,
+      sendingCurrency: transactionData?.purchasor?.sendingCurrency,
+      sendingUnits: transactionData?.purchasor?.sendingUnits,
       email: purchasorEmail,
       username: purchasorUsername,
       receivingWallet: transactionData?.purchasor?.receivingWallet,
       sendingWallet: transactionData?.purchasor?.sendingWallet,
       platformReceivingWallet: transactionData?.purchasor?.platformReceivingWallet,
-      fees: transactionData?.purchasor?.fees,
+      receivingFees: transactionData?.purchasor?.receivingFees,
     },
   };
   return transactionSummary;
@@ -379,8 +381,8 @@ function getNumber(number: number | undefined): number {
   return number ? number : 0;
 }
 
-function getFees(fees: IFees | undefined): IFees {
-  return fees ? fees : {
+function getFees(receivingFees: IFees | undefined): IFees {
+  return receivingFees ? receivingFees : {
     totalPostFees: 0,
     networkFees: 0,
     platformFees: 0,

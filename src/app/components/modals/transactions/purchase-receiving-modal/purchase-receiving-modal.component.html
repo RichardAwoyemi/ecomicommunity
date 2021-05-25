@@ -31,17 +31,17 @@
               <div class="justify-between flex">
                 <div class="flex text-xs sm:text-sm text-gray-700" [innerHtml]="'Network Fees: '"></div>
                 <div class="flex text-xs sm:text-sm text-gray-700"
-                  [innerHtml]="((fees$ | async)!.networkFees | number:'1.0-10')! + ' ' + (currency$ | async)"></div>
+                  [innerHtml]="((receivingFees$ | async)!.networkFees | number:'1.0-10')! + ' ' + (currency$ | async)"></div>
               </div>
               <div class="justify-between flex">
                 <div class="flex text-xs sm:text-sm text-gray-700" [innerHtml]="'Platform Fees: '"></div>
                 <div class="flex text-xs sm:text-sm text-gray-700"
-                  [innerHtml]="((fees$ | async)!.platformFees | number:'1.0-10')! + ' ' + (currency$ | async)"></div>
+                  [innerHtml]="((receivingFees$ | async)!.platformFees | number:'1.0-10')! + ' ' + (currency$ | async)"></div>
               </div>
               <div class="justify-between flex">
                 <div class="flex text-xs sm:text-sm text-gray-700" [innerHtml]="'Total Received: '"></div>
                 <div class="flex text-xs sm:text-sm text-gray-700"
-                  [innerHtml]="((fees$ | async)!.totalPostFees | number:'1.0-10')! + ' ' + (currency$ | async)"></div>
+                  [innerHtml]="((receivingFees$ | async)!.totalPostFees | number:'1.0-10')! + ' ' + (currency$ | async)"></div>
               </div>
             </div>
 

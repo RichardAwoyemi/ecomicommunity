@@ -220,11 +220,11 @@ export const setCreatorSendingNetworkSymbol = createAction(
 );
 export const setCreatorSendingAmountUnits = createAction(
   AppActionTypes.SetCreatorSendingAmountUnits,
-  props<{ units: number }>()
+  props<{ sendingUnits: number }>()
 );
 export const setCreatorSendingAmountCurrency = createAction(
   AppActionTypes.SetCreatorSendingAmountCurrency,
-  props<{ currency: AppTransactionCurrencies }>()
+  props<{ sendingCurrency: AppTransactionCurrencies }>()
 );
 export const setCreatorReceivingNetworkWalletAddress = createAction(
   AppActionTypes.SetCreatorReceivingNetworkWalletAddress,
@@ -262,11 +262,11 @@ export const setPurchasorSendingNetworkSymbol = createAction(
 );
 export const setPurchasorSendingAmountUnits = createAction(
   AppActionTypes.SetPurchasorSendingAmountUnits,
-  props<{ units: number }>()
+  props<{ sendingUnits: number }>()
 );
 export const setPurchasorSendingAmountCurrency = createAction(
   AppActionTypes.SetPurchasorSendingAmountCurrency,
-  props<{ currency: AppTransactionCurrencies }>()
+  props<{ sendingCurrency: AppTransactionCurrencies }>()
 );
 export const setPurchasorReceivingNetworkWalletAddress = createAction(
   AppActionTypes.SetPurchasorReceivingNetworkWalletAddress,

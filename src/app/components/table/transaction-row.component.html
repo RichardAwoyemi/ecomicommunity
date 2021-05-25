@@ -10,11 +10,11 @@
     </div>
   </td>
   <td class="px-6 py-4 whitespace-nowrap">
-    <div class="text-sm text-gray-900" [innerText]="transaction?.creator?.units + ' ' + transaction?.creator?.currency">
+    <div class="text-sm text-gray-900" [innerText]="transaction?.creator?.sendingUnits + ' ' + transaction?.creator?.sendingCurrency">
     </div>
   </td>
   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
-    [innerText]="transaction?.purchasor?.units + ' ' + transaction?.purchasor?.currency"></td>
+    [innerText]="transaction?.purchasor?.sendingUnits + ' ' + transaction?.purchasor?.sendingCurrency"></td>
   <td class="px-6 py-4 whitespace-nowrap">
     <ng-container [ngSwitch]="transaction?.status">
       <span *ngSwitchCase="AVAILABLE"

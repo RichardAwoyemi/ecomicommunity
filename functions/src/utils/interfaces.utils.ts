@@ -49,12 +49,12 @@ export interface IAmount {
     email?: string;
     username?: string;
     itemType?: AppTransactionItemTypes;
-    currency?: AppTransactionCurrencies;
-    units?: number;
+    sendingCurrency?: AppTransactionCurrencies;
+    sendingUnits?: number;
     sendingWallet?: IWallet;
     receivingWallet?: IWallet;
     platformReceivingWallet?: IWallet;
-    fees?: IFees;
+    receivingFees?: IFees;
 }
 
 export interface IWallet {
@@ -78,4 +78,5 @@ export interface INetworkDetails {
     symbol: NetworkSymbols;
     fee: number;
     minimum: number;
+    default: number;
 }

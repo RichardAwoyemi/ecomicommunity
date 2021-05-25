@@ -82,12 +82,12 @@ export const getCreatorItems = createSelector(
 
 export const getCreatorItemsCurrency = createSelector(
   getCreatorItems,
-  (state) => state.currency!
+  (state) => state.sendingCurrency!
 );
 
 export const getCreatorItemsUnits = createSelector(
   getCreatorItems,
-  (state) => state.units
+  (state) => state.sendingUnits
 );
 
 export const getCreatorSendingWalletNetworkSymbol = createSelector(
@@ -112,7 +112,7 @@ export const getCreatorReceivingWalletNetwork = createSelector(
 
 export const getCreatorItemsFees = createSelector(
   getCreatorItems,
-  (state) => state.fees!
+  (state) => state.receivingFees!
 );
 
 export const getCreatorSendingWalletAddress = createSelector(
@@ -142,12 +142,12 @@ export const getPurchasorItems = createSelector(
 
 export const getPurchasorItemsCurrency = createSelector(
   getPurchasorItems,
-  (state) => state.currency!
+  (state) => state.sendingCurrency!
 );
 
 export const getPurchasorItemsUnits = createSelector(
   getPurchasorItems,
-  (state) => state.units
+  (state) => state.sendingUnits
 );
 
 export const getPurchasorReceivingWalletNetworkSymbol = createSelector(
@@ -182,7 +182,7 @@ export const getPurchasorSendingWalletAddress = createSelector(
 
 export const getPurchasorItemsFees = createSelector(
   getPurchasorItems,
-  (state) => state.fees!
+  (state) => state.receivingFees!
 );
 
 export const getPurchasorReceivingVeveUsername = createSelector(
