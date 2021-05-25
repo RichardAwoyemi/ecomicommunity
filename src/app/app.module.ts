@@ -6,7 +6,6 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -43,6 +42,7 @@ import { MatchTransactionConfirmationComponent } from './components/modals/trans
 import { MatchTransactionErrorComponent } from './components/modals/transactions/match-transaction-error-modal/match-transaction-error.component';
 import { MatchTransactionSpinnerComponent } from './components/modals/transactions/match-transaction-spinner-modal/match-transaction-spinner.component';
 import { DotCarouselComponent } from './components/animations/dot-carousel/dot-carousel.component';
+import { extModules } from 'src/app/build-specifics';
 
 @NgModule({
   declarations: [
@@ -84,12 +84,8 @@ import { DotCarouselComponent } from './components/animations/dot-carousel/dot-c
     AppRoutingModule,
     HttpClientModule,
     StoreModule.forRoot({ app: appReducer }, {}),
-    StoreDevtoolsModule.instrument({
-      name: 'Ecomi Community',
-      maxAge: 100,
-      logOnly: environment.production,
-    }),
     EffectsModule.forRoot([AppEffects]),
+    extModules
   ],
   providers: [TransactionService, UserService, UtilService],
   bootstrap: [AppComponent],
