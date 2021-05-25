@@ -8,5 +8,6 @@ export const environment = {
     messagingSenderId: "1061130765956",
     appId: "1:1061130765956:web:d3de6e0e199186ca87a4d1",
     measurementId: "G-CE9LZYQZLT"
-  }
+  },
+  firebaseApiUrl: 'https://europe-west2-ecomi-community-prod.cloudfunctions.net'
 };
