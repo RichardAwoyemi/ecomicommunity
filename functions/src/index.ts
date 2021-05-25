@@ -10,7 +10,7 @@ import {ITransaction, IFees} from "./utils/interfaces.utils";
 
 admin.initializeApp(functions.config().firebase);
 const corsHandler = cors({origin: true});
-SendGrid.setApiKey(functions.config().mail.test.key);
+SendGrid.setApiKey(functions.config().mail?.test?.key || functions.config().mail?.prod?.key);
 
 exports.matchTransaction = functions.region("europe-west2").https.onRequest(
     (request: functions.https.Request, response: functions.Response) => {
