@@ -1,15 +1,34 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { DEFAULT_NETWORKS, INTERNAL_NETWORK_ADDRESSES } from 'functions/src/utils/constants.utils';
-import { NetworkSymbols, AppTransactionCurrencies, AppTransactionItemTypes, Networks } from 'functions/src/utils/enums.utils';
-import { Observable } from 'rxjs';
-import { getCreatorItemsCurrency, getCreatorItemsUnits } from 'src/app/state';
+import {
+  DEFAULT_NETWORKS,
+  INTERNAL_NETWORK_ADDRESSES,
+} from 'functions/src/utils/constants.utils';
+import {
+  NetworkSymbols,
+  AppTransactionCurrencies,
+  AppTransactionItemTypes,
+  Networks,
+  WalletTypes,
+} from 'functions/src/utils/enums.utils';
+import { Observable, Observer } from 'rxjs';
+import {
+  getCreatorItems,
+  getCreatorItemsCurrency,
+  getCreatorItemsUnits,
+  getCreatorSendingCurrencyMinimumUnits,
+} from 'src/app/state';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
 import {
-  AppDropdownState,
-  AppModalStates,
-} from '../../../../state/app.enums';
+  getTransactionModalError,
+  getCreatorSendingWallet,
+} from '../../../../state/index';
+import { AppDropdownState, AppModalStates } from '../../../../state/app.enums';
+import {
+  IAmount,
+  IWallet,
+} from '../../../../../../functions/src/utils/interfaces.utils';
 import {
   getActiveDropdownTransactionType,
   getCreatorCurrencyNetworkSymbolList,
@@ -29,6 +48,7 @@ export class AddCreatorItemModalComponent {
   activeCreatorItemType$!: Observable<string | undefined>;
   activeCreatorItemCurrency$!: Observable<AppTransactionCurrencies>;
   activeCreatorItemUnits$?: Observable<number | undefined>;
+  minimumUnits$?: Observable<number | undefined>;
   COLLECTIBLE_TYPE = AppTransactionItemTypes.Collectible;
   CURRENCY_TYPE = AppTransactionItemTypes.Currency;
   TRANSACTION_TYPES = Object.keys(AppTransactionItemTypes);
@@ -41,10 +61,15 @@ export class AddCreatorItemModalComponent {
   network$!: Observable<Networks>;
   walletAddress$!: Observable<string>;
   veveUsername$!: Observable<string>;
+  errorMessage$!: Observable<string>;
+  creatorItems$!: Observable<IAmount>;
+  PURCHASER_ITEM_MODAL = AppModalStates.PurchasorItem;
+  wallet$!: Observable<IWallet>;
 
   constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
+    this.errorMessage$ = this.store.select(getTransactionModalError);
     this.activeCreatorItemType$ = this.store.select(
       getActiveDropdownTransactionType
     );
@@ -52,6 +77,9 @@ export class AddCreatorItemModalComponent {
       getCreatorItemsCurrency
     );
     this.activeCreatorItemUnits$ = this.store.select(getCreatorItemsUnits);
+    this.minimumUnits$ = this.store.select(
+      getCreatorSendingCurrencyMinimumUnits
+    );
     this.networkSymbolList$ = this.store.select(
       getCreatorCurrencyNetworkSymbolList
     );
@@ -61,6 +89,8 @@ export class AddCreatorItemModalComponent {
     this.network$ = this.store.select(getCreatorSendingWalletNetwork);
     this.walletAddress$ = this.store.select(getCreatorSendingWalletAddress);
     this.veveUsername$ = this.store.select(getCreatorSendingVeveUsername);
+    this.creatorItems$ = this.store.select(getCreatorItems);
+    this.wallet$ = this.store.select(getCreatorSendingWallet);
     this.store.dispatch(AppActions.setCreatorUserDetails());
   }
 
@@ -84,9 +114,10 @@ export class AddCreatorItemModalComponent {
     );
     this.store.dispatch(
       AppActions.setPlatformReceivingCreatorWalletAddress({
-        walletAddress: INTERNAL_NETWORK_ADDRESSES[this.selectedCreatorNetworkSymbol]
+        walletAddress:
+          INTERNAL_NETWORK_ADDRESSES[this.selectedCreatorNetworkSymbol],
       })
-    )
+    );
     this.store.dispatch(
       AppActions.setPurchasorReceivingNetworkSymbol({
         symbol: this.selectedCreatorNetworkSymbol,
@@ -105,9 +136,9 @@ export class AddCreatorItemModalComponent {
     );
     this.store.dispatch(
       AppActions.setPlatformReceivingCreatorWalletAddress({
-        walletAddress: INTERNAL_NETWORK_ADDRESSES[symbol]
+        walletAddress: INTERNAL_NETWORK_ADDRESSES[symbol],
       })
-    )
+    );
   }
 
   setCreatorSendingNetworkWalletAddress(walletAddress: string): void {
@@ -123,12 +154,6 @@ export class AddCreatorItemModalComponent {
       AppActions.setCreatorSendingNetworkVeveUsername({
         veveUsername: veveUsername,
       })
-    );
-  }
-
-  nextModal(): void {
-    this.store.dispatch(
-      AppActions.showModal({ modalState: AppModalStates.PurchasorItem })
     );
   }
 }

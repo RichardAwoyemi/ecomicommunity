@@ -2,11 +2,13 @@
 import { createAction, props } from '@ngrx/store';
 import firebase from 'firebase/app';
 import {
-  AppModalStates,
-  AppDropdownState,
-} from './app.enums';
-import { NetworkSymbols, AppTransactionCurrencies } from 'functions/src/utils/enums.utils';
-import { IUser, ITransaction } from 'functions/src/utils/interfaces.utils';
+  AppTransactionCurrencies,
+  WalletTypes,
+  NetworkSymbols,
+} from 'functions/src/utils/enums.utils';
+import { ITransaction, IUser } from 'functions/src/utils/interfaces.utils';
+import { IAmount, IWallet } from '../../../functions/src/utils/interfaces.utils';
+import { AppDropdownState, AppModalStates } from './app.enums';
 
 export enum AppActionTypes {
   IsLoggedIn = '[App] Is Logged In',
@@ -27,7 +29,7 @@ export enum AppActionTypes {
   SetTransactions = '[App] [Transactions] Set Full Transaction List',
   DeleteTransaction = '[App] [Transaction] Delete Transaction from the table by ID',
   SetActiveTransaction = '[App] [Transaction] Set Active Transaction',
-  resetTransaction = '[App] [Transaction] Reset Transaction',
+  ResetTransaction = '[App] [Transaction] Reset Transaction',
   MatchTransaction = '[App] Match Transaction',
   AddTransaction = '[App] [Transactions] Add New Transaction',
 
@@ -69,6 +71,9 @@ export enum AppActionTypes {
   ToggleNavbar = '[App] Toggle Navbar',
   ToggleEmailConsent = '[App] Toggle Email Consent',
   ToggleRememberMe = '[App] Toggle Remember Me',
+
+  CheckTransaction = '[App] [Checks] Transaction Modal Validity Checks',
+  SetTransactionModalErrorMessage = '[App] [Checks] Set Transaction Modal Error Message',
 }
 
 export const isLoggedIn = createAction(AppActionTypes.IsLoggedIn);
@@ -155,7 +160,6 @@ export const persistUserSecret = createAction(
   AppActionTypes.PersistUserSecret,
   props<{ useruid: string }>()
 );
-
 
 export const persistUser = createAction(
   AppActionTypes.PersistUser,
@@ -287,4 +291,12 @@ export const setActiveTransaction = createAction(
   AppActionTypes.SetActiveTransaction,
   props<{ txn?: ITransaction }>()
 );
-export const resetTransaction = createAction(AppActionTypes.resetTransaction);
+export const resetTransaction = createAction(AppActionTypes.ResetTransaction);
+export const checkTransaction = createAction(
+  AppActionTypes.CheckTransaction,
+  props<{ amount: IAmount; modal: AppModalStates; wallet: IWallet, isPurchaser?: boolean }>()
+);
+export const setTransactionModalErrorMessage = createAction(
+  AppActionTypes.SetTransactionModalErrorMessage,
+  props<{ error: string }>()
+);

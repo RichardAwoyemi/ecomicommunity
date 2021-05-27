@@ -49,6 +49,11 @@ export const getRegistrationError = createSelector(
   (state) => state.registrationErrorMessage
 );
 
+export const getTransactionModalError = createSelector(
+  getAppFeatureState,
+  (state) => state.transactionModalErrorMessage
+);
+
 export const getActiveDropdownOptions = createSelector(
   getAppFeatureState,
   (state) => state.activeDropdownOptions
@@ -90,24 +95,34 @@ export const getCreatorItemsUnits = createSelector(
   (state) => state.sendingUnits
 );
 
-export const getCreatorSendingWalletNetworkSymbol = createSelector(
+export const getCreatorSendingWallet = createSelector(
   getCreatorItems,
-  (state) => state.sendingWallet!.networkSymbol!
+  (state) => state.sendingWallet!
+);
+
+export const getCreatorSendingWalletNetworkSymbol = createSelector(
+  getCreatorSendingWallet,
+  (state) => state.networkSymbol!
 );
 
 export const getCreatorSendingWalletNetwork = createSelector(
+  getCreatorSendingWallet,
+  (state) => state.network!
+);
+
+export const getCreatorReceivingWallet = createSelector(
   getCreatorItems,
-  (state) => state.sendingWallet!.network!
+  (state) => state.receivingWallet!
 );
 
 export const getCreatorReceivingWalletNetworkSymbol = createSelector(
-  getCreatorItems,
-  (state) => state.sendingWallet!.networkSymbol!
+  getCreatorReceivingWallet,
+  (state) => state.networkSymbol!
 );
 
 export const getCreatorReceivingWalletNetwork = createSelector(
-  getCreatorItems,
-  (state) => state.sendingWallet!.network!
+  getCreatorReceivingWallet,
+  (state) => state.network!
 );
 
 export const getCreatorItemsFees = createSelector(
@@ -116,23 +131,23 @@ export const getCreatorItemsFees = createSelector(
 );
 
 export const getCreatorSendingWalletAddress = createSelector(
-  getCreatorItems,
-  (state) => state.sendingWallet!.walletAddress!
+  getCreatorSendingWallet,
+  (state) => state.walletAddress!
 );
 
 export const getCreatorReceivingWalletAddress = createSelector(
-  getCreatorItems,
-  (state) => state.receivingWallet!.walletAddress!
+  getCreatorReceivingWallet,
+  (state) => state.walletAddress!
 );
 
 export const getCreatorReceivingVeveUsername = createSelector(
-  getCreatorItems,
-  (state) => state.receivingWallet?.veveUsername!
+  getCreatorReceivingWallet,
+  (state) => state.veveUsername!
 );
 
 export const getCreatorSendingVeveUsername = createSelector(
-  getCreatorItems,
-  (state) => state.sendingWallet!.veveUsername!
+  getCreatorSendingWallet,
+  (state) => state.veveUsername!
 );
 
 export const getPurchasorItems = createSelector(
@@ -150,34 +165,44 @@ export const getPurchasorItemsUnits = createSelector(
   (state) => state.sendingUnits
 );
 
-export const getPurchasorReceivingWalletNetworkSymbol = createSelector(
+export const getPurchaserReceivingWallet = createSelector(
   getPurchasorItems,
-  (state) => state.receivingWallet!.networkSymbol!
+  (state) => state.receivingWallet!
+);
+
+export const getPurchaserSendingWallet = createSelector(
+  getPurchasorItems,
+  (state) => state.sendingWallet!
+);
+
+export const getPurchasorReceivingWalletNetworkSymbol = createSelector(
+  getPurchaserReceivingWallet,
+  (state) => state.networkSymbol!
 );
 
 export const getPurchasorSendingWalletNetworkSymbol = createSelector(
-  getPurchasorItems,
-  (state) => state.sendingWallet?.networkSymbol!
+  getPurchaserSendingWallet,
+  (state) => state.networkSymbol!
 );
 
 export const getPurchasorReceivingWalletNetwork = createSelector(
-  getPurchasorItems,
-  (state) => state.receivingWallet!.network!
+  getPurchaserReceivingWallet,
+  (state) => state.network!
 );
 
 export const getPurchasorSendingWalletNetwork = createSelector(
-  getPurchasorItems,
-  (state) => state.sendingWallet?.network!
+  getPurchaserSendingWallet,
+  (state) => state.network!
 );
 
 export const getPurchasorReceivingWalletAddress = createSelector(
-  getPurchasorItems,
-  (state) => state.receivingWallet!.walletAddress!
+  getPurchaserReceivingWallet,
+  (state) => state.walletAddress!
 );
 
 export const getPurchasorSendingWalletAddress = createSelector(
-  getPurchasorItems,
-  (state) => state.sendingWallet?.walletAddress!
+  getPurchaserSendingWallet,
+  (state) => state.walletAddress!
 );
 
 export const getPurchasorItemsFees = createSelector(
@@ -186,13 +211,13 @@ export const getPurchasorItemsFees = createSelector(
 );
 
 export const getPurchasorReceivingVeveUsername = createSelector(
-  getPurchasorItems,
-  (state) => state.receivingWallet!.veveUsername!
+  getPurchaserReceivingWallet,
+  (state) => state.veveUsername!
 );
 
 export const getPurchasorSendingVeveUsername = createSelector(
-  getPurchasorItems,
-  (state) => state.sendingWallet?.veveUsername!
+  getPurchaserSendingWallet,
+  (state) => state.veveUsername!
 );
 
 export const getCreatorCurrencyNetworkSymbolList = createSelector(
@@ -204,3 +229,15 @@ export const getPurchasorCurrencyNetworkSymbolList = createSelector(
   getPurchasorItemsCurrency,
   (state) => NETWORK_FEES_PC[state].map((details) => details.symbol)
 );
+
+export const getCreatorSendingCurrencyMinimumUnits = createSelector(
+  getCreatorItems,
+  (state) => NETWORK_FEES_PC[state.sendingCurrency!].find((details) => details.symbol)?.minimum
+);
+
+export const getPurchasorCurrencyNetworkMinimums = createSelector(
+  getPurchasorItemsCurrency,
+  (state) => NETWORK_FEES_PC[state].map((details) => details.symbol)
+);
+
+

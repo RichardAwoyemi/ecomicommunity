@@ -1,7 +1,19 @@
 import { createReducer, on } from '@ngrx/store';
-import { INTERNAL_NETWORK_ADDRESSES, NETWORK_FEES_PC } from 'functions/src/utils/constants.utils';
-import { AppTransactionCurrencies, AppTransactionItemTypes, Networks, NetworkSymbols } from 'functions/src/utils/enums.utils';
-import { IUser, ITransaction, IAmount } from 'functions/src/utils/interfaces.utils';
+import {
+  INTERNAL_NETWORK_ADDRESSES,
+  NETWORK_FEES_PC,
+} from 'functions/src/utils/constants.utils';
+import {
+  AppTransactionCurrencies,
+  AppTransactionItemTypes,
+  Networks,
+  NetworkSymbols,
+} from 'functions/src/utils/enums.utils';
+import {
+  IUser,
+  ITransaction,
+  IAmount,
+} from 'functions/src/utils/interfaces.utils';
 import { UtilService } from '../services/util.service';
 import * as AppActions from './app.actions';
 import { AppModalStates, AppDropdownState, AppAuthMessages } from './app.enums';
@@ -10,6 +22,7 @@ export interface AppState {
   user: IUser | undefined;
   registrationErrorMessage: string;
   loginErrorMessage: string;
+  transactionModalErrorMessage: string;
   modalState: AppModalStates;
   isNavbarVisible: boolean;
   emailConsent: boolean;
@@ -25,6 +38,7 @@ export interface AppState {
 const initialState: AppState = {
   activeTransaction: '',
   registrationErrorMessage: '',
+  transactionModalErrorMessage: '',
   loginErrorMessage: '',
   user: undefined,
   modalState: AppModalStates.Closed,
@@ -55,7 +69,7 @@ const initialState: AppState = {
       veveUsername: '',
     },
     platformReceivingWallet: {
-      walletAddress: INTERNAL_NETWORK_ADDRESSES[NetworkSymbols.VEVE]
+      walletAddress: INTERNAL_NETWORK_ADDRESSES[NetworkSymbols.VEVE],
     },
     receivingFees: {
       networkFees: NETWORK_FEES_PC[AppTransactionCurrencies.BTC][0].fee,
@@ -82,7 +96,7 @@ const initialState: AppState = {
       veveUsername: '',
     },
     platformReceivingWallet: {
-      walletAddress: INTERNAL_NETWORK_ADDRESSES[NetworkSymbols.BTC]
+      walletAddress: INTERNAL_NETWORK_ADDRESSES[NetworkSymbols.BTC],
     },
     receivingFees: {
       networkFees: NETWORK_FEES_PC[AppTransactionCurrencies.GEMS][0].fee,
@@ -118,6 +132,7 @@ export const appReducer = createReducer<AppState>(
       dropdownState: AppDropdownState.Hidden,
       loginErrorMessage: '',
       registrationErrorMessage: '',
+      transactionModalErrorMessage: '',
     };
   }),
 
@@ -178,14 +193,14 @@ export const appReducer = createReducer<AppState>(
       email: state.user?.email,
       photoURL: state.user?.photoURL,
       username: state.user?.username,
-      secret: props.secret
-    }
+      secret: props.secret,
+    };
     state.rememberMe
       ? localStorage.setItem('ec-user', JSON.stringify(user))
       : sessionStorage.setItem('ec-user', JSON.stringify(user));
     return {
       ...state,
-      user: user
+      user: user,
     };
   }),
 
@@ -232,17 +247,20 @@ export const appReducer = createReducer<AppState>(
       },
     };
   }),
-  on(AppActions.setPlatformReceivingCreatorWalletAddress, (state, props): AppState => {
-    return {
-      ...state,
-      creatorItems: {
-        ...state.creatorItems,
-        platformReceivingWallet: {
-          walletAddress: props.walletAddress
-        }
-      },
-    };
-  }),
+  on(
+    AppActions.setPlatformReceivingCreatorWalletAddress,
+    (state, props): AppState => {
+      return {
+        ...state,
+        creatorItems: {
+          ...state.creatorItems,
+          platformReceivingWallet: {
+            walletAddress: props.walletAddress,
+          },
+        },
+      };
+    }
+  ),
   on(
     AppActions.setCreatorSendingNetworkWalletAddress,
     (state, props): AppState => {
@@ -287,7 +305,8 @@ export const appReducer = createReducer<AppState>(
       ...state,
       creatorItems: {
         ...state.creatorItems,
-        sendingCurrency: props?.sendingCurrency || state.creatorItems.sendingCurrency!,
+        sendingCurrency:
+          props?.sendingCurrency || state.creatorItems.sendingCurrency!,
       },
     };
   }),
@@ -377,17 +396,20 @@ export const appReducer = createReducer<AppState>(
       },
     };
   }),
-  on(AppActions.setPlatformReceivingPurchasorWalletAddress, (state, props): AppState => {
-    return {
-      ...state,
-      purchasorItems: {
-        ...state.purchasorItems,
-        platformReceivingWallet: {
-          walletAddress: props.walletAddress
-        }
-      },
-    };
-  }),
+  on(
+    AppActions.setPlatformReceivingPurchasorWalletAddress,
+    (state, props): AppState => {
+      return {
+        ...state,
+        purchasorItems: {
+          ...state.purchasorItems,
+          platformReceivingWallet: {
+            walletAddress: props.walletAddress,
+          },
+        },
+      };
+    }
+  ),
   on(
     AppActions.setPurchasorSendingNetworkWalletAddress,
     (state, props): AppState => {
@@ -432,7 +454,8 @@ export const appReducer = createReducer<AppState>(
       ...state,
       purchasorItems: {
         ...state.purchasorItems,
-        sendingCurrency: props.sendingCurrency || state.purchasorItems.sendingCurrency!,
+        sendingCurrency:
+          props.sendingCurrency || state.purchasorItems.sendingCurrency!,
       },
     };
   }),
@@ -539,7 +562,7 @@ export const appReducer = createReducer<AppState>(
       ...state,
       purchasorItems: props.txn!.purchasor!,
       creatorItems: props.txn!.creator!,
-      activeTransaction: props.txn?.id!
+      activeTransaction: props.txn?.id!,
     };
   }),
 
@@ -551,4 +574,11 @@ export const appReducer = createReducer<AppState>(
       purchasorItems: initialState.purchasorItems,
     };
   }),
+
+  on(AppActions.setTransactionModalErrorMessage, (state, props): AppState => {
+    return {
+      ...state,
+      transactionModalErrorMessage: props.error,
+    };
+  })
 );

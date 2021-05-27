@@ -38,3 +38,8 @@ export enum AppTransactionItemTypes {
     Collectible = "Collectible",
     Currency = "Currency",
 }
+
+export enum WalletTypes {
+  Recieving = "receivingWallet",
+  Sending = "sendingWallet"
+}

@@ -42,6 +42,7 @@ import { MatchTransactionConfirmationComponent } from './components/modals/trans
 import { MatchTransactionErrorComponent } from './components/modals/transactions/match-transaction-error-modal/match-transaction-error.component';
 import { MatchTransactionSpinnerComponent } from './components/modals/transactions/match-transaction-spinner-modal/match-transaction-spinner.component';
 import { DotCarouselComponent } from './components/animations/dot-carousel/dot-carousel.component';
+import { TransactionNextModalButtonComponent } from './components/modals/transactions/transaction-next-modal-button/transaction-next-modal-button.component';
 import { extModules } from 'src/app/build-specifics';
 
 @NgModule({
@@ -74,7 +75,8 @@ import { extModules } from 'src/app/build-specifics';
     MatchTransactionConfirmationComponent,
     MatchTransactionErrorComponent,
     MatchTransactionSpinnerComponent,
-    DotCarouselComponent
+    DotCarouselComponent,
+    TransactionNextModalButtonComponent,
   ],
   imports: [
     FormsModule,
