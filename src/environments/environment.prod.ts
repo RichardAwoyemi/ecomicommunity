@@ -1,12 +1,13 @@
 export const environment = {
   production: true,
   firebaseConfig: {
-    apiKey: "AIzaSyAGWFMDwK51OU3FqfZ1XF11Wf_-P5SYv2k",
-    authDomain: "ecomi-community.firebaseapp.com",
-    projectId: "ecomi-community",
-    storageBucket: "ecomi-community.appspot.com",
-    messagingSenderId: "158709385260",
-    appId: "1:158709385260:web:684a87e1cb9274a353e989",
-    measurementId: "G-GVM90YYPXJ"
-  }
+    apiKey: "AIzaSyBEdJSsr7iDOqbmGxXpm1MkugxXJJNkybs",
+    authDomain: "ecomi-community-prod.firebaseapp.com",
+    projectId: "ecomi-community-prod",
+    storageBucket: "ecomi-community-prod.appspot.com",
+    messagingSenderId: "1061130765956",
+    appId: "1:1061130765956:web:d3de6e0e199186ca87a4d1",
+    measurementId: "G-CE9LZYQZLT"
+  },
+  firebaseApiUrl: 'https://europe-west2-ecomi-community-prod.cloudfunctions.net'
 };

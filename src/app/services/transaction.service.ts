@@ -5,23 +5,18 @@ import {
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { HEADERS } from 'functions/src/utils/constants.utils';
 import { AppTransactionStates } from 'functions/src/utils/enums.utils';
 import { ITransaction, IUser } from 'functions/src/utils/interfaces.utils';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { AppModalStates } from '../state/app.enums';
-import { State } from '../state/app.state';
-import * as AppActions from 'src/app/state/app.actions';
 
 @Injectable()
 export class TransactionService {
   constructor(
     private http: HttpClient,
     private afs: AngularFirestore,
-    public router: Router,
-    private store: Store<State>
+    public router: Router
   ) { }
 
   addTransaction(tx: ITransaction): Promise<void> {
