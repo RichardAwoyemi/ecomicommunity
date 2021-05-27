@@ -4,10 +4,12 @@ import { Observable } from 'rxjs';
 import {
   getActiveDropdownTransactionType,
   getCreatorItemsFees,
+  getCreatorReceivingWallet,
+  getTransactionModalError,
 } from 'src/app/state';
 import { State } from 'src/app/state/app.state';
 import * as AppActions from '../../../../state/app.actions';
-import { getPurchasorSendingWalletNetworkSymbol, getPurchasorSendingWalletNetwork, getCreatorReceivingWalletAddress, getCreatorReceivingVeveUsername } from '../../../../state/index';
+import { getPurchasorSendingWalletNetworkSymbol, getPurchasorSendingWalletNetwork, getCreatorReceivingWalletAddress, getCreatorReceivingVeveUsername, getPurchasorItems, getCreatorItems } from '../../../../state/index';
 import {
   AppDropdownState, AppModalStates,
 } from '../../../../state/app.enums';
@@ -17,8 +19,9 @@ import {
   getPurchasorItemsUnits,
 } from '../../../../state/index';
 import { DEFAULT_NETWORKS, INTERNAL_NETWORK_ADDRESSES } from 'functions/src/utils/constants.utils';
-import { NetworkSymbols, AppTransactionCurrencies, AppTransactionItemTypes, Networks } from 'functions/src/utils/enums.utils';
-import { IFees } from 'functions/src/utils/interfaces.utils';
+import { NetworkSymbols, AppTransactionCurrencies, AppTransactionItemTypes, Networks, WalletTypes } from 'functions/src/utils/enums.utils';
+import { IAmount, IFees } from 'functions/src/utils/interfaces.utils';
+import { IWallet } from '../../../../../../functions/src/utils/interfaces.utils';
 @Component({
   selector: 'ec-add-purchasor-item-modal',
   templateUrl: './add-purchasor-item-modal.component.html',
@@ -42,10 +45,16 @@ export class AddPurchasorItemModalComponent {
   walletAddress$!: Observable<string>;
   veveUsername$!: Observable<string>;
   selectedPurchasorNetworkSymbol = NetworkSymbols.BTC;
+  NEW_TRANSACTION_SUMMARY_MODAL = AppModalStates.NewTransactionSummary;
+  creatorItems$!: Observable<IAmount>;
+  purchaserItems$!: Observable<IAmount>;
+  wallet$!: Observable<IWallet>;
+  errorMessage$!: Observable<string>;
 
   constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
+    this.errorMessage$ = this.store.select(getTransactionModalError);
     this.activePurchaseItemType$ = this.store.select(
       getActiveDropdownTransactionType
     );
@@ -59,6 +68,10 @@ export class AddPurchasorItemModalComponent {
     this.creatorItemsFees$ = this.store.select(getCreatorItemsFees);
     this.walletAddress$ = this.store.select(getCreatorReceivingWalletAddress);
     this.veveUsername$ = this.store.select(getCreatorReceivingVeveUsername);
+    this.creatorItems$ = this.store.select(getCreatorItems);
+    this.purchaserItems$ = this.store.select(getPurchasorItems);
+    this.wallet$ = this.store.select(getCreatorReceivingWallet);
+
   }
 
   setPurchasorSendingUnits(units: number): void {
@@ -101,12 +114,6 @@ export class AddPurchasorItemModalComponent {
   previousModal(): void {
     this.store.dispatch(
       AppActions.showModal({ modalState: AppModalStates.CreatorItem })
-    );
-  }
-
-  nextModal(): void {
-    this.store.dispatch(
-      AppActions.showModal({ modalState: AppModalStates.NewTransactionSummary })
     );
   }
 }

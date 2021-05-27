@@ -3,9 +3,9 @@ import { Store } from '@ngrx/store';
 import {
   AppTransactionCurrencies,
   Networks,
-  NetworkSymbols
+  NetworkSymbols,
 } from 'functions/src/utils/enums.utils';
-import { IFees } from 'functions/src/utils/interfaces.utils';
+import { IAmount, IFees, IWallet } from 'functions/src/utils/interfaces.utils';
 import { Observable } from 'rxjs';
 import { AppModalStates } from 'src/app/state/app.enums';
 import { State } from 'src/app/state/app.state';
@@ -13,11 +13,14 @@ import * as AppActions from '../../../../state/app.actions';
 import {
   getCreatorCurrencyNetworkSymbolList,
   getCreatorItemsCurrency,
+  getPurchaserReceivingWallet,
+  getPurchasorItems,
   getPurchasorItemsFees,
   getPurchasorReceivingVeveUsername,
   getPurchasorReceivingWalletAddress,
   getPurchasorReceivingWalletNetwork,
-  getPurchasorReceivingWalletNetworkSymbol
+  getPurchasorReceivingWalletNetworkSymbol,
+  getTransactionModalError,
 } from '../../../../state/index';
 @Component({
   selector: 'ec-purchase-receiving-modal',
@@ -32,6 +35,10 @@ export class PurchaseReceivingModalComponent {
   veveUsername$!: Observable<string>;
   receivingFees$!: Observable<IFees>;
   currency$!: Observable<AppTransactionCurrencies>;
+  errorMessage$!: Observable<string>;
+  purchaserItems$!: Observable<IAmount>;
+  PURCHASE_SUMMARY_MODAL = AppModalStates.PurchaseSummary;
+  wallet$!: Observable<IWallet>;
 
   constructor(private store: Store<State>) {}
 
@@ -47,6 +54,9 @@ export class PurchaseReceivingModalComponent {
     this.veveUsername$ = this.store.select(getPurchasorReceivingVeveUsername);
     this.receivingFees$ = this.store.select(getPurchasorItemsFees);
     this.currency$ = this.store.select(getCreatorItemsCurrency);
+    this.errorMessage$ = this.store.select(getTransactionModalError);
+    this.purchaserItems$ = this.store.select(getPurchasorItems);
+    this.wallet$ = this.store.select(getPurchaserReceivingWallet);
   }
 
   setNetworkSymbol(symbol: NetworkSymbols): void {

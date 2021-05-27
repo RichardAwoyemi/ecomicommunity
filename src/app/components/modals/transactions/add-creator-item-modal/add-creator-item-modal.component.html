@@ -21,12 +21,11 @@
 
               <!-- Currencies -->
               <ng-container *ngSwitchCase="CURRENCY_TYPE">
-                <ec-text-dropdown-suffix
-                  (dropDownValue)="setCreatorSendingCurrency($event)"
-                  (inputValue)="setCreatorSendingUnits($event)"
-                  [inputType]="'number'"
-                  [textField]='(activeCreatorItemUnits$ | async)!' [label]="(activeCreatorItemCurrency$ | async) || currency"
-                  [dropdown]="SELL_TRANSACTION_CURRENCY" [options]="TRANSACTION_CURRENCIES"></ec-text-dropdown-suffix>
+                <ec-text-dropdown-suffix (dropDownValue)="setCreatorSendingCurrency($event)"
+                  (inputValue)="setCreatorSendingUnits($event)" [inputType]="'number'"
+                  [textField]='(activeCreatorItemUnits$ | async)!'
+                  [label]="(activeCreatorItemCurrency$ | async) || currency" [dropdown]="SELL_TRANSACTION_CURRENCY"
+                  [options]="TRANSACTION_CURRENCIES" [minimum]="minimumUnits$ | async"></ec-text-dropdown-suffix>
 
                 <!-- Wallet Details -->
                 <hr class="my-4">
@@ -37,7 +36,7 @@
                   <div class="flex">
                     <button *ngFor="let symbol of (networkSymbolList$ | async)" [innerHtml]="symbol" type="button"
                       (click)="setCreatorSendingNetworkSymbol(symbol)"
-                      [ngClass]="selectedCreatorNetworkSymbol == symbol ? 'ring-2 ring-offset-2 ring-indigo-500 bg-gray-50' : ''"
+                      [ngClass]="(wallet$ | async)!.networkSymbol == symbol ? 'ring-2 ring-offset-2 ring-indigo-500 bg-gray-50' : ''"
                       class="flex ml-2 items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     </button>
                   </div>
@@ -59,10 +58,9 @@
       </div>
     </form>
   </div>
+  <div class="error-message mt-3 text-sm font-bold">{{errorMessage$ | async}}</div>
   <div class="my-5 sm:mt-6">
-    <button (click)="nextModal()" type="button" [disabled]="false"
-      class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm disabled:opacity-50">
-      Next
-    </button>
+    <ec-transaction-next-modal-button  [isDisabled]="(activeCreatorItemType$ | async) === COLLECTIBLE_TYPE" [amount]="(creatorItems$ | async)!" [modal]="PURCHASER_ITEM_MODAL"
+      [wallet]="(wallet$ | async)!"></ec-transaction-next-modal-button>
   </div>
 </div>

@@ -19,6 +19,7 @@ export class TextDropdownSuffixComponent implements OnInit {
   @Input() topClass = '';
   @Input() textField = 0;
   @Input() inputType = 'text';
+  @Input() minimum?: number | null;
   toggleDropdown$!: Observable<string>;
   activeDropdownOptions$!: Observable<string>;
 
