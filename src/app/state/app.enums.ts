@@ -15,6 +15,7 @@ export enum AppModalStates {
   MatchTransactionSpinner = 'match-transaction-spinner',
   MatchTransactionConfirmation = 'match-transaction-confirm',
   MatchTransactionError = 'match-transaction-error',
+  ComingSoon = 'coming-soon',
 }
 
 export enum AppAuthMessages {

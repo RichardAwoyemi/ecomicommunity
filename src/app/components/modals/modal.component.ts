@@ -27,6 +27,7 @@ export class ModalComponent {
   MATCH_TRANSACTION_SPINNER_MODAL = AppModalStates.MatchTransactionSpinner;
   MATCH_TRANSACTION_CONFIRMATION_MODAL = AppModalStates.MatchTransactionConfirmation;
   MATCH_TRANSACTION_ERROR_MODAL = AppModalStates.MatchTransactionError;
+  COMING_SOON_MODAL = AppModalStates.ComingSoon;
 
   email = '';
   password = '';
