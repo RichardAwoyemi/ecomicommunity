@@ -55,7 +55,7 @@ export class UtilService {
     if (!address || address.length < 10) {
       return 'Invalid wallet address - please correct it before proceeding.';
     }
-    if (!this.isAlphaNumeric(address)) {
+    if (wallet.network !== Networks.VEVE && !this.isAlphaNumeric(address)) {
       return 'Your wallet address should only consist of letters and numbers.';
     }
   }
