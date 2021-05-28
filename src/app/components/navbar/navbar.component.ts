@@ -36,6 +36,10 @@ export class NavbarComponent implements OnInit {
     this.store.dispatch(AppActions.showModal({modalState: AppModalStates.LogOut}));
   }
 
+  showComingSoonModal(): void {
+    this.store.dispatch(AppActions.showModal({modalState: AppModalStates.ComingSoon}));
+  }
+
   toggleNavbar(): void {
     this.store.dispatch(AppActions.toggleNavbar());
   }
