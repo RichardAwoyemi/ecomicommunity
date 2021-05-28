@@ -28,6 +28,7 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
         const purchasorSendingVeveUsername = request.get(HEADERS.X_PURCHASOR_SENDING_VEVE_USERNAME);
 
         // functions.logger.log(`Buyer Uid: ${creatorUid}, Seller Uid, ${purchasorUid}, Transaction Id: ${transactionId}`);
+        functions.logger.log(`purchasorReceivingWalletAddress: ${purchasorReceivingWalletAddress}, purchasorReceivingVeveUsername, ${purchasorReceivingVeveUsername}, purchasorSendingWalletAddress: ${purchasorSendingWalletAddress}, purchasorSendingVeveUsername: ${purchasorSendingVeveUsername}`);
 
         if (transactionId !== undefined && transactionId !== "" &&
         purchasorUid !== undefined && purchasorUid !== "" &&
@@ -36,7 +37,8 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
         creatorUid !== undefined && creatorUid !== "" &&
         purchasorReceivingWalletAddress !== undefined && purchasorReceivingWalletAddress !== "" &&
         purchasorSendingWalletAddress !== undefined && purchasorSendingWalletAddress !== "") {
-        // functions.logger.log(`Preparing documents for user: ${userUid}`);
+          // functions.logger.log(`Preparing documents for user: ${userUid}`);
+          functions.logger.log("Preparing documents");
           const creatorDocRef: admin.firestore.DocumentReference = admin
               .firestore()
               .collection("users")
@@ -65,30 +67,37 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
 
                   // Check that the transaction is Available before updating it
                   if (transactionDoc.get("status") == "Available") {
-                    // functions.logger.log("Validated transaction status");
+                    functions.logger.log("Validated transaction status");
                     // Update the status and the creatorUid if it's a valid and available transaction
+                    const purchasorDetails = {
+                      useruid: purchasorUid,
+                      username: purchasorUsername,
+                      receivingWallet: {
+                        walletAddress: purchasorReceivingWalletAddress,
+                        veveUsername: purchasorReceivingVeveUsername,
+                      },
+                      sendingWallet: {
+                        walletAddress: purchasorSendingWalletAddress,
+                        veveUsername: purchasorSendingVeveUsername,
+                      },
+                    };
                     transaction.set(transactionDocRef, {
                       status: "In Progress",
-                      purchasor: {
-                        useruid: purchasorUid,
-                        username: purchasorUsername,
-                        receivingWallet: {
-                          walletAddress: purchasorReceivingWalletAddress,
-                          veveUsername: purchasorReceivingVeveUsername,
-                        },
-                        sendingWallet: {
-                          walletAddress: purchasorSendingWalletAddress,
-                          veveUsername: purchasorSendingVeveUsername,
-                        },
-                      },
+                      purchasor: purchasorDetails,
                     }, {merge: true});
 
-                    // functions.logger.log("Updated transaction doc");
+                    functions.logger.log("Updated transaction doc");
+                    functions.logger.log(transactionDoc.data());
 
                     const transactionData: FirebaseFirestore.DocumentData | undefined = transactionDoc.data();
+
+                    functions.logger.log("Transaction data from firestore post update");
+                    functions.logger.log(transactionData);
+
                     if (transactionDoc.exists) {
-                      const transactionSummary = setTransactionSummary(transactionData, creatorEmail, purchasorEmail, purchasorUsername);
-                      // functions.logger.log(transactionSummary);
+                      const transactionSummary = setTransactionSummary(transactionData, creatorEmail, purchasorEmail, purchasorUsername, purchasorDetails);
+                      functions.logger.log("Transaction doc exists, log summary:");
+                      functions.logger.log(transactionSummary);
                       return transactionSummary;
                     } else {
                       throw new functions.https.HttpsError(
@@ -110,6 +119,8 @@ exports.matchTransaction = functions.region("europe-west2").https.onRequest(
                 }
               })
               .then((transactionSummary: ITransaction) => {
+                functions.logger.log("Sending transaction summary info for log");
+                functions.logger.log(transactionSummary);
                 return sendMatchedEmails(transactionSummary);
               })
               .then(() => {
@@ -346,6 +357,8 @@ function setTransactionSummary(
     creatorEmail: string,
     purchasorEmail: string,
     purchasorUsername: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    purchasorDetails?: any,
 ): ITransaction {
   const transactionSummary: ITransaction = {
     id: transactionData?.id,
@@ -364,8 +377,8 @@ function setTransactionSummary(
       sendingUnits: transactionData?.purchasor?.sendingUnits,
       email: purchasorEmail,
       username: purchasorUsername,
-      receivingWallet: transactionData?.purchasor?.receivingWallet,
-      sendingWallet: transactionData?.purchasor?.sendingWallet,
+      receivingWallet: purchasorDetails?.receivingWallet || transactionData?.purchasor?.receivingWallet,
+      sendingWallet: purchasorDetails?.sendingWallet || transactionData?.purchasor?.sendingWallet,
       platformReceivingWallet: transactionData?.purchasor?.platformReceivingWallet,
       receivingFees: transactionData?.purchasor?.receivingFees,
     },

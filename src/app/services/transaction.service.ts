@@ -51,7 +51,7 @@ export class TransactionService {
     const purchasorSendingWalletAddress = this.setString(transaction.purchasor?.sendingWallet?.walletAddress);
     const purchasorSendingVeveUsername = this.setString(transaction.purchasor?.sendingWallet?.veveUsername);
 
-    // console.table({creatorUid, purchasorUid, transactionId, purchasorEmail, purchasorUsername, purchasorReceivingWalletAddress, purchasorReceivingVeveUsername, purchasorSendingWalletAddress, purchasorSendingVeveUsername})
+    console.table({creatorUid, purchasorUid, transactionId, purchasorEmail, purchasorUsername, purchasorReceivingWalletAddress, purchasorReceivingVeveUsername, purchasorSendingWalletAddress, purchasorSendingVeveUsername})
 
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + purchasorUser.secret,

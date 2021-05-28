@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "ecomi-community"
+    "default": "ecomi-community",
+    "prod": "ecomi-community-prod"
   }
 }
