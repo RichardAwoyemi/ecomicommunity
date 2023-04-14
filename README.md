@@ -1,5 +1,7 @@
 # EcomiCommunity
 
+This was a semi-automated escrow service for the Ecomi community. Because we were dealing with a closed system, we couldn't fully automate the process, however we automated the process insofar as possible, making it a much smoother, more transparent version of what existed in the wild.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.9.
 
 ## Development server
